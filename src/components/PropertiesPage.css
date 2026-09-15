@@ -1,0 +1,346 @@
+.properties-page-root {
+  min-height: 100vh;
+  background-color: #0f1115;
+  color: #f3f4f6;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.properties-page-main {
+  padding-top: 100px;
+  padding-bottom: 80px;
+}
+
+.properties-banner {
+  padding: 40px 24px 20px;
+  text-align: center;
+  background: radial-gradient(circle at 50% 20%, rgba(59, 130, 246, 0.08), transparent 70%);
+}
+
+.properties-banner-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.properties-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 12px;
+  background: rgba(59, 130, 246, 0.12);
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.properties-main-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.properties-main-subtitle {
+  font-size: 1.05rem;
+  color: #9ca3af;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Toolbar & Filters */
+.properties-toolbar-section {
+  max-width: 1200px;
+  margin: 30px auto 0;
+  padding: 0 24px;
+}
+
+.properties-toolbar-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.properties-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+  background: rgba(31, 41, 55, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0 16px;
+  backdrop-filter: blur(8px);
+}
+
+.properties-search-box svg {
+  color: #9ca3af;
+  margin-right: 10px;
+}
+
+.properties-search-input {
+  width: 100%;
+  padding: 14px 0;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.clear-search-btn {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 0.9rem;
+}
+
+.properties-sort-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-label {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.properties-sort-select {
+  background: rgba(31, 41, 55, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  outline: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.properties-categories-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.all-props-cat-btn {
+  background: rgba(31, 41, 55, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #d1d5db;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.all-props-cat-btn:hover {
+  background: rgba(59, 130, 246, 0.15);
+  color: #ffffff;
+}
+
+.all-props-cat-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+
+/* Grid & Items */
+.properties-list-section {
+  max-width: 1200px;
+  margin: 32px auto 0;
+  padding: 0 24px;
+}
+
+.properties-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 28px;
+}
+
+.page-prop-card {
+  background: #181b21;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.page-prop-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.page-prop-img-frame {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background: #232730;
+}
+
+.page-prop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.page-prop-card:hover .page-prop-img {
+  transform: scale(1.05);
+}
+
+.page-prop-badges {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.page-prop-status {
+  background: rgba(16, 185, 129, 0.85);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.page-prop-type {
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.page-prop-price {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  background: rgba(15, 17, 21, 0.85);
+  padding: 6px 14px;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.price-label {
+  font-size: 0.65rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.price-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.page-prop-body {
+  padding: 20px;
+}
+
+.page-prop-loc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-bottom: 8px;
+}
+
+.page-prop-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.page-prop-desc {
+  font-size: 0.88rem;
+  color: #9ca3af;
+  line-height: 1.5;
+  margin-bottom: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.page-prop-specs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.page-prop-specs .spec {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-prop-specs .lbl {
+  font-size: 0.7rem;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.page-prop-specs .val {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.explore-link {
+  color: #60a5fa;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* States */
+.props-page-loading,
+.props-page-error,
+.props-page-empty {
+  text-align: center;
+  padding: 80px 20px;
+  background: #181b21;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.props-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(59, 130, 246, 0.2);
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
