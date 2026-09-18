@@ -1,0 +1,170 @@
+/* Property Journeys Process Styles */
+.arch-journey-section {
+  padding: 8rem 0;
+  background-color: var(--bg-ivory);
+  position: relative;
+}
+
+.arch-journey-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 4.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.arch-journey-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-top: 0.5rem;
+  color: var(--color-charcoal);
+}
+
+.arch-journey-subhead {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--color-muted);
+  max-width: 460px;
+}
+
+/* Horizontal Timeline Steps Bar */
+.arch-journey-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.arch-journey-step-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: 1.25rem;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  text-align: left;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arch-journey-step-btn .step-btn-num {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-gold);
+}
+
+.arch-journey-step-btn .step-btn-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-charcoal);
+}
+
+.arch-journey-step-btn .step-btn-line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-border);
+  margin-top: 0.5rem;
+  transition: background-color 0.35s ease;
+}
+
+.arch-journey-step-btn:hover,
+.arch-journey-step-btn.active {
+  opacity: 1;
+  background-color: var(--bg-ivory-dark);
+  border-color: var(--color-forest);
+}
+
+.arch-journey-step-btn.active .step-btn-line {
+  background-color: var(--color-forest);
+}
+
+/* Detail Card */
+.arch-journey-card {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+  background-color: #FFFFFF;
+  padding: 3.5rem;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.04);
+}
+
+.arch-journey-index {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-gold);
+}
+
+.arch-journey-card-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 3.5vw, 3.2rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  color: var(--color-charcoal);
+}
+
+.arch-journey-card-subtitle {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-forest);
+  margin-bottom: 1.5rem;
+}
+
+.arch-journey-card-desc {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+.arch-journey-media {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.arch-journey-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arch-journey-card:hover .arch-journey-img {
+  transform: scale(1.04);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .arch-journey-steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .arch-journey-card {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .arch-journey-steps {
+    grid-template-columns: 1fr;
+  }
+}

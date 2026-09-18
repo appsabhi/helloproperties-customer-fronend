@@ -1,0 +1,124 @@
+/* Section Intro Styles matching reference design */
+.arch-intro-section {
+  padding: 6rem 0 8rem 0;
+  background-color: #F3F0E8;
+  color: var(--color-charcoal);
+  position: relative;
+}
+
+.arch-intro-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.arch-intro-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.arch-intro-text .meta-label {
+  font-family: var(--font-header);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-muted);
+  margin-bottom: 1.25rem;
+}
+
+.arch-intro-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+  color: var(--color-charcoal);
+}
+
+.arch-intro-body {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: #3D4039;
+  max-width: 540px;
+  margin-bottom: 2.25rem;
+}
+
+.arch-intro-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-header);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--color-charcoal);
+  transition: color 0.3s ease;
+}
+
+.arch-intro-link:hover {
+  color: var(--color-forest);
+}
+
+.arch-intro-link .arr {
+  transition: transform 0.3s ease;
+}
+
+.arch-intro-link:hover .arr {
+  transform: translateX(4px);
+}
+
+/* Right Media Arch Frame */
+.arch-intro-media {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.arch-intro-arch-frame {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 4 / 5;
+  border-radius: 200px 200px 0 0; /* Signature Arch Crop from Reference Image */
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+.arch-intro-arch-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arch-intro-arch-frame:hover .arch-intro-arch-img {
+  transform: scale(1.04);
+}
+
+.arch-handwritten-note {
+  position: absolute;
+  bottom: -1rem;
+  right: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  color: var(--color-forest);
+  transform: rotate(-6deg);
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .arch-intro-grid {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+  .arch-intro-media {
+    justify-content: flex-start;
+  }
+}
