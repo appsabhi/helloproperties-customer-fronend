@@ -10,6 +10,7 @@ import PropertyJourneys from "./components/PropertyJourneys";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
 import PropertiesPage from "./components/PropertiesPage";
+import AboutPage from "./components/AboutPage";
 
 import { CustomerPropertyProvider } from "./context/CustomerPropertyContext";
 
@@ -37,6 +38,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/properties" element={<PropertiesPage />} />
         </Routes>
       </BrowserRouter>

@@ -146,13 +146,8 @@ const FeaturedProperties = () => {
                 </div>
 
                 <div className="arch-card-bottom-bar">
-                  <div className="price-box">
-                    <span className="price-lbl">EXPECTED PRICE</span>
-                    <span className="price-val">{prop.price}</span>
-                  </div>
-
                   <button className="arch-card-cta-btn" type="button" aria-label="Explore property">
-                    <span>Explore</span>
+                    <span>EXPLORE PROPERTY</span>
                     <span className="cta-arrow">→</span>
                   </button>
                 </div>

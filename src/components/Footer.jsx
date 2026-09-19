@@ -26,9 +26,8 @@ const Footer = () => {
             <h4 className="footer-col-title">NAVIGATION</h4>
             <ul className="footer-links">
               <li><Link to="/">Home</Link></li>
-              <li><a href="#about">About</a></li>
+              <li><Link to="/about">About</Link></li>
               <li><Link to="/properties">Properties</Link></li>
-              <li><Link to="/property-map">Explore Map</Link></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
           </div>

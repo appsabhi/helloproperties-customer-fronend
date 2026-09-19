@@ -13,6 +13,7 @@ const Header = () => {
 
   const isMapPage = location.pathname === "/property-map";
   const isPropertiesPage = location.pathname === "/properties";
+  const isAboutPage = location.pathname === "/about";
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const Header = () => {
     setModalOpen(true);
   };
 
-  const isHeaderSolid = scrolled || isMapPage || isPropertiesPage;
+  const isHeaderSolid = scrolled || isMapPage || isPropertiesPage || isAboutPage;
 
   return (
     <>
@@ -47,9 +48,8 @@ const Header = () => {
           {/* Center Navigation Links */}
           <nav className="arch-nav-desktop">
             <Link to="/" className={`arch-nav-item ${isHomePage ? "active-route" : ""}`}>HOME</Link>
-            <a href="#about" className="arch-nav-item">ABOUT</a>
+            <Link to="/about" className={`arch-nav-item ${isAboutPage ? "active-route" : ""}`}>ABOUT</Link>
             <Link to="/properties" className={`arch-nav-item ${isPropertiesPage ? "active-route" : ""}`}>PROPERTIES</Link>
-            <Link to="/property-map" className={`arch-nav-item ${isMapPage ? "active-route" : ""}`}>EXPLORE MAP</Link>
             <a href="#contact" className="arch-nav-item" onClick={openTouchModal}>CONTACT</a>
           </nav>
 
@@ -86,9 +86,8 @@ const Header = () => {
             </div>
             <nav className="arch-drawer-nav">
               <Link to="/" onClick={() => setMobileOpen(false)}>HOME</Link>
-              <a href="#about" onClick={() => setMobileOpen(false)}>ABOUT</a>
+              <Link to="/about" onClick={() => setMobileOpen(false)}>ABOUT</Link>
               <Link to="/properties" onClick={() => setMobileOpen(false)}>PROPERTIES</Link>
-              <Link to="/property-map" onClick={() => setMobileOpen(false)}>EXPLORE MAP</Link>
               <a href="#contact" onClick={(e) => { e.preventDefault(); openTouchModal(e); }}>CONTACT</a>
             </nav>
             <div className="arch-drawer-footer">
