@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";
-import logo from "../assets/png/HelloProperties_static.png";
+import logo from "../assets/png/HelloProperties.png";
 
 const Footer = () => {
   return (
@@ -25,10 +25,10 @@ const Footer = () => {
           <div className="arch-footer-col">
             <h4 className="footer-col-title">NAVIGATION</h4>
             <ul className="footer-links">
+              <li><Link to="/">Home</Link></li>
+              <li><a href="#about">About</a></li>
               <li><Link to="/properties">Properties</Link></li>
-              <li><a href="#destinations">Destinations</a></li>
-              <li><a href="#list-property">Sell Property</a></li>
-              <li><a href="#about">About Us</a></li>
+              <li><Link to="/property-map">Explore Map</Link></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
@@ -38,7 +38,6 @@ const Footer = () => {
             <h4 className="footer-col-title">CONTACT</h4>
             <p className="footer-info-text">hello@helloproperties.in</p>
             <p className="footer-info-text">+91 98765 43210</p>
-            <p className="footer-info-text">Kochi • Wayanad • Kozhikode</p>
           </div>
 
           {/* Social */}

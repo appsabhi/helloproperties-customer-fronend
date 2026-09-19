@@ -5,15 +5,12 @@ import Hero from "./components/Hero";
 import SectionIntro from "./components/SectionIntro";
 import PropertyWorlds from "./components/PropertyWorlds";
 import FeaturedProperties from "./components/FeaturedProperties";
-import KeralaDestinations from "./components/KeralaDestinations";
-import TheLandscape from "./components/TheLandscape";
 import WhyUs from "./components/WhyUs";
 import PropertyJourneys from "./components/PropertyJourneys";
-import FeaturedDestination from "./components/FeaturedDestination";
-import ListPropertyCTA from "./components/ListPropertyCTA";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
 import PropertiesPage from "./components/PropertiesPage";
+
 import { CustomerPropertyProvider } from "./context/CustomerPropertyContext";
 
 function HomePage() {
@@ -25,12 +22,8 @@ function HomePage() {
         <SectionIntro />
         <PropertyWorlds />
         <FeaturedProperties />
-        <KeralaDestinations />
-        <TheLandscape />
         <WhyUs />
         <PropertyJourneys />
-        <FeaturedDestination />
-        <ListPropertyCTA />
         <FinalCTA />
       </main>
       <Footer />

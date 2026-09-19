@@ -11,19 +11,36 @@ const PropertiesPage = () => {
   const [sortBy, setSortBy] = useState("newest");
   const [selectedProperty, setSelectedProperty] = useState(null);
 
+  const categories = [
+    "All",
+    "Plot/Land",
+    "House/Villa",
+    "Apartment/Flat",
+    "Residential Plot",
+    "Commercial Plot",
+    "Agricultural Land",
+    "Industrial Plot",
+  ];
+
   useEffect(() => {
     document.title = "Properties | HelloProperties";
     window.scrollTo(0, 0);
-  }, []);
 
-  const categories = [
-    "All",
-    "Plantation & Agricultural",
-    "Waterfront Parcels",
-    "Residential Plots",
-    "Hillside & Mountain Lands",
-    "Commercial & Resort Land",
-  ];
+    const searchParams = new URLSearchParams(window.location.search);
+    const typeParam = searchParams.get("type");
+    if (typeParam) {
+      const match = categories.find(
+        (c) => c.toLowerCase() === typeParam.toLowerCase() || c.toLowerCase().includes(typeParam.toLowerCase())
+      );
+      if (match) setActiveCategory(match);
+    }
+
+    const propId = searchParams.get("id");
+    if (propId && properties.length > 0) {
+      const matchProp = properties.find((p) => String(p.id) === String(propId));
+      if (matchProp) setSelectedProperty(matchProp);
+    }
+  }, [properties]);
 
   // Filtering Logic
   const filteredProperties = properties
@@ -35,16 +52,20 @@ const PropertiesPage = () => {
         const pCat = (p.category || "").toLowerCase();
 
         let matchesCat = false;
-        if (cat.includes("plantation") || cat.includes("agri")) {
-          matchesCat = pType.includes("plant") || pType.includes("agri") || pCat.includes("plant") || pCat.includes("agri");
-        } else if (cat.includes("waterfront")) {
-          matchesCat = pType.includes("water") || pType.includes("lake") || pType.includes("river") || pCat.includes("water");
-        } else if (cat.includes("residential")) {
-          matchesCat = pType.includes("residen") || pType.includes("plot") || pType.includes("land") || pType.includes("villa");
-        } else if (cat.includes("hillside")) {
-          matchesCat = pType.includes("hill") || pType.includes("mount") || pCat.includes("hill");
-        } else if (cat.includes("commercial")) {
+        if (cat === "plot/land") {
+          matchesCat = pType.includes("plot") || pType.includes("land") || pCat.includes("plot") || pCat.includes("land");
+        } else if (cat === "house/villa") {
+          matchesCat = pType.includes("house") || pType.includes("villa") || pCat.includes("house") || pCat.includes("villa");
+        } else if (cat === "apartment/flat") {
+          matchesCat = pType.includes("apart") || pType.includes("flat") || pCat.includes("apart") || pCat.includes("flat");
+        } else if (cat === "residential plot") {
+          matchesCat = pType.includes("residen") || pCat.includes("residen");
+        } else if (cat === "commercial plot") {
           matchesCat = pType.includes("commerc") || pCat.includes("commerc");
+        } else if (cat === "agricultural land") {
+          matchesCat = pType.includes("agri") || pType.includes("plant") || pCat.includes("agri") || pCat.includes("plant");
+        } else if (cat === "industrial plot") {
+          matchesCat = pType.includes("indust") || pCat.includes("indust");
         } else {
           matchesCat = pType.includes(cat) || pCat.includes(cat);
         }
@@ -137,7 +158,7 @@ const PropertiesPage = () => {
                 className={`all-props-cat-btn ${activeCategory === cat ? "active" : ""}`}
                 onClick={() => setActiveCategory(cat)}
               >
-                {cat === "All" ? "All Properties" : cat.split(" & ")[0]}
+                {cat === "All" ? "All Properties" : cat}
               </button>
             ))}
           </div>

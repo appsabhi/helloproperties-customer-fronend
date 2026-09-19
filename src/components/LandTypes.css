@@ -105,35 +105,47 @@
   perspective: 1200px;
 }
 
-/* 1. Hero Anchor: Plantation & Agricultural (Left tall card, spans 5 cols & 2 rows) */
+/* 1. Hero Anchor: Plot/Land (Left tall card, spans 5 cols & 2 rows) */
 .mosaic-hero {
   grid-column: span 5;
   grid-row: span 2;
   min-height: 560px;
 }
 
-/* 2. Top Middle: Residential Plots (Span 4 cols) */
+/* 2. Top Middle: House/Villa (Span 4 cols) */
 .mosaic-medium-a {
   grid-column: span 4;
   height: 274px;
 }
 
-/* 3. Top Right: Waterfront Parcels (Span 3 cols) */
+/* 3. Top Right: Apartment/Flat (Span 3 cols) */
 .mosaic-compact-a {
   grid-column: span 3;
   height: 274px;
 }
 
-/* 4. Bottom Middle: Hillside & Mountain Lands (Span 3 cols) */
+/* 4. Bottom Middle: Residential Plot (Span 3 cols) */
 .mosaic-compact-b {
   grid-column: span 3;
   height: 274px;
 }
 
-/* 5. Bottom Right: Commercial & Resort Land (Span 4 cols) */
+/* 5. Bottom Right: Commercial Plot (Span 4 cols) */
 .mosaic-medium-b {
   grid-column: span 4;
   height: 274px;
+}
+
+/* 6. Bottom Wide Left: Agricultural Land (Span 6 cols) */
+.mosaic-medium-c {
+  grid-column: span 6;
+  height: 280px;
+}
+
+/* 7. Bottom Wide Right: Industrial Plot (Span 6 cols) */
+.mosaic-medium-d {
+  grid-column: span 6;
+  height: 280px;
 }
 
 /* ---------------- Card Component Structure & 3D On-Scroll Entrance ---------------- */
@@ -327,7 +339,9 @@
   .mosaic-medium-a,
   .mosaic-compact-a,
   .mosaic-compact-b,
-  .mosaic-medium-b {
+  .mosaic-medium-b,
+  .mosaic-medium-c,
+  .mosaic-medium-d {
     grid-column: span 1;
     height: 260px;
   }
@@ -343,7 +357,9 @@
   .mosaic-medium-a,
   .mosaic-compact-a,
   .mosaic-compact-b,
-  .mosaic-medium-b {
+  .mosaic-medium-b,
+  .mosaic-medium-c,
+  .mosaic-medium-d {
     grid-column: span 1;
     height: 240px !important;
     min-height: auto;

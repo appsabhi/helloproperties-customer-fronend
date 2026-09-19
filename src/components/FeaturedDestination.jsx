@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./FeaturedDestination.css";
 
-const DEST_BG = "https://images.unsplash.com/photo-1589556264800-08ae9e129a8c?auto=format&fit=crop&w=2400&q=90"; // Misty plantation & mountains
+const DEST_BG = "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=2400&q=90"; // Wayanad misty plantation & mountains
 
 const FeaturedDestination = () => {
   const navigate = useNavigate();

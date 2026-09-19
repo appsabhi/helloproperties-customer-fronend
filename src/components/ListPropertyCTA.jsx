@@ -118,11 +118,13 @@ const ListPropertyCTA = () => {
                       value={formData.propertyType}
                       onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
                     >
-                      <option value="Plantation">Plantation Estate</option>
-                      <option value="Villa">Luxury Villa</option>
-                      <option value="Waterfront">Waterfront / Backwater</option>
-                      <option value="Land">Land / Plot</option>
-                      <option value="Farmland">Farmland / Acres</option>
+                      <option value="Plot/Land">Plot/Land</option>
+                      <option value="House/Villa">House/Villa</option>
+                      <option value="Apartment/Flat">Apartment/Flat</option>
+                      <option value="Residential Plot">Residential Plot</option>
+                      <option value="Commercial Plot">Commercial Plot</option>
+                      <option value="Agricultural Land">Agricultural Land</option>
+                      <option value="Industrial Plot">Industrial Plot</option>
                     </select>
                   </div>
 

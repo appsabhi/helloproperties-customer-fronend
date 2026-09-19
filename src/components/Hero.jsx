@@ -37,7 +37,7 @@ const Hero = () => {
       <div className="arch-hero-content">
         <div className="hp-container">
           <div className="arch-hero-text-block">
-            <span className="arch-hero-tag">PREMIUM PROPERTIES IN KERALA</span>
+            {/* <span className="arch-hero-tag">PREMIUM PROPERTIES IN KERALA</span> */}
             
             <h1 className="arch-hero-title">
               <span>FIND</span>
@@ -75,7 +75,7 @@ const Hero = () => {
           </div>
 
           {/* Floating Pill Search Bar */}
-          <form className="arch-search-pill" onSubmit={handleSearch}>
+          {/* <form className="arch-search-pill" onSubmit={handleSearch}>
             <div className="arch-search-field">
               <label className="arch-search-label">LOCATION</label>
               <div className="arch-select-wrapper">
@@ -109,11 +109,13 @@ const Hero = () => {
                 className="arch-search-select"
               >
                 <option value="">Any Type</option>
-                <option value="Villas">Villas</option>
-                <option value="Plantation Estates">Plantation Estates</option>
-                <option value="Waterfront">Waterfront & Backwaters</option>
-                <option value="Land">Land & Plots</option>
-                <option value="Farmland">Farmland & Eco Acres</option>
+                <option value="Plot/Land">Plot/Land</option>
+                <option value="House/Villa">House/Villa</option>
+                <option value="Apartment/Flat">Apartment/Flat</option>
+                <option value="Residential Plot">Residential Plot</option>
+                <option value="Commercial Plot">Commercial Plot</option>
+                <option value="Agricultural Land">Agricultural Land</option>
+                <option value="Industrial Plot">Industrial Plot</option>
               </select>
             </div>
 
@@ -138,7 +140,7 @@ const Hero = () => {
               <span>SEARCH</span>
               <span className="arr">→</span>
             </button>
-          </form>
+          </form> */}
 
           {/* Scroll Indicator */}
           <button 

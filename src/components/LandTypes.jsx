@@ -1,61 +1,75 @@
 import React, { useEffect, useRef, useState } from "react";
-import plantationImg from "../assets/land-plantation.jpg";
-import waterfrontImg from "../assets/land-waterfront.jpg";
-import residentialImg from "../assets/land-residential.jpg";
-import hillsideImg from "../assets/land-hillside.jpg";
-import commercialImg from "../assets/land-commercial.jpg";
+import { useNavigate } from "react-router-dom";
 import "./LandTypes.css";
 
 const landTypes = [
   {
-    id: "plantation",
+    id: "plot-land",
     number: "01",
-    title: "Plantation & Agricultural",
-    subtitle: "Highland Terrains",
-    image: plantationImg,
+    title: "Plot/Land",
+    subtitle: "Prime Parcels & Acreage",
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85",
     gridClass: "mosaic-hero",
     delay: "80ms",
   },
   {
-    id: "residential",
+    id: "house-villa",
     number: "02",
-    title: "Residential Plots",
-    subtitle: "Architectural Enclaves",
-    image: residentialImg,
+    title: "House/Villa",
+    subtitle: "Luxury Private Residences",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85",
     gridClass: "mosaic-medium-a",
-    delay: "180ms",
+    delay: "140ms",
   },
   {
-    id: "waterfront",
+    id: "apartment-flat",
     number: "03",
-    title: "Waterfront Parcels",
-    subtitle: "Riparian & Coastal",
-    image: waterfrontImg,
+    title: "Apartment/Flat",
+    subtitle: "Contemporary Urban Living",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
     gridClass: "mosaic-compact-a",
-    delay: "280ms",
+    delay: "200ms",
   },
   {
-    id: "hillside",
+    id: "residential-plot",
     number: "04",
-    title: "Hillside & Mountain Lands",
-    subtitle: "Panoramic Vistas",
-    image: hillsideImg,
+    title: "Residential Plot",
+    subtitle: "Plotted Communities & Sites",
+    image: "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1200&q=85",
     gridClass: "mosaic-compact-b",
-    delay: "360ms",
+    delay: "260ms",
   },
   {
-    id: "commercial",
+    id: "commercial-plot",
     number: "05",
-    title: "Commercial & Resort Land",
-    subtitle: "Hospitality Acreage",
-    image: commercialImg,
+    title: "Commercial Plot",
+    subtitle: "High-Yield Business & Resort Land",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
     gridClass: "mosaic-medium-b",
+    delay: "320ms",
+  },
+  {
+    id: "agricultural-land",
+    number: "06",
+    title: "Agricultural Land",
+    subtitle: "Fertile Plantations & Farmland",
+    image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=85",
+    gridClass: "mosaic-medium-c",
+    delay: "380ms",
+  },
+  {
+    id: "industrial-plot",
+    number: "07",
+    title: "Industrial Plot",
+    subtitle: "Logistics & Manufacturing Zones",
+    image: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=1200&q=85",
+    gridClass: "mosaic-medium-d",
     delay: "440ms",
   },
 ];
 
 /* Direct-DOM 3D Tilt Card (Smooth 60+ FPS, Zero React State Lag, No Vertical Lifting) */
-const LandCard = ({ item }) => {
+const LandCard = ({ item, onClick }) => {
   const frameRef = useRef(null);
   const glareRef = useRef(null);
 
@@ -105,6 +119,7 @@ const LandCard = ({ item }) => {
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
     >
       <div ref={frameRef} className="land-card-frame">
         <img
@@ -131,6 +146,7 @@ const LandCard = ({ item }) => {
 };
 
 const LandTypes = () => {
+  const navigate = useNavigate();
   const sectionRef = useRef(null);
   const [isInView, setIsInView] = useState(false);
 
@@ -160,7 +176,7 @@ const LandTypes = () => {
   return (
     <section
       className={`land-types-section ${isInView ? "in-view" : ""}`}
-      id="land-types"
+      id="property-types"
       ref={sectionRef}
     >
       <div className="land-types-container">
@@ -169,13 +185,12 @@ const LandTypes = () => {
           <div className="header-3d-inner">
             <span className="land-eyebrow">
               <span className="eyebrow-accent">✦</span>
-              <span>TERRAIN ARCHIVES</span>
+              <span>PROPERTY TYPOLOGIES</span>
               <span className="eyebrow-accent">✦</span>
             </span>
             <h2 className="land-title">
-              <span className="title-word">Types</span>{" "}
-              <span className="title-word">of</span>{" "}
-              <span className="title-word">Land</span>
+              <span className="title-word">Property</span>{" "}
+              <span className="title-word">Types</span>
             </h2>
           </div>
         </div>
@@ -183,7 +198,11 @@ const LandTypes = () => {
         {/* 3D Interlocking Bento Mosaic with Direct 3D Tilt on Hover */}
         <div className="land-mosaic-grid">
           {landTypes.map((item) => (
-            <LandCard key={item.id} item={item} />
+            <LandCard
+              key={item.id}
+              item={item}
+              onClick={() => navigate(`/properties?type=${encodeURIComponent(item.title)}`)}
+            />
           ))}
         </div>
       </div>
@@ -192,6 +211,7 @@ const LandTypes = () => {
 };
 
 export default LandTypes;
+
 
 
 

@@ -1,68 +1,109 @@
-/* Final CTA Section Styles matching reference image */
+/* Final CTA Section Styles */
 .arch-finalcta-section {
   position: relative;
   width: 100%;
-  padding: 8rem 0;
-  background-color: #F3F0E8;
-  color: var(--color-charcoal);
+  padding: 7.5rem 0;
+  background-color: var(--color-bg, #F8F7F4);
+  color: var(--color-charcoal, #0D0E0E);
   text-align: center;
   overflow: hidden;
 }
 
 .arch-finalcta-box {
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .arch-finalcta-label {
   display: block;
   font-family: var(--font-header);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.25em;
-  color: var(--color-muted);
+  color: #888888;
   margin-bottom: 1.25rem;
 }
 
 .arch-finalcta-headline {
-  font-family: var(--font-serif);
-  font-size: clamp(2.6rem, 5vw, 4.2rem);
-  font-weight: 400;
+  font-family: var(--font-display, "TT Hazelnuts Trial", sans-serif);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
   line-height: 1.05;
   letter-spacing: -0.01em;
   text-transform: uppercase;
-  color: var(--color-charcoal);
-  margin-bottom: 2.5rem;
+  color: var(--color-charcoal, #0D0E0E);
+  margin-bottom: 1.5rem;
 }
 
-.arch-btn-explore-green-pill {
+.arch-finalcta-sub {
+  font-family: var(--font-sans, "Montserrat", sans-serif);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555555;
+  max-width: 620px;
+  margin: 0 auto 3rem;
+}
+
+.arch-finalcta-btn-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.arch-btn-primary-red-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.95rem 2.2rem;
-  background-color: var(--color-forest);
+  padding: 1rem 2.5rem;
+  background-color: #B81D24;
   color: #FFFFFF;
-  font-family: var(--font-header);
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-family: var(--font-header, "Montserrat", sans-serif);
+  font-size: 0.75rem;
+  font-weight: 700;
   letter-spacing: 0.18em;
   border-radius: 50px;
+  border: none;
+  cursor: pointer;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 25px rgba(52, 72, 59, 0.25);
+  box-shadow: 0 8px 25px rgba(184, 29, 36, 0.3);
 }
 
-.arch-btn-explore-green-pill:hover {
-  background-color: #24352A;
+.arch-btn-primary-red-pill:hover {
+  background-color: #96151B;
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(52, 72, 59, 0.35);
+  box-shadow: 0 12px 30px rgba(184, 29, 36, 0.45);
 }
 
-.arch-btn-explore-green-pill .arr {
+.arch-btn-primary-red-pill .arr {
   transition: transform 0.3s ease;
 }
 
-.arch-btn-explore-green-pill:hover .arr {
+.arch-btn-primary-red-pill:hover .arr {
   transform: translateX(4px);
+}
+
+.arch-btn-secondary-outline-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.95rem 2.2rem;
+  background-color: transparent;
+  color: #0D0E0E;
+  font-family: var(--font-header, "Montserrat", sans-serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  border-radius: 50px;
+  border: 1.5px solid #0D0E0E;
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+.arch-btn-secondary-outline-pill:hover {
+  background-color: #0D0E0E;
+  color: #FFFFFF;
+  transform: translateY(-2px);
 }
 
 .arch-botanical-art {
@@ -70,5 +111,18 @@
   bottom: 0;
   right: 2rem;
   pointer-events: none;
-  color: var(--color-forest);
+  color: #B81D24;
+}
+
+@media (max-width: 640px) {
+  .arch-finalcta-btn-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .arch-btn-primary-red-pill,
+  .arch-btn-secondary-outline-pill {
+    width: 100%;
+    justify-content: center;
+  }
 }

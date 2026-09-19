@@ -2,23 +2,60 @@
    HELLOPROPERTIES — LUXURY KERALA REAL ESTATE DESIGN SYSTEM
    ========================================================================== */
 
+/* TT HAZELNUTS DISPLAY TYPEFACE */
+@font-face {
+  font-family: 'TT Hazelnuts';
+  src: url('./assets/custom_fonts/TT Hazelnuts Trial ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TT Hazelnuts';
+  src: url('./assets/custom_fonts/TT Hazelnuts Trial Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TT Hazelnuts';
+  src: url('./assets/custom_fonts/TT Hazelnuts Trial Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TT Hazelnuts';
+  src: url('./assets/custom_fonts/TT Hazelnuts Trial Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  /* Architectural & Kerala Landscape Palette */
-  --bg-ivory: #F3F0E8;           /* Warm Ivory / Architectural White */
-  --bg-ivory-dark: #E8E3D8;      /* Slightly darker tone for subtle contrast */
-  --bg-dark: #111310;            /* Deep Charcoal / Almost Black */
-  --bg-dark-card: #191C18;       /* Elevating dark components */
+  /* Red, Black & Architectural Palette */
+  --bg-ivory: #F8F7F4;           /* Warm Off-White / Architectural Base */
+  --bg-ivory-dark: #ECEAE3;      /* Subtle Neutral Contrast Tone */
+  --bg-dark: #0D0E0E;            /* Deep Obsidian Black */
+  --bg-dark-card: #181919;       /* Elevating Dark Card Surface */
   
-  --color-forest: #34483B;       /* Muted Forest Green Accent */
-  --color-forest-light: #4A6352; /* Lighter Forest Green */
-  --color-gold: #B69A68;         /* Warm Sand / Muted Gold */
-  --color-charcoal: #000000;     /* Primary High-Contrast Text */
-  --color-muted: #62665D;        /* Secondary / Subtitle Muted Text */
-  --color-border: #DED9CD;       /* Architectural Subtle Line */
-  --color-border-dark: #2B2F2A;  /* Dark Section Border */
-  --color-sand: #E6E1D5;         /* Soft Sand Surface */
+  --color-red: #B81D24;          /* Primary Crimson Red Accent */
+  --color-red-dark: #801217;     /* Deep Burgundy Accent */
+  --color-forest: #B81D24;       /* Primary Brand Red Accent */
+  --color-forest-light: #D32F2F; /* Bright Crimson Highlight */
+  --color-gold: #B81D24;         /* Section Metadata Accent (Crimson Red) */
+  --color-charcoal: #000000;     /* Pure High-Contrast Black */
+  --color-muted: #5A5C59;        /* Secondary Muted Body Text */
+  --color-border: #E0DDD5;       /* Subtle Architectural Line */
+  --color-border-dark: #2A2C2B;  /* Dark Section Line */
+  --color-sand: #E8E5DC;         /* Soft Sand Neutral Surface */
   
-  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  /* Primary Display Typeface: TT Hazelnuts ExtraBold / Bold */
+  --font-display: 'TT Hazelnuts', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-serif: 'TT Hazelnuts', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   --font-header: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
 
@@ -40,7 +77,6 @@ html {
   font-size: 16px;
   background-color: var(--bg-ivory);
   color: var(--color-charcoal);
-  overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -52,7 +88,6 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
   position: relative;
 }
 
@@ -75,7 +110,6 @@ body::before {
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow-x: hidden;
   background-color: var(--bg-ivory);
 }
 
@@ -119,6 +153,11 @@ input, select, textarea {
 }
 
 /* Typography Utilities */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
 .font-serif {
   font-family: var(--font-serif);
 }
@@ -128,7 +167,7 @@ input, select, textarea {
 }
 
 .meta-label {
-  font-family: var(--font-sans);
+  font-family: var(--font-header);
   font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;

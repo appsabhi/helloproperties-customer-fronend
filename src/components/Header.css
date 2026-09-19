@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 1000;
   padding: 1.75rem 3rem;
   transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
   background: transparent;
@@ -15,8 +15,8 @@
 
 .arch-header-scrolled {
   padding: 1.1rem 3rem;
-  background-color: rgba(243, 240, 232, 0.92);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(30px);
+  background-color: rgba(245, 245, 245, 0.471);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(23, 24, 23, 0.08);
   color: var(--color-charcoal);
@@ -80,12 +80,34 @@
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.arch-nav-item:hover {
+.arch-nav-item:hover,
+.arch-nav-item.active-route {
   opacity: 1;
 }
 
-.arch-nav-item:hover::after {
+.arch-nav-item:hover::after,
+.arch-nav-item.active-route::after {
   width: 100%;
+}
+
+.arch-nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0;
+  font: inherit;
+}
+
+.arch-drawer-nav-btn {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-header, "Montserrat", sans-serif);
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  color: var(--color-charcoal);
 }
 
 /* Header Right Button */

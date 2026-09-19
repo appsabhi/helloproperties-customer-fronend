@@ -1,7 +1,7 @@
 import React from "react";
 import "./SectionIntro.css";
 
-const INTRO_IMAGE = "https://images.unsplash.com/photo-1589556264800-08ae9e129a8c?auto=format&fit=crop&w=1000&q=85"; // Arch-shaped tea garden hill image
+const INTRO_IMAGE = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85"; // Tropical villa surrounded by lush Kerala greenery
 
 const SectionIntro = () => {
   return (
@@ -36,9 +36,9 @@ const SectionIntro = () => {
             </div>
 
             {/* Handwritten overlay decoration */}
-            <div className="arch-handwritten-note">
+            {/* <div className="arch-handwritten-note">
               <span>More than real estate</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

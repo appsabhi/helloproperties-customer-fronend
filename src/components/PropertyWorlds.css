@@ -1,6 +1,6 @@
 /* Explore by Category Section Styles matching reference image */
 .arch-category-section {
-  padding: 4rem 0 8rem 0;
+  padding: 4rem 0 6rem 0;
   background-color: #F3F0E8;
   position: relative;
 }
@@ -9,7 +9,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   padding-bottom: 1.25rem;
   border-bottom: 1px solid var(--color-border);
 }
@@ -26,31 +26,54 @@
 
 .arch-category-title {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: -0.01em;
   color: var(--color-charcoal);
 }
 
+/* 12-Column Varied Bento Grid (Large, Small, Medium, Wide) */
 .arch-category-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
 }
 
+/* Card Size Variations */
+.cat-card-large-hero {
+  grid-column: span 7;
+  height: 380px;
+}
+
+.cat-card-large {
+  grid-column: span 5;
+  height: 380px;
+}
+
+.cat-card-small {
+  grid-column: span 4;
+  height: 270px;
+}
+
+.cat-card-wide {
+  grid-column: span 7;
+  height: 290px;
+}
+
+.cat-card-medium {
+  grid-column: span 5;
+  height: 290px;
+}
+
+/* Base Card Styling (Non-clickable Category Showcase) */
 .arch-category-card {
   position: relative;
-  aspect-ratio: 4 / 3.2;
   overflow: hidden;
-  cursor: pointer;
+  border-radius: 14px;
+  cursor: default;
   background-color: #111310;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.arch-category-card:hover {
-  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .arch-cat-media {
@@ -62,7 +85,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   filter: brightness(0.85) contrast(1.05);
 }
 
@@ -75,8 +98,8 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(17, 19, 16, 0.1) 0%,
-    rgba(17, 19, 16, 0.3) 40%,
+    rgba(17, 19, 16, 0.25) 0%,
+    rgba(17, 19, 16, 0.1) 40%,
     rgba(17, 19, 16, 0.88) 100%
   );
 }
@@ -92,14 +115,35 @@
   color: #FFFFFF;
 }
 
+.arch-cat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.arch-cat-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: rgba(23, 24, 23, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.5px;
+}
+
 .arch-cat-title {
   font-family: var(--font-serif);
-  font-size: 1.4rem;
+  font-size: clamp(1.15rem, 1.8vw, 1.55rem);
   font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #FFFFFF;
   margin-bottom: 0.25rem;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .arch-cat-bottom {
@@ -112,27 +156,58 @@
   font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .arch-cat-arrow {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #FFFFFF;
-  transition: transform 0.3s ease;
+  opacity: 0.7;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .arch-category-card:hover .arch-cat-arrow {
-  transform: translateX(4px);
+  transform: translate(2px, -2px);
+  opacity: 1;
 }
 
-@media (max-width: 1024px) {
+/* Responsive Grid Breakpoints */
+@media (max-width: 992px) {
   .arch-category-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+
+  .cat-card-large-hero,
+  .cat-card-large,
+  .cat-card-wide,
+  .cat-card-medium {
+    grid-column: span 2;
+    height: 320px;
+  }
+
+  .cat-card-small {
+    grid-column: span 1;
+    height: 250px;
   }
 }
 
 @media (max-width: 640px) {
   .arch-category-grid {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .cat-card-large-hero,
+  .cat-card-large,
+  .cat-card-small,
+  .cat-card-wide,
+  .cat-card-medium {
+    grid-column: span 1;
+    height: 230px !important;
+  }
+
+  .arch-category-card {
+    border-radius: 10px;
   }
 }

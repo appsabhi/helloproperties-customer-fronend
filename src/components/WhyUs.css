@@ -17,13 +17,21 @@
 }
 
 .arch-whyus-headline {
-  font-family: var(--font-serif);
-  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
-  font-weight: 400;
-  line-height: 1.05;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  line-height: 1.08;
   text-transform: uppercase;
   color: #FFFFFF;
-  margin-bottom: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.arch-whyus-body {
+  font-family: var(--font-sans, "Montserrat", sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 480px;
 }
 
 .arch-whyus-grid {
@@ -46,9 +54,9 @@
 }
 
 .stat-number {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: clamp(2.6rem, 4vw, 3.6rem);
-  font-weight: 400;
   color: #FFFFFF;
   line-height: 1;
   margin-bottom: 0.5rem;

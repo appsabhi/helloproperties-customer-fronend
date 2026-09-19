@@ -45,10 +45,9 @@
 }
 
 .arch-footer-logo-img {
-  height: 44px;
-  max-width: 240px;
+  height: 60px;
+  max-width: 220px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
 }
 
 .arch-footer-tagline {
