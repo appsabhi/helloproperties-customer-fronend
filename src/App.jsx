@@ -11,6 +11,7 @@ import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
 import PropertiesPage from "./components/PropertiesPage";
 import AboutPage from "./components/AboutPage";
+import ContactPage from "./components/ContactPage";
 
 import { CustomerPropertyProvider } from "./context/CustomerPropertyContext";
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/properties" element={<PropertiesPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </BrowserRouter>
     </CustomerPropertyProvider>

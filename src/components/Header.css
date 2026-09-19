@@ -1,26 +1,25 @@
 .arch-header {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: var(--max-width, 1400px);
   z-index: 1000;
-  padding: 1.75rem 3rem;
-  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: var(--color-charcoal, #1a1a1a);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
   font-family: var(--font-header);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .arch-header-scrolled {
-  padding: 1.1rem 3rem;
-  backdrop-filter: blur(30px);
-  background-color: rgba(245, 245, 245, 0.471);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(23, 24, 23, 0.08);
-  color: var(--color-charcoal);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  padding: 0.8rem 2rem;
+  top: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .arch-header-inner {
@@ -47,7 +46,6 @@
   height: 36px;
   max-width: 180px;
   object-fit: contain;
-  filter: brightness(0);
 }
 
 /* Desktop Navigation */
@@ -55,6 +53,7 @@
   display: flex;
   align-items: center;
   gap: 2.75rem;
+  flex: 1;
 }
 
 .arch-nav-item {
@@ -114,7 +113,9 @@
 .arch-header-right {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 1.5rem;
+  flex: 1;
 }
 
 .arch-btn-list-property {
@@ -123,23 +124,19 @@
   font-weight: 600;
   letter-spacing: 0.18em;
   padding: 0.65rem 1.4rem;
-  border: 1px solid currentColor;
-  color: inherit;
+  border: 1px solid var(--color-charcoal, #1a1a1a);
+  color: var(--color-charcoal, #1a1a1a);
+  background-color: transparent;
+  border-radius: 4px;
   transition: all 0.35s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.arch-header:not(.arch-header-scrolled) .arch-btn-list-property:hover {
-  background-color: #FFFFFF;
-  color: var(--color-charcoal);
-}
-
-.arch-header-scrolled .arch-btn-list-property:hover {
-  background-color: var(--color-forest);
+.arch-btn-list-property:hover {
+  background-color: var(--color-charcoal, #1a1a1a);
   color: #FFFFFF;
-  border-color: var(--color-forest);
 }
 
 /* Toggle Menu Icon */

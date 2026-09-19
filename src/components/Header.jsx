@@ -14,6 +14,7 @@ const Header = () => {
   const isMapPage = location.pathname === "/property-map";
   const isPropertiesPage = location.pathname === "/properties";
   const isAboutPage = location.pathname === "/about";
+  const isContactPage = location.pathname === "/contact";
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
@@ -30,28 +31,28 @@ const Header = () => {
     setModalOpen(true);
   };
 
-  const isHeaderSolid = scrolled || isMapPage || isPropertiesPage || isAboutPage;
+  const isHeaderSolid = scrolled;
 
   return (
     <>
       <header className={`arch-header ${isHeaderSolid ? "arch-header-scrolled" : ""}`}>
         <div className="arch-header-inner">
-          {/* Left: Minimal Logo */}
-          <Link to="/" className="arch-brand-logo">
-            <img 
-              src={isHeaderSolid ? logoStatic : logoTop} 
-              alt="HelloProperties Kerala" 
-              className="arch-logo-img" 
-            />
-          </Link>
-
-          {/* Center Navigation Links */}
+          {/* Left: Navigation Links */}
           <nav className="arch-nav-desktop">
             <Link to="/" className={`arch-nav-item ${isHomePage ? "active-route" : ""}`}>HOME</Link>
             <Link to="/about" className={`arch-nav-item ${isAboutPage ? "active-route" : ""}`}>ABOUT</Link>
             <Link to="/properties" className={`arch-nav-item ${isPropertiesPage ? "active-route" : ""}`}>PROPERTIES</Link>
-            <a href="#contact" className="arch-nav-item" onClick={openTouchModal}>CONTACT</a>
+            <Link to="/contact" className={`arch-nav-item ${isContactPage ? "active-route" : ""}`}>CONTACT</Link>
           </nav>
+
+          {/* Center: Minimal Logo */}
+          <Link to="/" className="arch-brand-logo">
+            <img 
+              src={logoStatic} 
+              alt="HelloProperties Kerala" 
+              className="arch-logo-img" 
+            />
+          </Link>
 
           {/* Right Side Actions */}
           <div className="arch-header-right">
@@ -88,7 +89,7 @@ const Header = () => {
               <Link to="/" onClick={() => setMobileOpen(false)}>HOME</Link>
               <Link to="/about" onClick={() => setMobileOpen(false)}>ABOUT</Link>
               <Link to="/properties" onClick={() => setMobileOpen(false)}>PROPERTIES</Link>
-              <a href="#contact" onClick={(e) => { e.preventDefault(); openTouchModal(e); }}>CONTACT</a>
+              <Link to="/contact" onClick={() => setMobileOpen(false)}>CONTACT</Link>
             </nav>
             <div className="arch-drawer-footer">
               <button 

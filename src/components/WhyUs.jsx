@@ -26,34 +26,12 @@ const WhyUs = () => {
               <span className="pillar-chip">✓ Boundary & Terrain Audited</span>
               <span className="pillar-chip">✓ Private Advisory</span>
             </div>
-
-            {/* Statistics Row */}
-            <div className="arch-whyus-stats">
-              <div className="stat-block">
-                <span className="stat-num">500+</span>
-                <span className="stat-desc">VERIFIED ACRES LISTED</span>
-              </div>
-              <div className="stat-divider"></div>
-              <div className="stat-block">
-                <span className="stat-num">98%</span>
-                <span className="stat-desc">MATCH SATISFACTION</span>
-              </div>
-              <div className="stat-divider"></div>
-              <div className="stat-block">
-                <span className="stat-num">100%</span>
-                <span className="stat-desc">TITLE ASSURANCE</span>
-              </div>
-            </div>
           </div>
 
           {/* Right Image Showcase Frame */}
           <div className="arch-whyus-media">
             <div className="arch-whyus-img-frame">
               <img src={SHOWCASE_IMAGE} alt="HelloProperties Kerala Luxury Architecture" className="arch-whyus-img" loading="lazy" />
-              <div className="arch-whyus-media-badge">
-                <span className="badge-dot">•</span>
-                <span>EXCLUSIVE KERALA ESTATES</span>
-              </div>
             </div>
           </div>
         </div>
