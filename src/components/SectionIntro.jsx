@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import "./SectionIntro.css";
 
 const INTRO_IMAGE = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85"; // Tropical villa surrounded by lush Kerala greenery
@@ -9,7 +10,13 @@ const SectionIntro = () => {
       <div className="hp-container">
         <div className="arch-intro-grid">
           {/* Left Text Block */}
-          <div className="arch-intro-text">
+          <motion.div 
+            className="arch-intro-text"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             <span className="meta-label">ABOUT KERALA PROPERTIES</span>
             
             <h2 className="arch-intro-headline">
@@ -27,10 +34,16 @@ const SectionIntro = () => {
               <span>OUR STORY</span>
               <span className="arr">→</span>
             </a>
-          </div>
+          </motion.div>
 
           {/* Right Arch Visual Frame */}
-          <div className="arch-intro-media">
+          <motion.div 
+            className="arch-intro-media"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          >
             <div className="arch-intro-arch-frame">
               <img src={INTRO_IMAGE} alt="Kerala Misty Hills & Tea Gardens" className="arch-intro-arch-img" />
             </div>
@@ -39,7 +52,7 @@ const SectionIntro = () => {
             {/* <div className="arch-handwritten-note">
               <span>More than real estate</span>
             </div> */}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

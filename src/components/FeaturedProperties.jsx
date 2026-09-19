@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import "./FeaturedProperties.css";
 
@@ -101,7 +102,13 @@ const FeaturedProperties = () => {
     <section className="arch-featured-section">
       <div className="hp-container">
         {/* Header */}
-        <div className="arch-featured-header">
+        <motion.div 
+          className="arch-featured-header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <div>
             <span className="meta-label">CURATED SELECTION</span>
             <h2 className="arch-featured-title">FEATURED PROPERTIES</h2>
@@ -110,15 +117,19 @@ const FeaturedProperties = () => {
             <span>VIEW ALL PROPERTIES</span>
             <span className="arr">→</span>
           </Link>
-        </div>
+        </motion.div>
 
         {/* 4-Card Architectural Grid */}
         <div className="arch-property-grid">
-          {displayCards.map((prop) => (
-            <article
+          {displayCards.map((prop, index) => (
+            <motion.article
               key={prop.id}
               className="arch-featured-card"
               onClick={() => navigate(`/properties?id=${prop.id}`)}
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 1, delay: index * 0.15, ease: [0.25, 1, 0.5, 1] }}
             >
               {/* Image Frame with Translucent Glass Floating Badges */}
               <div className="arch-card-media-wrap">
@@ -152,7 +163,7 @@ const FeaturedProperties = () => {
                   </button>
                 </div>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </div>

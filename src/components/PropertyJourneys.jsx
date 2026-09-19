@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import "./PropertyJourneys.css";
 
 const STEPS = [
@@ -46,7 +47,13 @@ const PropertyJourneys = () => {
     <section className="arch-journey-section">
       <div className="hp-container">
         {/* Section Header */}
-        <div className="arch-journey-header">
+        <motion.div 
+          className="arch-journey-header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <div>
             <span className="meta-label">THE ADVISORY PROCESS</span>
             <h2 className="arch-journey-title">FROM SEARCH TO SIGNATURE</h2>
@@ -54,10 +61,16 @@ const PropertyJourneys = () => {
           <p className="arch-journey-subhead">
             A structured, transparent roadmap designed to protect your investment and elevate your discovery experience.
           </p>
-        </div>
+        </motion.div>
 
         {/* Horizontal Process Steps Bar */}
-        <div className="arch-journey-steps">
+        <motion.div 
+          className="arch-journey-steps"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        >
           {STEPS.map((step, idx) => (
             <button
               key={step.num}
@@ -70,10 +83,16 @@ const PropertyJourneys = () => {
               <span className="step-btn-line"></span>
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Active Journey Detail Card */}
-        <div className="arch-journey-card">
+        <motion.div 
+          className="arch-journey-card"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+        >
           <div className="arch-journey-text">
             <span className="arch-journey-index">STAGE {STEPS[activeStep].num} OF 05</span>
             <h3 className="arch-journey-card-title">{STEPS[activeStep].title}</h3>
@@ -84,7 +103,7 @@ const PropertyJourneys = () => {
           <div className="arch-journey-media">
             <img src={STEPS[activeStep].img} alt={STEPS[activeStep].title} className="arch-journey-img" />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -6,7 +6,6 @@ import SectionIntro from "./components/SectionIntro";
 import PropertyWorlds from "./components/PropertyWorlds";
 import FeaturedProperties from "./components/FeaturedProperties";
 import WhyUs from "./components/WhyUs";
-import PropertyJourneys from "./components/PropertyJourneys";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
 import PropertiesPage from "./components/PropertiesPage";
@@ -25,7 +24,6 @@ function HomePage() {
         <PropertyWorlds />
         <FeaturedProperties />
         <WhyUs />
-        <PropertyJourneys />
         <FinalCTA />
       </main>
       <Footer />

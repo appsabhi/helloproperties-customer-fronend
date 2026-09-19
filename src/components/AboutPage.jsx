@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import GetInTouchModal from "./GetInTouchModal";
+import PropertyJourneys from "./PropertyJourneys";
 import aboutHeroImg from "../assets/png/about_hero_img.jpg";
 import aboutMobileHeroImg from "../assets/png/about_mobile_hero_img.jpg";
 import "./AboutPage.css";
@@ -199,10 +200,7 @@ const AboutPage = () => {
               <div className="about-story-media">
                 <div className="story-img-frame">
                   <img src={STORY_IMG} alt="Kerala Estate Landscape" className="story-img" />
-                  <div className="story-floating-badge">
-                    <span className="badge-bullet">•</span>
-                    <span>VERIFIED KERALA ESTATE ADVISORY</span>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -231,6 +229,9 @@ const AboutPage = () => {
             </div>
           </div>
         </section>
+
+        {/* 3.5 Property Journeys (The Advisory Process) */}
+        <PropertyJourneys />
 
         {/* 4. Client Logos / Corporate Partners Section */}
         <section className="about-clients-section">

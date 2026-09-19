@@ -2,16 +2,51 @@
 .arch-finalcta-section {
   position: relative;
   width: 100%;
-  padding: 7.5rem 0;
+  padding: 3rem 1rem;
   background-color: var(--color-bg, #F8F7F4);
-  color: var(--color-charcoal, #0D0E0E);
   text-align: center;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .arch-finalcta-box {
-  max-width: 800px;
+  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
+  padding: 4rem 2rem;
+  background: radial-gradient(ellipse at top center, #1F2122 0%, #0D0E0E 70%);
+  border-radius: 32px;
+  box-shadow: 
+    0 40px 80px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Subtle grid overlay to match reference vibe */
+.arch-finalcta-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center top;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.arch-cta-icon {
+  color: #FFFFFF;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
 }
 
 .arch-finalcta-label {
@@ -20,28 +55,28 @@
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.25em;
-  color: #888888;
+  color: rgba(255, 255, 255, 0.7);
   margin-bottom: 1.25rem;
 }
 
 .arch-finalcta-headline {
   font-family: var(--font-display, "TT Hazelnuts Trial", sans-serif);
-  font-weight: 800;
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  color: var(--color-charcoal, #0D0E0E);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
   margin-bottom: 1.5rem;
+  max-width: 900px;
 }
 
 .arch-finalcta-sub {
   font-family: var(--font-sans, "Montserrat", sans-serif);
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #555555;
-  max-width: 620px;
-  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #A0A0A0;
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
 }
 
 .arch-finalcta-btn-group {
@@ -60,20 +95,20 @@
   background-color: #B81D24;
   color: #FFFFFF;
   font-family: var(--font-header, "Montserrat", sans-serif);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
   border-radius: 50px;
   border: none;
   cursor: pointer;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 25px rgba(184, 29, 36, 0.3);
+  box-shadow: 0 0 25px rgba(184, 29, 36, 0.4);
 }
 
 .arch-btn-primary-red-pill:hover {
   background-color: #96151B;
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(184, 29, 36, 0.45);
+  box-shadow: 0 0 40px rgba(184, 29, 36, 0.6);
 }
 
 .arch-btn-primary-red-pill .arr {
@@ -84,44 +119,38 @@
   transform: translateX(4px);
 }
 
-.arch-btn-secondary-outline-pill {
+.arch-btn-secondary-white-outline {
   display: inline-flex;
   align-items: center;
   padding: 0.95rem 2.2rem;
   background-color: transparent;
-  color: #0D0E0E;
+  color: #FFFFFF;
   font-family: var(--font-header, "Montserrat", sans-serif);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
   border-radius: 50px;
-  border: 1.5px solid #0D0E0E;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
   cursor: pointer;
   transition: all 0.35s ease;
 }
 
-.arch-btn-secondary-outline-pill:hover {
-  background-color: #0D0E0E;
-  color: #FFFFFF;
+.arch-btn-secondary-white-outline:hover {
+  background-color: #FFFFFF;
+  color: #0D0E0E;
+  border-color: #FFFFFF;
   transform: translateY(-2px);
 }
 
-.arch-botanical-art {
-  position: absolute;
-  bottom: 0;
-  right: 2rem;
-  pointer-events: none;
-  color: #B81D24;
-}
-
-@media (max-width: 640px) {
-  .arch-finalcta-btn-group {
-    flex-direction: column;
-    width: 100%;
+/* Responsive */
+@media (max-width: 768px) {
+  .arch-finalcta-box {
+    padding: 3rem 1.5rem;
+    border-radius: 12px;
   }
-
+  
   .arch-btn-primary-red-pill,
-  .arch-btn-secondary-outline-pill {
+  .arch-btn-secondary-white-outline {
     width: 100%;
     justify-content: center;
   }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import "./Hero.css";
 
 const HERO_IMAGE = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2400&q=90";
@@ -36,7 +37,12 @@ const Hero = () => {
 
       <div className="arch-hero-content">
         <div className="hp-container">
-          <div className="arch-hero-text-block">
+          <motion.div 
+            className="arch-hero-text-block"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
             {/* <span className="arch-hero-tag">PREMIUM PROPERTIES IN KERALA</span> */}
             
             <h1 className="arch-hero-title">
@@ -45,13 +51,30 @@ const Hero = () => {
               <span>IN THE LANDSCAPE.</span>
             </h1>
 
-            <p className="arch-hero-tagline">Curated properties across Kerala.</p>
+            <motion.p 
+              className="arch-hero-tagline"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+            >
+              Curated properties across Kerala.
+            </motion.p>
 
-            <p className="arch-hero-subtext">
+            <motion.p 
+              className="arch-hero-subtext"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            >
               Discover exceptional homes, land and investment opportunities shaped by Kerala’s most remarkable landscapes.
-            </p>
+            </motion.p>
 
-            <div className="arch-hero-ctas">
+            <motion.div 
+              className="arch-hero-ctas"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+            >
               <button 
                 type="button" 
                 className="arch-btn-explore-green"
@@ -71,8 +94,8 @@ const Hero = () => {
               >
                 <span>DISCOVER KERALA</span>
               </button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Floating Pill Search Bar */}
           {/* <form className="arch-search-pill" onSubmit={handleSearch}>

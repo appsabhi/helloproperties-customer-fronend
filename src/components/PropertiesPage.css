@@ -18,7 +18,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 120px; /* Space for header */
+  padding-top: 160px; /* Space for header */
+  padding-bottom: 80px;
 }
 
 .hero-bg-wrapper {
@@ -37,11 +38,7 @@
 }
 
 .props-ref-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(circle at top right, rgba(0, 0, 0, 0.7) 0%, transparent 60%),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 45%, transparent 100%);
+  display: none;
 }
 
 .hero-content-container {

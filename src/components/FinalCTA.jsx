@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import GetInTouchModal from "./GetInTouchModal";
 import "./FinalCTA.css";
+
+const CTA_BG = "https://images.unsplash.com/photo-1613490908236-fa332b500318?auto=format&fit=crop&w=2000&q=85"; // Premium modern architecture at dusk
 
 const FinalCTA = () => {
   const navigate = useNavigate();
@@ -11,11 +14,26 @@ const FinalCTA = () => {
     <>
       <section className="arch-finalcta-section">
         <div className="hp-container">
-          <div className="arch-finalcta-box">
-            <span className="arch-finalcta-label">YOUR KERALA STORY AWAITS</span>
+          <motion.div 
+            className="arch-finalcta-box"
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div className="arch-cta-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 21h18"></path>
+                <path d="M5 21V7l8-4v18"></path>
+                <path d="M19 21V11l-6-4"></path>
+                <path d="M9 9v.01"></path>
+                <path d="M9 13v.01"></path>
+                <path d="M9 17v.01"></path>
+              </svg>
+            </div>
 
             <h2 className="arch-finalcta-headline">
-              READY TO FIND YOUR<br />PERFECT PROPERTY?
+              Ready to Find Your<br />Perfect Property?
             </h2>
 
             <p className="arch-finalcta-sub">
@@ -34,21 +52,16 @@ const FinalCTA = () => {
 
               <button
                 type="button"
-                className="arch-btn-secondary-outline-pill"
+                className="arch-btn-secondary-white-outline"
                 onClick={() => navigate("/properties")}
               >
                 <span>EXPLORE ALL PROPERTIES</span>
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Subtle Botanical Corner Line Art Graphic */}
-        <div className="arch-botanical-art">
-          <svg width="140" height="140" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1">
-            <path d="M50 90 Q30 50 10 10 M50 90 Q70 50 90 10 M50 90 Q50 40 50 0 M35 60 Q20 40 10 35 M65 60 Q80 40 90 35" opacity="0.15" />
-          </svg>
-        </div>
+
       </section>
 
       {/* Get In Touch Modal */}

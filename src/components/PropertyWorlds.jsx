@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import "./PropertyWorlds.css";
 
 const CATEGORIES = [
@@ -58,19 +59,29 @@ const PropertyWorlds = () => {
     <section className="arch-category-section" id="categories">
       <div className="hp-container">
         {/* Header - View All Button Removed */}
-        <div className="arch-category-header">
+        <motion.div 
+          className="arch-category-header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <div>
             <span className="meta-label">TYPOLOGIES</span>
             <h2 className="arch-category-title">EXPLORE BY PROPERTY TYPE</h2>
           </div>
-        </div>
+        </motion.div>
 
         {/* Varied Size Bento Grid (Non-clickable Category Showcase) */}
         <div className="arch-category-grid">
-          {CATEGORIES.map((cat) => (
-            <div
+          {CATEGORIES.map((cat, index) => (
+            <motion.div
               key={cat.id}
               className={`arch-category-card ${cat.sizeClass}`}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40, y: 30 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.9, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="arch-cat-media">
                 <img src={cat.img} alt={cat.title} className="arch-cat-img" loading="lazy" />
@@ -85,7 +96,7 @@ const PropertyWorlds = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
