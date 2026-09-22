@@ -25,7 +25,7 @@
 }
 
 .arch-category-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(2rem, 3.5vw, 2.75rem);
   font-weight: 400;
   text-transform: uppercase;
@@ -136,7 +136,7 @@
 }
 
 .arch-cat-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.15rem, 1.8vw, 1.55rem);
   font-weight: 400;
   letter-spacing: 0.04em;

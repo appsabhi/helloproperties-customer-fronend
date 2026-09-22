@@ -65,16 +65,19 @@
 
 .arch-hero-title {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(3.1rem, 3.9vw, 5.8rem);
+  font-size: clamp(3.2rem, 7vw, 4.4rem);
   line-height: 0.98;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   display: flex;
   flex-direction: column;
-  color: #000000;
   margin-bottom: 1.85rem;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #9C093A 0%, #030302 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  /* text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); */
 }
 
 .arch-hero-tagline {
@@ -131,9 +134,11 @@ top: 250px;
 }
 
 .arch-btn-explore-green:hover {
-  background-color: #cacaca;
+  background-color: #cacaca7b;
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(163, 163, 163, 0.4);
+  color: #9F0B3D;
+  border: 1px solid #9F0B3D;
 }
 
 .arch-btn-explore-green .arr {

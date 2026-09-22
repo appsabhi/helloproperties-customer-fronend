@@ -3,7 +3,7 @@
   min-height: 100vh;
   background-color: #F8F7F4;
   color: #0D0E0E;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
 }
 
 .contact-page-main {
@@ -20,7 +20,7 @@
 
 .contact-hero-meta {
   display: inline-block;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -29,7 +29,7 @@
 }
 
 .contact-hero-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 800;
   font-size: clamp(2rem, 3.5vw, 3.2rem);
   line-height: 1.15;
@@ -64,7 +64,7 @@
 }
 
 .info-lbl {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -74,7 +74,7 @@
 }
 
 .info-txt {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.6;
   color: #0D0E0E;
@@ -91,7 +91,7 @@
 }
 
 .form-heading {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 800;
   font-size: 1.5rem;
   letter-spacing: -0.01em;
@@ -101,7 +101,7 @@
 }
 
 .form-subheading {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.9rem;
   color: #5A5C59;
   margin-bottom: 2.5rem;
@@ -135,7 +135,7 @@
   border: none;
   border-bottom: 1px solid #C0BCB5;
   padding: 0.75rem 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.95rem;
   color: #0D0E0E;
   outline: none;
@@ -149,7 +149,7 @@
 }
 
 .c-form-group label {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -189,7 +189,7 @@
   color: #FFFFFF;
   padding: 1.1rem 2rem;
   border: none;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -237,7 +237,7 @@
 }
 
 .contact-form-success h3 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 800;
   font-size: 1.25rem;
   margin-bottom: 0.75rem;
@@ -245,7 +245,7 @@
 }
 
 .contact-form-success p {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.95rem;
   color: #5A5C59;
   margin-bottom: 2rem;
@@ -257,7 +257,7 @@
   border: 1px solid #0D0E0E;
   color: #0D0E0E;
   padding: 0.85rem 1.75rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;

@@ -56,9 +56,9 @@ const Hero = () => {
             {/* <span className="arch-hero-tag">PREMIUM PROPERTIES IN KERALA</span> */}
             
             <h1 className="arch-hero-title ">
-              <span>FIND</span>
-              <span>YOUR PLACE</span>
-              <span>IN THE LANDSCAPE</span>
+              <span>FIND YOUR</span>
+              <span> PLACE IN THE</span>
+              <span> LANDSCAPE</span>
             </h1>
 
           
@@ -71,6 +71,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
+              
               <button 
                 type="button" 
                 className="arch-btn-explore-green"
@@ -88,15 +89,7 @@ const Hero = () => {
          
 
           {/* Scroll Indicator */}
-          <button 
-            type="button" 
-            className="arch-scroll-indicator"
-            onClick={scrollToExplore}
-            aria-label="Scroll to explore"
-          >
-            <span className="scroll-text">SCROLL TO EXPLORE</span>
-            <span className="scroll-arrow animate-float">↓</span>
-          </button>
+       
 
 
         </div>

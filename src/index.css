@@ -2,10 +2,12 @@
    HELLOPROPERTIES — LUXURY KERALA REAL ESTATE DESIGN SYSTEM
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
 /* GC Avalance Display Typeface */
 @font-face {
-  font-family: 'GCAvalance';
-  src: url('./assets/custom_fonts/GCAvalance-Bold.ttf') format('truetype');
+  font-family: 'Confine-Bold';
+  src: url('./assets/custom_fonts/Confine-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -45,11 +47,11 @@
   --color-border-dark: #2A2C2B;  /* Dark Section Line */
   --color-sand: #E8E5DC;         /* Soft Sand Neutral Surface */
   
-  /* Primary Display Typeface: GC Avalance */
-  --font-display: 'GCAvalance', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  /* Primary Display Typeface: GC Avalance / Confine-Bold */
+  --font-display: 'Confine-Bold', 'GCAvalance', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-serif: 'GCAvalance', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  --font-sans: 'GCAvalance', 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  --font-header: 'GCAvalance', 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  --font-sans: 'Manrope', 'GCAvalance', 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-header: 'Manrope', 'GCAvalance', 'Montserrat', 'Plus Jakarta Sans', sans-serif;
 
   --transition-fast: 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);

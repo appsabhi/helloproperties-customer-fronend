@@ -93,7 +93,8 @@ const FeaturedProperties = () => {
       price: p.priceFormatted || "Price on Request",
       listingType: p.listingType === "Rent" ? "For Rent" : "For Sale",
       status: p.status,
-      img: p.imageUrl || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85",
+      img: p.imageUrl,
+      video: p.videoUrl || p.video,
     }));
   } else {
     displayCards = DEMO_FALLBACK_CARDS.slice(0, 4);
@@ -134,7 +135,13 @@ const FeaturedProperties = () => {
             >
               {/* Image Frame with Translucent Glass Floating Badges */}
               <div className="arch-card-media-wrap">
-                <img src={prop.img} alt={prop.title} className="arch-card-media-img" loading="lazy" />
+                {prop.img ? (
+                  <img src={prop.img} alt={prop.title} className="arch-card-media-img" loading="lazy" />
+                ) : prop.video ? (
+                  <video src={prop.video} className="arch-card-media-img" preload="metadata" muted playsInline style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                ) : (
+                  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85" alt={prop.title} className="arch-card-media-img" loading="lazy" />
+                )}
                 <div className="arch-card-top-badges">
                   <span className="arch-pill-badge-type">{prop.type}</span>
                   <span className="arch-pill-badge-status">{prop.listingType}</span>

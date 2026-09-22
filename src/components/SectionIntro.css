@@ -20,7 +20,7 @@
 }
 
 .arch-intro-text .meta-label {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -29,7 +29,7 @@
 }
 
 .arch-intro-headline {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(2.2rem, 3.8vw, 3.4rem);
   line-height: 1.12;
@@ -40,7 +40,7 @@
 }
 
 .arch-intro-body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.98rem;
   font-weight: 500;
   line-height: 1.75;
@@ -53,11 +53,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color: #ffffff;
+  color:#9F0B3D;
   transition: color 0.3s ease;
 }
 
