@@ -25,17 +25,7 @@ const TheLandscape = () => {
               From misty mountains to serene backwaters, Kerala offers more than a destination — it offers a lifestyle.
             </p>
 
-            <button
-              type="button"
-              className="arch-btn-discover-kerala"
-              onClick={() => {
-                const el = document.getElementById("destinations");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
-              <span>DISCOVER KERALA</span>
-              <span className="arr">→</span>
-            </button>
+          
           </div>
         </div>
       </div>

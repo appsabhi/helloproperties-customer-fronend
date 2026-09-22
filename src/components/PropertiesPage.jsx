@@ -462,14 +462,14 @@ const PropertiesPage = () => {
                             <span className="ref-card-price-val">{displayPrice}</span>
                           </div>
 
-                          <button
+                          {/* <button
                             type="button"
                             className="ref-card-btn"
                             onClick={() => setSelectedProperty(prop)}
                           >
                             <span>View Details</span>
                             <span className="btn-arrow">→</span>
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     </article>

@@ -37,15 +37,7 @@ const Header = () => {
     <>
       <header className={`arch-header ${isHeaderSolid ? "arch-header-scrolled" : ""}`}>
         <div className="arch-header-inner">
-          {/* Left: Navigation Links */}
-          <nav className="arch-nav-desktop">
-            <Link to="/" className={`arch-nav-item ${isHomePage ? "active-route" : ""}`}>HOME</Link>
-            <Link to="/about" className={`arch-nav-item ${isAboutPage ? "active-route" : ""}`}>ABOUT</Link>
-            <Link to="/properties" className={`arch-nav-item ${isPropertiesPage ? "active-route" : ""}`}>PROPERTIES</Link>
-            <Link to="/contact" className={`arch-nav-item ${isContactPage ? "active-route" : ""}`}>CONTACT</Link>
-          </nav>
-
-          {/* Center: Minimal Logo */}
+             {/* Center: Minimal Logo */}
           <Link to="/" className="arch-brand-logo">
             <img 
               src={logoStatic} 
@@ -55,7 +47,17 @@ const Header = () => {
           </Link>
 
           {/* Right Side Actions */}
+          {/* Left: Navigation Links */}
+          <nav className="arch-nav-desktop">
+            <Link to="/" className={`arch-nav-item ${isHomePage ? "active-route" : ""}`}>HOME</Link>
+            <Link to="/about" className={`arch-nav-item ${isAboutPage ? "active-route" : ""}`}>ABOUT</Link>
+            <Link to="/properties" className={`arch-nav-item ${isPropertiesPage ? "active-route" : ""}`}>PROPERTIES</Link>
+            <Link to="/contact" className={`arch-nav-item ${isContactPage ? "active-route" : ""}`}>CONTACT</Link>
+          </nav>
+
+       
           <div className="arch-header-right">
+            
             <button 
               type="button" 
               className="arch-btn-list-property"

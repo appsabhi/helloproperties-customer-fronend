@@ -27,14 +27,14 @@ const FeaturedDestination = () => {
               "Where forests, plantations and mountains create a slower way of living."
             </p>
 
-            <button
+            {/* <button
               type="button"
               className="arch-btn-featdest"
               onClick={() => navigate("/properties?location=Wayanad")}
             >
               <span>EXPLORE PROPERTIES</span>
               <span className="arr">→</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

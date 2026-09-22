@@ -38,7 +38,7 @@ const GetInTouchModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="arch-modal-overlay">
+    <div className="arch-modal-overlay" style={{ zIndex: 9999 }}>
       <div className="arch-modal-backdrop" onClick={handleClose}></div>
       <div className="arch-modal-box">
         <button type="button" className="arch-modal-close" onClick={handleClose}>✕</button>
