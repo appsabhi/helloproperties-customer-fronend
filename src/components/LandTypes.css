@@ -5,7 +5,7 @@
 
 .land-types-section {
   position: relative;
-  background-color: var(--color-bg-ivory, #F5F3EE);
+  background-color:#1F1E1E;
   padding-top: clamp(1.5rem, 3vw, 2.5rem);
   padding-bottom: clamp(3rem, 5vw, 4.5rem);
   padding-left: 1.5rem;

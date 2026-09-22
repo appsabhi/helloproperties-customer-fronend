@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import GetInTouchModal from "./GetInTouchModal";
 import PropertyJourneys from "./PropertyJourneys";
+import WhyUs from "./WhyUs";
 import aboutHeroImg from "../assets/png/about_hero_img.jpg";
 import aboutMobileHeroImg from "../assets/png/about_mobile_hero_img.jpg";
 import "./AboutPage.css";
@@ -152,6 +153,9 @@ const AboutPage = () => {
             </picture>
           </div>
         </section>
+
+        {/* 1.5 Moved WhyUs Section */}
+        <WhyUs />
 
         {/* 2. Our Story & Philosophy */}
         <section className="about-story-section">

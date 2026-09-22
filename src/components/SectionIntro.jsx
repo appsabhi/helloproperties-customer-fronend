@@ -2,8 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import "./SectionIntro.css";
 
-const INTRO_IMAGE = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85"; // Tropical villa surrounded by lush Kerala greenery
-
+// import BG_LAYER from "../assets/png/bg_layer.png";
+import BUILDINGS_LAYER from "../assets/land-residential.jpg";
 const SectionIntro = () => {
   return (
     <section id="brand-intro" className="arch-intro-section">
@@ -36,23 +36,25 @@ const SectionIntro = () => {
             </a>
           </motion.div>
 
-          {/* Right Arch Visual Frame */}
-          <motion.div 
-            className="arch-intro-media"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          >
-            <div className="arch-intro-arch-frame">
-              <img src={INTRO_IMAGE} alt="Kerala Misty Hills & Tea Gardens" className="arch-intro-arch-img" />
+          {/* Right Layered Visual Frame */}
+          <div className="arch-intro-media">
+            <div className="arch-intro-layered-frame">
+              {/* Static Background Layer */}
+              
+              
+              {/* Animated Buildings & Map Pins Layer */}
+              <motion.img 
+                src={BUILDINGS_LAYER} 
+                alt="Kerala Buildings" 
+                className="arch-buildings-layer"
+                initial={{ opacity: 0, scaleY: 0.8, y: 40 }}
+                whileInView={{ opacity: 1, scaleY: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                style={{ transformOrigin: "bottom center" }}
+              />
             </div>
-
-            {/* Handwritten overlay decoration */}
-            {/* <div className="arch-handwritten-note">
-              <span>More than real estate</span>
-            </div> */}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

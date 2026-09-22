@@ -25,13 +25,6 @@
   height: 100%;
   object-fit:cover;
   object-position: center 30%;
-  transform: scale(1.03);
-  transition: transform 12s cubic-bezier(0.16, 1, 0.3, 1);
-  /* filter: brightness(0.88) contrast(1.05); */
-}
-
-.arch-hero:hover .arch-hero-img {
-  transform: scale(1);
 }
 
 /* .arch-hero-overlay {
@@ -110,6 +103,16 @@
   margin-bottom: 1.5rem;
 }
 
+
+.hero_layerimg{
+width: 55%;
+height: 75%;
+  object-fit: cover;
+ position: absolute;
+top: 250px;
+    left: 691px;
+
+}
 /* Filled Green Pill Button */
 .arch-btn-explore-green {
   display: inline-flex;
@@ -128,9 +131,9 @@
 }
 
 .arch-btn-explore-green:hover {
-  background-color: #24352A;
+  background-color: #cacaca;
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(52, 72, 59, 0.4);
+  box-shadow: 0 12px 30px rgba(163, 163, 163, 0.4);
 }
 
 .arch-btn-explore-green .arr {

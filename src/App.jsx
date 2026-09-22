@@ -23,7 +23,6 @@ function HomePage() {
         <SectionIntro />
         <PropertyWorlds />
         <FeaturedProperties />
-        <WhyUs />
         <FinalCTA />
       </main>
       <Footer />

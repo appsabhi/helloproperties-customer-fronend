@@ -92,6 +92,7 @@ const FeaturedProperties = () => {
       specs: formatSpecs(p),
       price: p.priceFormatted || "Price on Request",
       listingType: p.listingType === "Rent" ? "For Rent" : "For Sale",
+      status: p.status,
       img: p.imageUrl || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85",
     }));
   } else {
@@ -137,6 +138,11 @@ const FeaturedProperties = () => {
                 <div className="arch-card-top-badges">
                   <span className="arch-pill-badge-type">{prop.type}</span>
                   <span className="arch-pill-badge-status">{prop.listingType}</span>
+                  {prop.status && prop.status !== 'Available' && (
+                    <span className="arch-pill-badge-status" style={{ backgroundColor: prop.status === 'Sold' ? '#334155' : prop.status === 'Under Negotiation' ? '#d97706' : '#dc2626' }}>
+                      {prop.status}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -153,7 +159,7 @@ const FeaturedProperties = () => {
                 <h3 className="arch-card-item-title">{prop.title}</h3>
                 
                 <div className="arch-card-specs-row">
-                  <span className="spec-item">{prop.specs}</span>
+                  {/* <span className="spec-item">{prop.specs}</span> */}
                 </div>
 
                 <div className="arch-card-bottom-bar">

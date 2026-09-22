@@ -1,7 +1,7 @@
 /* Featured Properties Grid Styles */
 .arch-featured-section {
   padding: 5rem 0 7rem 0;
-  background-color: var(--bg-ivory, #F8F7F4);
+  background-color:#ffffff;
   position: relative;
 }
 
@@ -19,7 +19,7 @@
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.2em;
-  color: #5A5C59;
+  color: #9D073A;
   margin-bottom: 0.5rem;
   display: block;
 }
@@ -30,7 +30,7 @@
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  color: #000000;
+  color:#3D1C22;
 }
 
 .arch-view-all-link {

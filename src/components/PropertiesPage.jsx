@@ -399,14 +399,30 @@ const PropertiesPage = () => {
                     <article key={prop.id} className="ref-prop-card">
                       {/* Top Image Frame */}
                       <div className="ref-card-img-frame">
-                        <img
-                          src={prop.imageUrl}
-                          alt={prop.title}
-                          className="ref-card-img"
-                          loading="lazy"
-                        />
+                        {prop.imageUrl ? (
+                          <img
+                            src={prop.imageUrl}
+                            alt={prop.title}
+                            className="ref-card-img"
+                            loading="lazy"
+                          />
+                        ) : prop.videoUrl || prop.video ? (
+                          <video
+                            src={prop.videoUrl || prop.video}
+                            className="ref-card-img"
+                            preload="metadata"
+                            muted
+                            playsInline
+                            style={{ objectFit: "cover" }}
+                          />
+                        ) : (
+                          <div className="ref-card-img" style={{ backgroundColor: "#e2e8f0" }} />
+                        )}
                         <div className="ref-card-badge">
                           <span>{prop.listingType === "Rent" ? "For Rent" : "For Sale"}</span>
+                          {prop.status && prop.status !== 'Available' && (
+                            <span style={{ marginLeft: '6px', backgroundColor: prop.status === 'Sold' ? '#334155' : prop.status === 'Under Negotiation' ? '#d97706' : '#dc2626', padding: '4px 8px', borderRadius: '4px', fontSize: '10px', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{prop.status}</span>
+                          )}
                         </div>
                       </div>
 
@@ -502,11 +518,24 @@ const PropertiesPage = () => {
 
             <div className="prop-modal-grid">
               <div className="modal-img-col">
-                <img
-                  src={selectedProperty.imageUrl}
-                  alt={selectedProperty.title}
-                  className="modal-hero-img"
-                />
+                {selectedProperty.imageUrl ? (
+                  <img
+                    src={selectedProperty.imageUrl}
+                    alt={selectedProperty.title}
+                    className="modal-hero-img"
+                  />
+                ) : selectedProperty.videoUrl || selectedProperty.video ? (
+                  <video
+                    src={selectedProperty.videoUrl || selectedProperty.video}
+                    className="modal-hero-img"
+                    preload="metadata"
+                    muted
+                    playsInline
+                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  />
+                ) : (
+                  <div className="modal-hero-img" style={{ backgroundColor: "#e2e8f0" }} />
+                )}
                 <div className="modal-img-badges">
                   <span className="prop-status-tag">{selectedProperty.status || "Available"}</span>
                   <span className="prop-type-badge">{selectedProperty.listingType || "Sale"}</span>

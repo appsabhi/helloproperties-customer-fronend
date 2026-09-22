@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "./Hero.css";
-import HERO_IMAGE from "../assets/png/Hero_img.jpg"
+import HERO_IMAGE from "../assets/png/bg_layer.png"
+import hero3 from "../assets/png/buildings_layer.png"
 
 
 const Hero = () => {
@@ -32,6 +33,15 @@ const Hero = () => {
       {/* Background Image & Gradient Overlay */}
       <div className="arch-hero-bg">
         <img src={HERO_IMAGE} alt="Kerala Luxury Contemporary Villa in Landscape" className="arch-hero-img" />
+        <motion.img
+          className="hero_layerimg"
+          src={hero3}
+          alt="Buildings Overlay"
+          initial={{ opacity: 0, scaleY: 0.8, y: 40 }}
+          animate={{ opacity: 1, scaleY: 1, y: 0 }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          style={{ transformOrigin: 'bottom center', pointerEvents: 'none' }}
+        />
         <div className="arch-hero-overlay"></div>
       </div>
 
@@ -39,9 +49,9 @@ const Hero = () => {
         <div className="hp-container">
           <motion.div 
             className="arch-hero-text-block"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, x: -60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* <span className="arch-hero-tag">PREMIUM PROPERTIES IN KERALA</span> */}
             
@@ -87,6 +97,8 @@ const Hero = () => {
             <span className="scroll-text">SCROLL TO EXPLORE</span>
             <span className="scroll-arrow animate-float">↓</span>
           </button>
+
+
         </div>
       </div>
 

@@ -67,7 +67,7 @@ const PropertyWorlds = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <div>
-            <span className="meta-label">TYPOLOGIES</span>
+            <span className="meta-label">CATEGORIES</span>
             <h2 className="arch-category-title">EXPLORE BY PROPERTY TYPE</h2>
           </div>
         </motion.div>

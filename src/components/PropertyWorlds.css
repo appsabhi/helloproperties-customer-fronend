@@ -1,7 +1,7 @@
 /* Explore by Category Section Styles matching reference image */
 .arch-category-section {
   padding: 4rem 0 6rem 0;
-  background-color: #F3F0E8;
+  background-color: #ffffff;
   position: relative;
 }
 
@@ -19,7 +19,7 @@
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.22em;
-  color: var(--color-muted);
+  color:#9F0B3D;
   margin-bottom: 0.5rem;
   display: block;
 }
@@ -30,7 +30,7 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  color: var(--color-charcoal);
+  color:#3D1C22 ;
 }
 
 /* 12-Column Varied Bento Grid (Large, Small, Medium, Wide) */
