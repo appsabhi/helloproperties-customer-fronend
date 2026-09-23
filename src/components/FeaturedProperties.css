@@ -27,7 +27,7 @@
 .arch-featured-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-size: clamp(1.3rem, 3.2vw, 2.6rem);
   text-transform: uppercase;
   letter-spacing: -0.01em;
   color:#3D1C22;
@@ -38,7 +38,7 @@
   align-items: center;
   gap: 0.6rem;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   color: #000000;

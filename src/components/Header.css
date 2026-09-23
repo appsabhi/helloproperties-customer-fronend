@@ -1,25 +1,60 @@
-.arch-header {
+.arch-header-wrapper {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width:100%;
-  max-width:100%;
+  width: 100%;
+  max-width: 1000px;
   z-index: 1000;
-  padding: 0.6rem 2rem;
-  
-  /* background-color: #ffffff; */
-  color: rgb(255, 255, 255);
-  box-shadow: 0 4px 24px rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  /* The shadow will be applied to the pseudo-element inside arch-header so it follows the 3D shape */
+}
+
+.arch-header {
+  width: 100%;
+  padding: 1rem 4rem;
+  color: var(--color-charcoal, #333); /* Dark text for white background */
   font-family: var(--font-header);
+  position: relative;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.arch-header-scrolled {
-  padding: 0.8rem 2rem;
-  top: 10px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+/* 3D Perspective trick for rounded trapezoid */
+.arch-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 0 0 32px 32px;
+  transform: perspective(150px) rotateX(-8deg); /* Increased bend here */
+  transform-origin: top center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  z-index: -1;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arch-header-scrolled-wrapper {
+  position: fixed;
+  top: 15px; /* Margin from top when scrolled */
+  max-width: 900px; /* Smaller width */
+  border-radius: 32px; /* Ensure wrapper respects border radius */
+}
+
+.arch-header-scrolled-wrapper .arch-header {
+  padding: 0.8rem 3rem; /* Slightly tighter padding */
+}
+
+.arch-header-scrolled-wrapper .arch-header::before {
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 32px; /* Full rounded corners when floating */
+  transform: perspective(200px) rotateX(0deg); /* Flatten out the perspective when it's a pill */
 }
 
 .arch-header-inner {
@@ -63,7 +98,7 @@
 .arch-nav-item {
   font-family: var(--font-header);
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.2em;
   color: inherit;
   opacity: 0.85;
@@ -138,8 +173,8 @@
 }
 
 .arch-btn-list-property:hover {
-  background-color:transparent;
-  color: #ffffff;
+  background-color: transparent;
+  color: var(--color-charcoal, #9F0B3D); /* Use dark or red text since header is white */
 }
 
 /* Toggle Menu Icon */
@@ -273,6 +308,44 @@
     display: flex;
   }
   .arch-btn-list-property {
-    display: none;
+    /* Made visible on mobile per reference mockup */
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .arch-header-wrapper {
+    width: 92%; 
+    top: 0; 
+  }
+  .arch-header {
+    padding: 0.75rem 1.25rem;
+        margin-top: 10px; /* Adjusted padding to fit button */
+  }
+  .arch-header::before {
+    border-radius: 12px; /* Reduced from 32px */
+    transform: perspective(150px) rotateX(0deg); /* Flattened for the pill shape */
+    backdrop-filter: none; /* Removed heavy blur to fix scrolling lag */
+    -webkit-backdrop-filter: none;
+    background-color: #FFFFFF; /* Solid color instead of semi-transparent blur */
+  }
+  .arch-header-scrolled-wrapper {
+    top: 0; 
+    width: 92%;
+  }
+  .arch-header-scrolled-wrapper .arch-header {
+    padding: 1.25rem 1.25rem; 
+  }
+  .arch-header-scrolled-wrapper .arch-header::before {
+    border-radius: 12px; /* Reduced from 32px */
+    transform: perspective(150px) rotateX(0deg); /* Flattened for the pill shape */
+    backdrop-filter: none; /* Prevent scroll lag */
+    -webkit-backdrop-filter: none;
+    background-color: #FFFFFF; /* Solid color */
+  }
+  .arch-logo-img {
+    height: 42px; /* Slightly bigger to match the increased padding */
   }
 }

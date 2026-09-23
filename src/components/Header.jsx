@@ -35,77 +35,79 @@ const Header = () => {
 
   return (
     <>
-      <header className={`arch-header ${isHeaderSolid ? "arch-header-scrolled" : ""}`}>
-        <div className="arch-header-inner">
-             {/* Center: Minimal Logo */}
-          <Link to="/" className="arch-brand-logo">
-            <img 
-              src={logoStatic} 
-              alt="HelloProperties Kerala" 
-              className="arch-logo-img" 
-            />
-          </Link>
+      <div className={`arch-header-wrapper ${isHeaderSolid ? "arch-header-scrolled-wrapper" : ""}`}>
+        <header className="arch-header">
+          <div className="arch-header-inner">
+               {/* Center: Minimal Logo */}
+            <Link to="/" className="arch-brand-logo">
+              <img 
+                src={logoStatic} 
+                alt="HelloProperties Kerala" 
+                className="arch-logo-img" 
+              />
+            </Link>
 
-          {/* Right Side Actions */}
-          {/* Left: Navigation Links */}
-          <nav className="arch-nav-desktop">
-            <Link to="/" className={`arch-nav-item ${isHomePage ? "active-route" : ""}`}>HOME</Link>
-            <Link to="/about" className={`arch-nav-item ${isAboutPage ? "active-route" : ""}`}>ABOUT</Link>
-            <Link to="/properties" className={`arch-nav-item ${isPropertiesPage ? "active-route" : ""}`}>PROPERTIES</Link>
-            <Link to="/contact" className={`arch-nav-item ${isContactPage ? "active-route" : ""}`}>CONTACT</Link>
-          </nav>
-
-       
-          <div className="arch-header-right">
-            
-            <button 
-              type="button" 
-              className="arch-btn-list-property"
-              onClick={openTouchModal}
-            >
-              <span>GET IN TOUCH</span>
-            </button>
-
-            {/* Minimal Mobile Menu Icon */}
-            <button
-              type="button"
-              className="arch-menu-toggle"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle navigation menu"
-            >
-              <span className={`arch-toggle-line ${mobileOpen ? "open" : ""}`}></span>
-              <span className={`arch-toggle-line ${mobileOpen ? "open" : ""}`}></span>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Drawer Menu */}
-        <div className={`arch-mobile-drawer ${mobileOpen ? "active" : ""}`}>
-          <div className="arch-drawer-backdrop" onClick={() => setMobileOpen(false)}></div>
-          <div className="arch-drawer-content">
-            <div className="arch-drawer-header">
-              <img src={logoStatic} alt="HelloProperties Kerala" className="arch-drawer-logo-img" />
-              <button className="arch-drawer-close" onClick={() => setMobileOpen(false)}>✕</button>
-            </div>
-            <nav className="arch-drawer-nav">
-              <Link to="/" onClick={() => setMobileOpen(false)}>HOME</Link>
-              <Link to="/about" onClick={() => setMobileOpen(false)}>ABOUT</Link>
-              <Link to="/properties" onClick={() => setMobileOpen(false)}>PROPERTIES</Link>
-              <Link to="/contact" onClick={() => setMobileOpen(false)}>CONTACT</Link>
+            {/* Right Side Actions */}
+            {/* Left: Navigation Links */}
+            <nav className="arch-nav-desktop">
+              <Link to="/" className={`arch-nav-item ${isHomePage ? "active-route" : ""}`}>HOME</Link>
+              <Link to="/about" className={`arch-nav-item ${isAboutPage ? "active-route" : ""}`}>ABOUT</Link>
+              <Link to="/properties" className={`arch-nav-item ${isPropertiesPage ? "active-route" : ""}`}>PROPERTIES</Link>
+              <Link to="/contact" className={`arch-nav-item ${isContactPage ? "active-route" : ""}`}>CONTACT</Link>
             </nav>
-            <div className="arch-drawer-footer">
+
+         
+            <div className="arch-header-right">
+              
               <button 
                 type="button" 
-                className="arch-btn-list-property-full" 
+                className="arch-btn-list-property"
                 onClick={openTouchModal}
               >
-                GET IN TOUCH
+                <span>GET IN TOUCH</span>
               </button>
-              <p className="arch-drawer-contact">hello@helloproperties.in • +91 98765 43210</p>
+
+              {/* Minimal Mobile Menu Icon */}
+              <button
+                type="button"
+                className="arch-menu-toggle"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label="Toggle navigation menu"
+              >
+                <span className={`arch-toggle-line ${mobileOpen ? "open" : ""}`}></span>
+                <span className={`arch-toggle-line ${mobileOpen ? "open" : ""}`}></span>
+              </button>
             </div>
           </div>
-        </div>
-      </header>
+
+          {/* Mobile Drawer Menu */}
+          <div className={`arch-mobile-drawer ${mobileOpen ? "active" : ""}`}>
+            <div className="arch-drawer-backdrop" onClick={() => setMobileOpen(false)}></div>
+            <div className="arch-drawer-content">
+              <div className="arch-drawer-header">
+                <img src={logoStatic} alt="HelloProperties Kerala" className="arch-drawer-logo-img" />
+                <button className="arch-drawer-close" onClick={() => setMobileOpen(false)}>✕</button>
+              </div>
+              <nav className="arch-drawer-nav">
+                <Link to="/" onClick={() => setMobileOpen(false)}>HOME</Link>
+                <Link to="/about" onClick={() => setMobileOpen(false)}>ABOUT</Link>
+                <Link to="/properties" onClick={() => setMobileOpen(false)}>PROPERTIES</Link>
+                <Link to="/contact" onClick={() => setMobileOpen(false)}>CONTACT</Link>
+              </nav>
+              <div className="arch-drawer-footer">
+                <button 
+                  type="button" 
+                  className="arch-btn-list-property-full" 
+                  onClick={openTouchModal}
+                >
+                  GET IN TOUCH
+                </button>
+                <p className="arch-drawer-contact">hello@helloproperties.in • +91 98765 43210</p>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
 
       {/* Get In Touch Modal */}
       <GetInTouchModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />

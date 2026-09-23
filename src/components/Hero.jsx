@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "./Hero.css";
-import HERO_IMAGE from "../assets/png/bg_layer.png"
+import bgLayer from "../assets/png/bg_layer.png"
+import heroLeftImg from "../assets/png/hero-left_img.png"
 import hero3 from "../assets/png/buildings_layer.png"
-
+import mobileBgLayer from "../assets/png/mobile_bg_layer.png"
+import mobileHero3 from "../assets/png/mobile_buildings_layer.png"
+import mobileHeroLeftImg from "../assets/png/mobile_hero-left_img.png"
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -28,20 +31,46 @@ const Hero = () => {
     }
   };
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 640);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <section className="arch-hero">
       {/* Background Image & Gradient Overlay */}
       <div className="arch-hero-bg">
-        <img src={HERO_IMAGE} alt="Kerala Luxury Contemporary Villa in Landscape" className="arch-hero-img" />
-        <motion.img
-          className="hero_layerimg"
-          src={hero3}
-          alt="Buildings Overlay"
-          initial={{ opacity: 0, scaleY: 0.8, y: 40 }}
-          animate={{ opacity: 1, scaleY: 1, y: 0 }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          style={{ transformOrigin: 'bottom center', pointerEvents: 'none' }}
+        {/* Dynamic Background */}
+        <img 
+          src={isMobile ? mobileBgLayer : bgLayer} 
+          alt="Background layer" 
+          className="arch-hero-bg-img" 
         />
+        
+        {/* Dynamic Left Wave/Sketches */}
+        <div className="arch-left-img_container">
+          <img 
+            src={isMobile ? mobileHeroLeftImg : heroLeftImg} 
+            alt="Hero Left Layer" 
+            className="arch-hero-left-img" 
+          />
+        </div>
+
+        {/* Dynamic Animated Buildings Layer */}
+        <motion.img
+          key={isMobile ? "mobile-buildings" : "desktop-buildings"}
+          className={`hero_layerimg ${isMobile ? "mobile-layer" : "desktop-layer"}`}
+          src={isMobile ? mobileHero3 : hero3}
+          alt="Buildings Overlay"
+          initial={{ opacity: 0, y: -60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          style={{ pointerEvents: 'none' }}
+        />
+
         <div className="arch-hero-overlay"></div>
       </div>
 

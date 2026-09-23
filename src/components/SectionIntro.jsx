@@ -22,8 +22,7 @@ const SectionIntro = () => {
             <h2 className="arch-intro-headline">
               PROPERTY IS NOT JUST<br />
               A PLACE TO OWN.<br />
-              IT IS A LANDSCAPE<br />
-              TO BELONG TO.
+             
             </h2>
 
             <p className="arch-intro-body">
