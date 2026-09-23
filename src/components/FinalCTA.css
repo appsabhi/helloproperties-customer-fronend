@@ -62,7 +62,7 @@
 .arch-finalcta-headline {
   font-family: var(--font-display, "TT Hazelnuts Trial", sans-serif);
   font-weight: 700;
-  font-size: clamp(2.1rem, 6vw, 4.5rem);
+  font-size: clamp(2rem, 6vw, 4.5rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: #FFFFFF;
@@ -144,6 +144,10 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+.arch-finalcta-section{
+padding: 3rem 0 ;
+}
+
   .arch-finalcta-box {
     padding: 3rem 1.5rem;
     border-radius: 12px;
