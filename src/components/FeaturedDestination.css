@@ -52,7 +52,7 @@
 }
 
 .arch-featdest-meta {
-  color: var(--color-gold);
+  color: var(--color-burgundy);
   letter-spacing: 0.28em;
   margin-bottom: 1.25rem;
 }
@@ -81,7 +81,7 @@
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2.75rem;
-  border-left: 2px solid var(--color-gold);
+  border-left: 2px solid var(--color-burgundy);
   padding-left: 1.25rem;
 }
 
@@ -90,8 +90,8 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1.15rem 2.5rem;
-  background-color: var(--bg-ivory);
-  color: var(--color-charcoal);
+  background-color: var(--bg-primary);
+  color: var(--color-black);
   font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 600;
@@ -100,7 +100,7 @@
 }
 
 .arch-btn-featdest:hover {
-  background-color: var(--color-forest);
+  background-color: var(--color-burgundy);
   color: #FFFFFF;
 }
 

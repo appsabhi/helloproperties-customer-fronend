@@ -73,6 +73,11 @@ const PropertiesPage = () => {
       if (match) setActiveCategory(match);
     }
 
+    const qParam = searchParams.get("q");
+    if (qParam) {
+      setSearchQuery(qParam);
+    }
+
     const propId = searchParams.get("id");
     if (propId && properties.length > 0) {
       const matchProp = properties.find((p) => String(p.id) === String(propId));

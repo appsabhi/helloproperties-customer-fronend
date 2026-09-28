@@ -1,4 +1,4 @@
-/* Explore by Category Section Styles matching reference image */
+/* PropertyWorlds Section Styles */
 .arch-category-section {
   padding: 4rem 0 6rem 0;
   background-color: #ffffff;
@@ -19,7 +19,7 @@
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.22em;
-  color:#9F0B3D;
+  color: var(--color-burgundy);
   margin-bottom: 0.5rem;
   display: block;
 }
@@ -30,184 +30,213 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  color:#3D1C22 ;
+  color: #3D1C22;
 }
 
-/* 12-Column Varied Bento Grid (Large, Small, Medium, Wide) */
-.arch-category-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
+/* Horizontal Expanding Gallery (Accordion) */
+.mnzil-accordion-gallery {
+  display: flex;
+  width: 100%;
+  height: clamp(400px, 50vh, 550px);
   gap: 1rem;
+  padding: 0;
+  z-index: 20;
 }
 
-/* Card Size Variations */
-.cat-card-large-hero {
-  grid-column: span 7;
-  height: 380px;
-}
-
-.cat-card-large {
-  grid-column: span 5;
-  height: 380px;
-}
-
-.cat-card-small {
-  grid-column: span 4;
-  height: 270px;
-}
-
-.cat-card-wide {
-  grid-column: span 7;
-  height: 290px;
-}
-
-.cat-card-medium {
-  grid-column: span 5;
-  height: 290px;
-}
-
-/* Base Card Styling (Non-clickable Category Showcase) */
-.arch-category-card {
+.mnzil-accordion-panel {
+  flex: 1;
   position: relative;
+  border-radius: 20px;
   overflow: hidden;
-  border-radius: 14px;
-  cursor: default;
-  background-color: #111310;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  background-color: #E2E8F0;
+  transition: flex 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  outline: none;
 }
 
-.arch-cat-media {
+/* Base Hover Behavior (Desktop) */
+@media (min-width: 769px) {
+  .mnzil-accordion-gallery:hover .mnzil-accordion-panel,
+  .mnzil-accordion-gallery:has(:focus-visible) .mnzil-accordion-panel {
+    flex: 0.8; /* Narrow inactive neighbors */
+  }
+  
+  .mnzil-accordion-panel:hover,
+  .mnzil-accordion-panel:focus-visible {
+    flex: 3 !important; /* Expand active panel */
+    box-shadow: 0 25px 50px rgba(74, 4, 20, 0.15);
+  }
+}
+
+.mnzil-accordion-panel:focus-visible {
+  outline: 3px solid var(--color-burgundy);
+  outline-offset: 4px;
+}
+
+.mnzil-accordion-img-wrap {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.arch-cat-img {
+.mnzil-accordion-img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: brightness(0.85) contrast(1.05);
+  display: block;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.arch-category-card:hover .arch-cat-img {
-  transform: scale(1.06);
-}
-
-.arch-cat-overlay {
+.mnzil-accordion-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(17, 19, 16, 0.25) 0%,
-    rgba(17, 19, 16, 0.1) 40%,
-    rgba(17, 19, 16, 0.88) 100%
-  );
+  background: linear-gradient(to top, rgba(20, 0, 5, 0.8) 0%, rgba(20, 0, 5, 0.2) 40%, transparent 100%);
+  opacity: 0.7;
+  transition: opacity 0.45s ease;
 }
 
-.arch-cat-content {
+.mnzil-accordion-panel:hover .mnzil-accordion-overlay,
+.mnzil-accordion-panel:focus-visible .mnzil-accordion-overlay {
+  opacity: 0.9;
+}
+
+.mnzil-accordion-panel:hover .mnzil-accordion-img-wrap img,
+.mnzil-accordion-panel:focus-visible .mnzil-accordion-img-wrap img {
+  transform: scale(1.05); /* Gentle internal zoom */
+}
+
+/* Expanded Content Details */
+.mnzil-accordion-content {
   position: absolute;
-  inset: 0;
-  padding: 1.5rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.5rem 2rem;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  z-index: 5;
-  color: #FFFFFF;
+  pointer-events: none; /* Let clicks pass to panel */
 }
 
-.arch-cat-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.arch-cat-badge {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  background: rgba(23, 24, 23, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 0.2rem 0.5rem;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  letter-spacing: 0.5px;
-}
-
-.arch-cat-title {
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.8vw, 1.55rem);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  margin-bottom: 0.25rem;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.arch-cat-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.arch-cat-sub {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.arch-cat-arrow {
-  font-size: 1rem;
-  color: #FFFFFF;
-  opacity: 0.7;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.arch-category-card:hover .arch-cat-arrow {
-  transform: translate(2px, -2px);
+.mnzil-accordion-panel:hover .mnzil-accordion-content,
+.mnzil-accordion-panel:focus-visible .mnzil-accordion-content {
   opacity: 1;
+  transform: translateY(0);
 }
 
-/* Responsive Grid Breakpoints */
-@media (max-width: 992px) {
-  .arch-category-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.85rem;
-  }
+.mnzil-accordion-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
 
-  .cat-card-large-hero,
-  .cat-card-large,
-  .cat-card-wide,
-  .cat-card-medium {
-    grid-column: span 2;
-    height: 320px;
-  }
+.mnzil-accordion-desc {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 1rem 0;
+  line-height: 1.4;
+  max-width: 320px; 
+}
 
-  .cat-card-small {
-    grid-column: span 1;
-    height: 250px;
+.mnzil-accordion-explore {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #FFFFFF;
+}
+
+.mnzil-arr {
+  transition: transform 0.3s ease;
+}
+
+.mnzil-accordion-panel:hover .mnzil-arr,
+.mnzil-accordion-panel:focus-visible .mnzil-arr {
+  transform: translateX(4px);
+}
+
+/* Collapsed Vertical Title */
+.mnzil-accordion-collapsed-title {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: translateX(-50%) rotate(180deg);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.mnzil-accordion-panel:hover .mnzil-accordion-collapsed-title,
+.mnzil-accordion-panel:focus-visible .mnzil-accordion-collapsed-title {
+  opacity: 0;
+}
+
+/* Mobile & Tablet Layout Adjustments */
+@media (max-width: 1024px) {
+  .mnzil-accordion-gallery {
+    height: 450px;
   }
 }
 
-@media (max-width: 640px) {
-  .arch-category-grid {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+@media (max-width: 768px) {
+  /* Swipeable Mobile Gallery instead of flex accordion */
+  .mnzil-accordion-gallery {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 1rem;
   }
-
-  .cat-card-large-hero,
-  .cat-card-large,
-  .cat-card-small,
-  .cat-card-wide,
-  .cat-card-medium {
-    grid-column: span 1;
-    height: 230px !important;
+  .mnzil-accordion-gallery::-webkit-scrollbar {
+    display: none;
   }
+  
+  .mnzil-accordion-panel {
+    flex: 0 0 calc(85vw);
+    scroll-snap-align: center;
+  }
+  
+  /* Always show content on mobile layout */
+  .mnzil-accordion-content {
+    opacity: 1;
+    transform: translateY(0);
+    padding: 1.5rem;
+  }
+  .mnzil-accordion-content h3 {
+    font-size: 1.4rem;
+  }
+  .mnzil-accordion-collapsed-title {
+    display: none;
+  }
+}
 
-  .arch-category-card {
-    border-radius: 10px;
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .mnzil-accordion-panel,
+  .mnzil-accordion-img-wrap img,
+  .mnzil-accordion-content,
+  .mnzil-accordion-overlay {
+    transition: none !important;
   }
 }

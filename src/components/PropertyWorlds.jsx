@@ -1,64 +1,29 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "./PropertyWorlds.css";
 
-const CATEGORIES = [
-  {
-    id: "plot-land",
-    title: "PLOT / LAND",
-    subtitle: "Prime Parcels & Acreage",
-    img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85",
-    sizeClass: "cat-card-large-hero",
-  },
-  {
-    id: "house-villa",
-    title: "HOUSE / VILLA",
-    subtitle: "Luxury Private Residences",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85",
-    sizeClass: "cat-card-large",
-  },
-  {
-    id: "apartment-flat",
-    title: "APARTMENT / FLAT",
-    subtitle: "Contemporary Urban Living",
-    img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
-    sizeClass: "cat-card-small",
-  },
-  {
-    id: "residential-plot",
-    title: "RESIDENTIAL PLOT",
-    subtitle: "Plotted Communities & Sites",
-    img: "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1200&q=85",
-    sizeClass: "cat-card-small",
-  },
-  {
-    id: "commercial-plot",
-    title: "COMMERCIAL PLOT",
-    subtitle: "High-Yield Business & Resort Land",
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
-    sizeClass: "cat-card-small",
-  },
-  {
-    id: "agricultural-land",
-    title: "AGRICULTURAL LAND",
-    subtitle: "Fertile Plantations & Farmland",
-    img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=85",
-    sizeClass: "cat-card-wide",
-  },
-  {
-    id: "industrial-plot",
-    title: "INDUSTRIAL PLOT",
-    subtitle: "Logistics & Manufacturing Zones",
-    img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=85",
-    sizeClass: "cat-card-medium",
-  },
+import villaImg from "../assets/hero-panels/villa_panel_1790572124793.jpg";
+import apartmentImg from "../assets/hero-panels/apartment_panel_1790572137625.jpg";
+import plotImg from "../assets/hero-panels/residential_plot_panel_1790572150494.jpg";
+import commercialImg from "../assets/hero-panels/commercial_panel_1790572163668.jpg";
+import landImg from "../assets/hero-panels/agricultural_land_panel_1790572177078.jpg";
+
+const categories = [
+  { id: "apartments", title: "Apartments", path: "/properties?type=Apartments", img: apartmentImg, desc: "Modern living spaces in prime city locations." },
+  { id: "plots", title: "Residential Plots", path: "/properties?type=Land", img: plotImg, desc: "Build your dream home on premium verified plots." },
+  { id: "villas", title: "Luxury Villas", path: "/properties?type=Villas", img: villaImg, desc: "Exclusive, spacious homes with premium amenities." },
+  { id: "commercial", title: "Commercial Spaces", path: "/properties?type=Commercial", img: commercialImg, desc: "Strategic locations for business growth and ROI." },
+  { id: "agricultural", title: "Agricultural Land", path: "/properties?type=Land", img: landImg, desc: "Fertile land and plantations across Kerala." },
 ];
 
 const PropertyWorlds = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="arch-category-section" id="categories">
       <div className="hp-container">
-        {/* Header - View All Button Removed */}
+        {/* Header */}
         <motion.div 
           className="arch-category-header"
           initial={{ opacity: 0, y: 30 }}
@@ -72,33 +37,47 @@ const PropertyWorlds = () => {
           </div>
         </motion.div>
 
-        {/* Varied Size Bento Grid (Non-clickable Category Showcase) */}
-        <div className="arch-category-grid">
-          {CATEGORIES.map((cat, index) => (
-            <motion.div
-              key={cat.id}
-              className={`arch-category-card ${cat.sizeClass}`}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40, y: 30 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.9, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+        {/* Horizontal Expanding Gallery */}
+        <div className="mnzil-accordion-gallery" role="region" aria-label="Property Categories">
+          {categories.map((cat) => (
+            <div 
+              key={cat.id} 
+              className="mnzil-accordion-panel"
+              tabIndex={0}
+              role="button"
+              aria-label={`View ${cat.title}`}
+              onClick={() => navigate(cat.path)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  navigate(cat.path);
+                } else if (e.key === 'ArrowRight') {
+                  e.preventDefault();
+                  e.currentTarget.nextElementSibling?.focus();
+                } else if (e.key === 'ArrowLeft') {
+                  e.preventDefault();
+                  e.currentTarget.previousElementSibling?.focus();
+                }
+              }}
             >
-              <div className="arch-cat-media">
-                <img src={cat.img} alt={cat.title} className="arch-cat-img" loading="lazy" />
-                <div className="arch-cat-overlay"></div>
+              <div className="mnzil-accordion-img-wrap">
+                <img src={cat.img} alt={cat.title} loading="lazy" />
+                <div className="mnzil-accordion-overlay"></div>
               </div>
-
-              <div className="arch-cat-content">
-                <div>
-                  <h3 className="arch-cat-title">{cat.title}</h3>
-                  <div className="arch-cat-bottom">
-                    <span className="arch-cat-sub">{cat.subtitle}</span>
-                  </div>
+              <div className="mnzil-accordion-content">
+                <h3>{cat.title}</h3>
+                <p className="mnzil-accordion-desc">{cat.desc}</p>
+                <div className="mnzil-accordion-explore">
+                  <span>Explore</span> <span className="mnzil-arr">→</span>
                 </div>
               </div>
-            </motion.div>
+              <div className="mnzil-accordion-collapsed-title">
+                <span>{cat.title}</span>
+              </div>
+            </div>
           ))}
         </div>
+
       </div>
     </section>
   );

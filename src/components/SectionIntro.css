@@ -2,7 +2,7 @@
 .arch-intro-section {
   padding: 6rem 0 8rem 0;
   background:linear-gradient(45deg, rgb(255, 255, 255), transparent);
-  color: var(--color-charcoal);
+  color: var(--color-black);
   position: relative;
 }
 
@@ -24,7 +24,7 @@
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.22em;
-  color:#9F0B3D;
+  color:var(--color-burgundy);
   margin-bottom: 1.25rem;
 }
 
@@ -36,7 +36,7 @@
   letter-spacing: -0.01em;
   text-transform: uppercase;
   margin-bottom: 1.75rem;
-  color: #3a1821;
+  color: var(--color-black);
 }
 
 .arch-intro-body {
@@ -44,7 +44,7 @@
   font-size: 0.98rem;
   font-weight: 500;
   line-height: 1.75;
-  color: #000000;
+  color: var(--color-muted);
   max-width: 540px;
   margin-bottom: 2.25rem;
 }
@@ -57,12 +57,12 @@
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color:#9F0B3D;
+  color:var(--color-burgundy);
   transition: color 0.3s ease;
 }
 
 .arch-intro-link:hover {
-  color: #5A5C59;
+  color: var(--color-black);
 }
 
 .arch-intro-link .arr {

@@ -1,441 +1,238 @@
-/* Architectural Hero Styles matching reference design with luxurious spacing */
-.arch-hero {
+/* Hero Section Redesign - Architectural Ivory */
+.mnzil-hero {
   position: relative;
   min-height: 100vh;
-  min-height: 100svh; /* Fixes mobile scroll jump when address bar hides */
+  min-height: 100svh;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding-top: 11rem;
-  padding-bottom: 4rem;
-  color: #FFFFFF;
+  justify-content: center;
+  background-color: #0A0A0A;
+  color: #FFFFFF; /* White text for dark background */
   overflow: hidden;
-  background-color: #131010;
-}
-
-/* Background Image & Gradient Overlay */
-.arch-hero-bg {
-  
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-
-.arch-left-img_container{
-  width:75%;
-  height: 100%;
-  background-color: transparent; /* Assuming you want the image to show, not a solid red background unless intended */
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  z-index: 2;
-}
-
-.arch-hero-bg-img,
-.arch-hero-left-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.arch-hero-left-img {
-   width: 60%;
-  height: 100%;
-  object-position: left center; /* Anchor strictly to the left */
-  z-index: 2;
-  opacity: 0.3;
-}
-
-/* .arch-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(17, 19, 16, 0.6) 0%,
-    rgba(17, 19, 16, 0.3) 45%,
-    rgba(17, 19, 16, 0.85) 100%
-  );
-} */
-
-/* Content Layout */
-.arch-hero-content {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  padding-top: 2rem;
+  padding-top: 8rem;
   padding-bottom: 3rem;
 }
 
-.arch-hero-text-block {
-  max-width: 580px; /* Reduced from 860px to keep text tightly within the white area */
-  margin-bottom: 4rem;
-  margin-top: 4rem; /* Push down slightly to align better vertically */
-}
-
-.arch-hero-tag {
-  display: inline-block;
-  font-family: 'Confine-Bold', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.85);
-  margin-bottom: 1.75rem;
-}
-
-.arch-hero-title {
-  font-family: 'Confine-Bold', sans-serif;
-  font-size: clamp(2.6rem, 4.5vw, 3.8rem); /* Reduced font size */
-  line-height: 1.05; /* Slightly increased line height for readability at this size */
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 2.2rem; 
-  color: #6C0521; /* Solid dark red to perfectly match the reference image */
-}
-
-.arch-hero-tagline {
-  font-family: 'Confine-Bold', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: #F3F0E8;
-  margin-bottom: 0.75rem;
-}
-
-.arch-hero-subtext {
-  font-family: 'Confine-Bold', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 300;
-  line-height: 1.7;
-  max-width: 620px;
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 2.75rem;
-}
-
-.arch-hero-ctas {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-
-
-.hero_layerimg {
-  width: 50%;
-  height: auto;
-  max-height: 80%;
-  object-fit: contain;
+.mnzil-hero-overlay {
   position: absolute;
-  bottom: 5%;
-  right: 5%; /* Anchor to the right instead of fixed left pixel */
-  z-index: 3;
-}
-
-/* Filled Green Pill Button */
-.arch-btn-explore-green {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.95rem 2.1rem;
-  background-color:#9F0B3D;
-  color: #FFFFFF;
-  font-family: var(--font-header);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  border-radius: 50px;
-  border: 1px solid transparent; /* Prevents button jumping on hover */
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 25px rgba(52, 72, 59, 0.3);
-}
-
-.arch-btn-explore-green:hover {
-  background-color: #FFFFFF;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(163, 163, 163, 0.4);
-  color: #9F0B3D;
-  border: 1px solid #9F0B3D;
-}
-
-.arch-btn-explore-green .arr {
-  transition: transform 0.3s ease;
-}
-
-.arch-btn-explore-green:hover .arr {
-  transform: translateX(4px);
-}
-
-/* Glass Outlined Pill Button */
-.arch-btn-discover-glass {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.95rem 2.1rem;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #FFFFFF;
-  font-family: var(--font-header);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  border-radius: 50px;
-  transition: all 0.35s ease;
-}
-
-.arch-btn-discover-glass:hover {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: #FFFFFF;
-  transform: translateY(-2px);
-}
-
-/* Floating Pill Search Bar */
-.arch-search-pill {
-  display: flex;
-  align-items: center;
-  background-color: rgba(243, 240, 232, 0.95);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  padding: 0.75rem 0.75rem 0.75rem 2rem;
-  border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
-  margin-top: 2rem;
-  margin-bottom: 3.5rem;
-  color: var(--color-charcoal);
-}
-
-.arch-search-field {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 0.35rem 1rem;
-}
-
-.arch-search-label {
-  font-family: var(--font-header);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  color: var(--color-muted);
-  margin-bottom: 0.2rem;
-}
-
-.arch-select-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.arch-field-icon {
-  color: var(--color-muted);
-}
-
-.arch-search-select {
-  background: transparent;
-  border: none;
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--color-charcoal);
-  cursor: pointer;
-  padding: 0;
-  width: 100%;
-}
-
-.arch-search-divider {
-  width: 1px;
-  height: 38px;
-  background-color: rgba(23, 24, 23, 0.12);
-}
-
-.arch-search-submit-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.95rem 2.4rem;
-  background-color: var(--color-forest);
-  color: #FFFFFF;
-  font-family: var(--font-header);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  border-radius: 50px;
-  transition: all 0.35s ease;
-}
-
-.arch-search-submit-pill:hover {
-  background-color: #24352A;
-  transform: translateY(-1px);
-}
-
-.arch-search-submit-pill .arr {
-  transition: transform 0.3s ease;
-}
-
-.arch-search-submit-pill:hover .arr {
-  transform: translateX(4px);
-}
-
-/* Scroll Indicator */
-.arch-scroll-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  color: rgba(255, 255, 255, 0.75);
-  font-family: var(--font-header);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  background: none;
-  cursor: pointer;
-  margin: 0 auto;
-  transition: color 0.3s ease;
-}
-
-.arch-scroll-indicator:hover {
-  color: #FFFFFF;
-}
-
-.scroll-arrow {
-  font-size: 0.9rem;
-}
-
-/* Bottom Curve Mask Wrapper */
-.arch-hero-curve-wrapper {
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  z-index: 15;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.3; /* Increased opacity */
+  z-index: 1;
   pointer-events: none;
 }
 
-.arch-hero-curve-svg {
+/* Background Depth & Patterns */
+.mnzil-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Decorative Cityscape Artwork */
+.cityscape-decor-full {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center right; /* Keeps the 3D models visible on the right */
+  background-repeat: no-repeat;
+  filter: opacity(0.85);
+  opacity: 0.8;
+  z-index: 4; /* Below interactive content */
+  pointer-events: none;
+}
+.mnzil-hero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  justify-content: center;
+  z-index: 10;
   position: relative;
-  display: block;
+  max-width: 1400px;
   width: 100%;
-  height: 50px;
 }
 
-/* Layer Visibility Toggles */
-.mobile-layer {
-  display: none !important;
+/* Headline Area */
+.mnzil-hero-content {
+  text-align: left;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 40; /* Crucial: Keeps dropdown above the gallery */
 }
 
-/* Responsive */
+.mnzil-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  margin-bottom: 2rem;
+}
+
+.mnzil-title-italic {
+  font-style: italic;
+  font-weight: 300;
+  color: #FFFFFF;
+  opacity: 0.9;
+}
+
+/* Location Search Bar */
+.mnzil-hero-search-wrapper {
+  position: relative;
+  max-width: 650px;
+  width: 90%;
+  margin: 0;
+}
+
+.mnzil-hero-search-bar {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 50px;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.mnzil-hero-search-bar:focus-within {
+  box-shadow: 0 20px 40px rgba(74, 4, 20, 0.1);
+  border-color: rgba(74, 4, 20, 0.2);
+}
+
+.mnzil-search-icon {
+  color: #888;
+  display: flex;
+  align-items: center;
+}
+
+.mnzil-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.8rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: #2A2A2A;
+  outline: none;
+}
+
+.mnzil-search-input::placeholder {
+  color: #A0A0A0;
+}
+
+.mnzil-search-clear {
+  background: none;
+  border: none;
+  color: #A0A0A0;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.mnzil-search-clear:hover {
+  color: #2A2A2A;
+}
+
+.mnzil-search-btn {
+  background-color: var(--color-burgundy);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 40px;
+  padding: 0.9rem 2rem;
+  font-family: var(--font-header);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.mnzil-search-btn:hover {
+  background-color: #3A020F;
+  transform: translateY(-1px);
+}
+
+.mnzil-search-btn:active {
+  transform: translateY(0);
+}
+
+/* Autocomplete Dropdown */
+.mnzil-search-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  z-index: 50;
+  text-align: left;
+}
+
+.mnzil-dropdown-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mnzil-dropdown-item {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: #444;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mnzil-dropdown-item:hover,
+.mnzil-dropdown-item.active {
+  background: rgba(74, 4, 20, 0.04);
+  color: var(--color-burgundy);
+}
+
+.mnzil-dropdown-item svg {
+  color: var(--color-burgundy);
+  opacity: 0.7;
+}
+
+.mnzil-dropdown-empty {
+  padding: 1.5rem;
+  color: #888;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Mobile & Tablet Layout Adjustments */
 @media (max-width: 1024px) {
-  .arch-hero {
-    padding-top: 9rem;
-  }
-  .arch-left-img_container {
-    width: 90%;
-  }
-  .arch-hero-left-img {
-    width: 80%;
-  }
-  
-  /* Shrink buildings slightly on tablet to prevent overlapping text */
-  .hero_layerimg {
-    width: 45%;
-    right: -2%; /* Push slightly off-screen to save horizontal space */
-    bottom: 5%;
-  }
-
-  .arch-search-pill {
-    flex-direction: column;
-    align-items: stretch;
-    border-radius: 24px;
-    padding: 1.25rem;
-    gap: 0.75rem;
-  }
-  .arch-search-divider {
-    display: none;
-  }
-  .arch-search-submit-pill {
-    justify-content: center;
-    margin-top: 0.25rem;
+  .mnzil-hero {
+    padding-top: 7rem;
   }
 }
 
-@media (max-width: 640px) {
-  /* Toggle layers for mobile */
-  .arch-hero-content{
-padding-top: 10px;
-
+@media (max-width: 768px) {
+  .mnzil-hero-title {
+    font-size: clamp(2.2rem, 8vw, 3rem);
   }
-  .desktop-layer {
-    display: none !important;
+  .mnzil-hero-search-wrapper {
+    width: 95%;
   }
-  .mobile-layer {
-    display: block !important;
-  }
-  
-  /* Reset positioning for mobile buildings layer */
-  .hero_layerimg.mobile-layer {
-  width: 100%;
-  height: auto;
-  top:48%;
-  left: -2%;
-  object-fit: contain;
-  }
-
-  .arch-hero {
-    height: 1000px;
-    padding-top: 6rem;
-  }
-  .arch-left-img_container {
-    width: 100%;
-  }
-  .arch-hero-left-img {
-   width: 100%;
-  opacity: 0.2;
-   height: 44%;
-   object-fit: cover;
-   position: absolute;
-   top: 60px;
-   left: 0;
-    }
-  
-  .arch-hero-title {
-    font-size: 2.3rem; /* Increased from 1.9rem as requested */
-    line-height: 1.1;
-    margin-bottom:1rem;
-    align-items: start; /* Center the flex column spans */
-    text-align: left;
-    background: linear-gradient(to right, #A01041 0%, #870c36 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-  }
-  .arch-hero-text-block {
-    max-width: 100%;
-    margin-top: 6rem;
-    margin-bottom:0;
-    text-align: center; /* Center text inside block */
-    display: flex;
-    flex-direction: column;
-    align-items: start; /* Center contents */
-  }
-  .arch-hero-ctas {
-    flex-direction: column;
-    align-items: center; /* Center the button instead of left-align */
-  }
-  .arch-btn-explore-green, .arch-btn-discover-glass {
-    justify-content: center;
-    width: auto;
-    font-size: 0.6rem;
-    padding: 0.75rem 1.4rem;
+  .mnzil-search-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.8rem;
   }
 }

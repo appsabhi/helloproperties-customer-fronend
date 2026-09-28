@@ -1,7 +1,7 @@
 /* Kerala Destinations Section Styles */
 .arch-dest-section {
   padding: 8rem 0;
-  background-color: var(--bg-ivory-dark);
+  background-color: var(--bg-primary);
   position: relative;
 }
 
@@ -21,7 +21,7 @@
   text-transform: uppercase;
   letter-spacing: -0.01em;
   margin-top: 0.5rem;
-  color: var(--color-charcoal);
+  color: var(--color-black);
 }
 
 .arch-dest-subhead {
@@ -42,7 +42,7 @@
 /* Map Container */
 .arch-dest-map-container {
   position: relative;
-  background-color: var(--bg-ivory);
+  background-color: var(--bg-primary);
   padding: 3rem 2.5rem;
   border: 1px solid var(--color-border);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
@@ -83,7 +83,7 @@
   padding: 1.1rem 1.5rem;
   background-color: transparent;
   border: 1px solid var(--color-border);
-  color: var(--color-charcoal);
+  color: var(--color-black);
   font-family: var(--font-sans);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
@@ -110,20 +110,20 @@
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color: var(--color-gold);
+  color: var(--color-burgundy);
 }
 
 .arch-dest-pill:hover,
 .arch-dest-pill.active {
-  background-color: var(--color-forest);
+  background-color: var(--color-burgundy);
   color: #FFFFFF;
-  border-color: var(--color-forest);
+  border-color: var(--color-burgundy);
   transform: translateX(8px);
 }
 
 .arch-dest-pill:hover .pill-dot,
 .arch-dest-pill.active .pill-dot {
-  background-color: var(--color-gold);
+  background-color: var(--color-burgundy);
   transform: scale(1.4);
 }
 
@@ -185,14 +185,14 @@
   letter-spacing: 0.02em;
   margin-top: 0.3rem;
   margin-bottom: 0.5rem;
-  color: var(--color-charcoal);
+  color: var(--color-black);
 }
 
 .arch-dest-tagline {
   font-family: var(--font-serif);
   font-size: 1.2rem;
   font-style: italic;
-  color: var(--color-forest);
+  color: var(--color-burgundy);
   margin-bottom: 1.75rem;
 }
 
@@ -210,14 +210,14 @@
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.22em;
-  color: var(--color-gold);
+  color: var(--color-burgundy);
 }
 
 .types-value {
   font-family: var(--font-sans);
   font-size: 0.88rem;
   font-weight: 500;
-  color: var(--color-charcoal);
+  color: var(--color-black);
 }
 
 .arch-btn-explore-dest {
@@ -225,7 +225,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1.05rem 2.2rem;
-  background-color: var(--color-forest);
+  background-color: var(--color-burgundy);
   color: #FFFFFF;
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -236,7 +236,7 @@
 }
 
 .arch-btn-explore-dest:hover {
-  background-color: var(--color-charcoal);
+  background-color: var(--color-black);
 }
 
 .arch-btn-explore-dest .arr {

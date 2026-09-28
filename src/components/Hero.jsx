@@ -1,131 +1,147 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import "./Hero.css";
-import bgLayer from "../assets/png/bg_layer.png"
-import heroLeftImg from "../assets/png/hero-left_img.png"
-import hero3 from "../assets/png/buildings_layer.png"
-import mobileBgLayer from "../assets/png/mobile_bg_layer.png"
-import mobileHero3 from "../assets/png/mobile_buildings_layer.png"
-import mobileHeroLeftImg from "../assets/png/mobile_hero-left_img.png"
+
+import heroBgImg from "../assets/png/hero-bg-dark.png";
 
 const Hero = () => {
   const navigate = useNavigate();
-  const [location, setLocation] = useState("");
-  const [propertyType, setPropertyType] = useState("");
-  const [budget, setBudget] = useState("");
+  const { properties } = useCustomerProperties();
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const params = new URLSearchParams();
-    if (location) params.append("location", location);
-    if (propertyType) params.append("type", propertyType);
-    if (budget) params.append("budget", budget);
-    navigate(`/properties?${params.toString()}`);
-  };
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
+  const searchRef = useRef(null);
 
-  const scrollToExplore = () => {
-    const introSection = document.getElementById("brand-intro");
-    if (introSection) {
-      introSection.scrollIntoView({ behavior: "smooth" });
+  // Extract unique locations and districts from real database properties
+  const availableLocations = useMemo(() => {
+    if (!properties || properties.length === 0) return [];
+    const locs = new Set();
+    properties.forEach(p => {
+      if (p.location) locs.add(p.location.trim());
+      if (p.district) locs.add(p.district.trim());
+    });
+    return Array.from(locs).filter(Boolean).sort();
+  }, [properties]);
+
+  const filteredLocations = useMemo(() => {
+    if (!searchQuery) return [];
+    const q = searchQuery.toLowerCase();
+    return availableLocations.filter(loc => loc.toLowerCase().includes(q)).slice(0, 5);
+  }, [searchQuery, availableLocations]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSearchSubmit = (locToSearch = searchQuery) => {
+    setShowDropdown(false);
+    if (locToSearch.trim()) {
+      navigate(`/properties?q=${encodeURIComponent(locToSearch.trim())}`);
+    } else {
+      navigate("/properties");
     }
   };
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 640);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (activeSuggestionIndex >= 0 && activeSuggestionIndex < filteredLocations.length) {
+        handleSearchSubmit(filteredLocations[activeSuggestionIndex]);
+      } else {
+        handleSearchSubmit();
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveSuggestionIndex(prev => Math.min(prev + 1, filteredLocations.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveSuggestionIndex(prev => Math.max(prev - 1, -1));
+    } else if (e.key === "Escape") {
+      setShowDropdown(false);
+    }
+  };
 
   return (
-    <section className="arch-hero">
-      {/* Background Image & Gradient Overlay */}
-      <div className="arch-hero-bg">
-        {/* Dynamic Background */}
-        <img 
-          src={isMobile ? mobileBgLayer : bgLayer} 
-          alt="Background layer" 
-          className="arch-hero-bg-img" 
-        />
-        
-        {/* Dynamic Left Wave/Sketches */}
-        <div className="arch-left-img_container">
-          <img 
-            src={isMobile ? mobileHeroLeftImg : heroLeftImg} 
-            alt="Hero Left Layer" 
-            className="arch-hero-left-img" 
-          />
-        </div>
+    <section className="mnzil-hero" style={{ backgroundImage: `url(${heroBgImg})`, backgroundSize: "cover", backgroundPosition: "center right", backgroundRepeat: "no-repeat" }}>
 
-        {/* Dynamic Animated Buildings Layer */}
-        <motion.img
-          key={isMobile ? "mobile-buildings" : "desktop-buildings"}
-          className={`hero_layerimg ${isMobile ? "mobile-layer" : "desktop-layer"}`}
-          src={isMobile ? mobileHero3 : hero3}
-          alt="Buildings Overlay"
-          initial={{ opacity: 0, y: -60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          style={{ pointerEvents: 'none' }}
-        />
+      <div className="mnzil-hero-container hp-container">
+        {/* Charcoal Typography Headline */}
+        <div className="mnzil-hero-content">
+          <h1 className="mnzil-hero-title">
+            Find your place.<br/><span className="mnzil-title-italic">Feel at home.</span>
+          </h1>
 
-        <div className="arch-hero-overlay"></div>
-      </div>
-
-      <div className="arch-hero-content ">
-        <div className="hp-container">
-          <motion.div 
-            className="arch-hero-text-block"
-            initial={{ opacity: 0, x: -60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* <span className="arch-hero-tag">PREMIUM PROPERTIES IN KERALA</span> */}
-            
-            <h1 className="arch-hero-title ">
-              <span>FIND YOUR</span>
-              <span> PLACE IN THE</span>
-              <span> LANDSCAPE</span>
-            </h1>
-
-          
-
-        
-
-            <motion.div 
-              className="arch-hero-ctas"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-            >
-              
-              <button 
-                type="button" 
-                className="arch-btn-explore-green"
-                onClick={() => navigate("/properties")}
-              >
-                <span>EXPLORE PROPERTIES</span>
-                <span className="arr">→</span>
+          {/* Location Search Bar */}
+          <div className="mnzil-hero-search-wrapper" ref={searchRef}>
+            <div className="mnzil-hero-search-bar">
+              <div className="mnzil-search-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              </div>
+              <input 
+                type="text" 
+                placeholder="Search by city, area, or locality" 
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowDropdown(true);
+                  setActiveSuggestionIndex(-1);
+                }}
+                onFocus={() => setShowDropdown(true)}
+                onKeyDown={handleKeyDown}
+                className="mnzil-search-input"
+              />
+              {searchQuery && (
+                <button type="button" className="mnzil-search-clear" aria-label="Clear search" onClick={() => { setSearchQuery(""); searchRef.current?.querySelector('input').focus(); }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              )}
+              <button type="button" className="mnzil-search-btn" onClick={() => handleSearchSubmit()}>
+                Search properties
               </button>
-              
-            
-            </motion.div>
-          </motion.div>
+            </div>
 
-          {/* Floating Pill Search Bar */}
-         
-
-          {/* Scroll Indicator */}
-       
-
-
+            {/* Autocomplete Dropdown */}
+            {showDropdown && searchQuery && (
+              <div className="mnzil-search-dropdown">
+                {filteredLocations.length > 0 ? (
+                  <ul className="mnzil-dropdown-list" role="listbox">
+                    {filteredLocations.map((loc, idx) => (
+                      <li 
+                        key={idx} 
+                        role="option"
+                        aria-selected={idx === activeSuggestionIndex}
+                        className={`mnzil-dropdown-item ${idx === activeSuggestionIndex ? 'active' : ''}`}
+                        onClick={() => handleSearchSubmit(loc)}
+                        onMouseEnter={() => setActiveSuggestionIndex(idx)}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path></svg>
+                        <span>{loc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="mnzil-dropdown-empty">
+                    {properties.length === 0 ? "Loading locations..." : "No matching locations found."}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
+      </div>
     </section>
   );
 };
 
 export default Hero;
+
+

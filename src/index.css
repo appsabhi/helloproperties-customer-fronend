@@ -30,34 +30,32 @@
 }
 
 :root {
-  /* Red, Black & Architectural Palette */
-  --bg-ivory: #F8F7F4;           /* Warm Off-White / Architectural Base */
-  --bg-ivory-dark: #ECEAE3;      /* Subtle Neutral Contrast Tone */
-  --bg-dark: #0D0E0E;            /* Deep Obsidian Black */
-  --bg-dark-card: #181919;       /* Elevating Dark Card Surface */
+  /* Burgundy, Black, & White Theme */
+  --bg-primary: #F8F7F4;         /* Soft Off-White / Ivory */
+  --bg-secondary: #FFFFFF;       /* Pure White */
+  --bg-dark: #0A0A0A;            /* True Obsidian Black */
+  --bg-dark-card: #141414;       /* Slightly lighter black for elevation */
   
-  --color-red: #B81D24;          /* Primary Crimson Red Accent */
-  --color-red-dark: #801217;     /* Deep Burgundy Accent */
-  --color-forest: #B81D24;       /* Primary Brand Red Accent */
-  --color-forest-light: #D32F2F; /* Bright Crimson Highlight */
-  --color-gold: #B81D24;         /* Section Metadata Accent (Crimson Red) */
-  --color-charcoal: #000000;     /* Pure High-Contrast Black */
-  --color-muted: #5A5C59;        /* Secondary Muted Body Text */
-  --color-border: #E0DDD5;       /* Subtle Architectural Line */
-  --color-border-dark: #2A2C2B;  /* Dark Section Line */
-  --color-sand: #E8E5DC;         /* Soft Sand Neutral Surface */
+  --color-burgundy: #7A0B2E;     /* Distinctive Burgundy Accent */
+  --color-burgundy-dark: #5A0620;/* Deeper Burgundy */
+  --color-burgundy-light: #9B123F;/* Bright Burgundy */
   
-  /* Primary Display Typeface: GC Avalance / Confine-Bold */
-  --font-display: 'Confine-Bold', 'GCAvalance', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  --font-serif: 'GCAvalance', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  --font-sans: 'Manrope', 'GCAvalance', 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  --font-header: 'Manrope', 'GCAvalance', 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  --color-black: #0A0A0A;        /* Pure High-Contrast Black text */
+  --color-white: #FFFFFF;        /* White text on dark bgs */
+  --color-muted: #666666;        /* Secondary Muted Body Text */
+  --color-border: #E5E5E5;       /* Subtle Line */
+  --color-border-dark: #2A2A2A;  /* Dark Section Line */
+  
+  /* Typography */
+  --font-display: 'Confine-Bold', 'GCAvalance', 'Playfair Display', serif;
+  --font-sans: 'Manrope', 'Inter', system-ui, sans-serif;
+  --font-header: 'Manrope', 'Plus Jakarta Sans', sans-serif;
 
+  /* Spacing & Transitions */
   --transition-fast: 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-
-  --max-width: 1440px;
+  --max-width: 1400px;
 }
 
 *, *::before, *::after {
@@ -69,16 +67,16 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  background-color: var(--bg-ivory);
-  color: var(--color-charcoal);
+  background-color: var(--bg-primary);
+  color: var(--color-black);
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-ivory);
-  color: var(--color-charcoal);
+  background-color: var(--bg-primary);
+  color: var(--color-black);
   line-height: 1.6;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -106,13 +104,17 @@ body::before {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: var(--bg-ivory);
+  background-color: var(--bg-primary);
 }
 
 a {
   color: inherit;
   text-decoration: none;
   transition: color var(--transition-fast);
+}
+
+p {
+  font-family: 'Manrope', sans-serif;
 }
 
 button {
@@ -130,8 +132,8 @@ input, select, textarea {
 
 /* Global Selection Style */
 ::selection {
-  background-color: var(--color-forest);
-  color: #F3F0E8;
+  background-color: var(--color-burgundy);
+  color: var(--color-white);
 }
 
 /* Container Utility */
@@ -168,12 +170,12 @@ input, select, textarea {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: var(--color-gold);
+  color: var(--color-burgundy);
   display: inline-block;
 }
 
 .meta-label-dark {
-  color: var(--color-forest);
+  color: var(--color-burgundy-dark);
 }
 
 /* Custom Architectural Scrollbar */
@@ -181,13 +183,13 @@ input, select, textarea {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-ivory);
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
   background: #C4BEB0;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-forest);
+  background: var(--color-burgundy);
 }
 
 /* Animations */
