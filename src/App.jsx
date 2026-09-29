@@ -33,6 +33,9 @@ function HomePage() {
 function App() {
   return (
     <CustomerPropertyProvider>
+      {/* Page-wide Animated Gradient Blobs */}
+      <div className="page-blob page-blob-1"></div>
+      <div className="page-blob page-blob-2"></div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />

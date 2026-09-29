@@ -214,3 +214,73 @@ input, select, textarea {
 .animate-float {
   animation: floatSlow 3s ease-in-out infinite;
 }
+
+/* Page-wide Animated Gradient Blobs */
+.page-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-blob-1 {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, #B5244F, #6C0E24);
+  animation: pageBlobFloat1 18s ease-in-out infinite;
+}
+
+.page-blob-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #9D1B3E, #4A0818);
+  animation: pageBlobFloat2 22s ease-in-out infinite;
+}
+
+@keyframes pageBlobFloat1 {
+  0% {
+    top: -10%;
+    left: -10%;
+  }
+  25% {
+    top: -5%;
+    left: 70%;
+  }
+  50% {
+    top: 60%;
+    left: 80%;
+  }
+  75% {
+    top: 55%;
+    left: -5%;
+  }
+  100% {
+    top: -10%;
+    left: -10%;
+  }
+}
+
+@keyframes pageBlobFloat2 {
+  0% {
+    top: 60%;
+    right: -10%;
+  }
+  25% {
+    top: -10%;
+    right: 5%;
+  }
+  50% {
+    top: -5%;
+    right: 70%;
+  }
+  75% {
+    top: 65%;
+    right: 75%;
+  }
+  100% {
+    top: 60%;
+    right: -10%;
+  }
+}

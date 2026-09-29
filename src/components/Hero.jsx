@@ -76,7 +76,7 @@ const Hero = () => {
         {/* Charcoal Typography Headline */}
         <div className="mnzil-hero-content">
           <h1 className="mnzil-hero-title">
-        Find with confidence.<br/><span className="mnzil-title-italic">Invest with clarity.</span>
+        Find with confidence.<br/><span className="mnzil-title-italic"><span style={{ color: 'rgb(255, 90, 134)' }}>Invest</span> with clarity.</span>
           </h1>
 
           {/* Location Search Bar */}

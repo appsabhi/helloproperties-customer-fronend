@@ -1,7 +1,7 @@
 /* Section Intro Styles matching reference design */
 .arch-intro-section {
   padding: 6rem 0 8rem 0;
-  background:linear-gradient(45deg, rgb(255, 255, 255), transparent);
+  background:linear-gradient(45deg, rgba(255, 255, 255, 0.363), transparent);
   color: var(--color-black);
   position: relative;
 }
@@ -44,7 +44,10 @@
   font-size: 0.98rem;
   font-weight: 500;
   line-height: 1.75;
-  color: var(--color-muted);
+  color: #FFFFFF;
+  background-color: #7A0E2F;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
   max-width: 540px;
   margin-bottom: 2.25rem;
 }
