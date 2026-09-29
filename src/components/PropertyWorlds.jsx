@@ -3,18 +3,24 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "./PropertyWorlds.css";
 
-import villaImg from "../assets/hero-panels/villa_panel_1790572124793.jpg";
+import newHouseVillaImg from "../assets/hero-panels/new_house_villa.jpg";
+import newResidentialPlotImg from "../assets/hero-panels/new_residential_plot.jpg";
+import newIndustrialPlotImg from "../assets/hero-panels/new_industrial_plot.jpg";
+import newCommercialBuildingImg from "../assets/hero-panels/new_commercial_building.jpg";
+import newAgriculturalLandImg from "../assets/hero-panels/new_agricultural_land.jpg";
+
 import apartmentImg from "../assets/hero-panels/apartment_panel_1790572137625.jpg";
-import plotImg from "../assets/hero-panels/residential_plot_panel_1790572150494.jpg";
-import commercialImg from "../assets/hero-panels/commercial_panel_1790572163668.jpg";
-import landImg from "../assets/hero-panels/agricultural_land_panel_1790572177078.jpg";
+import commercialLandImg from "../assets/land-commercial.jpg";
 
 const categories = [
-  { id: "apartments", title: "Apartments", path: "/properties?type=Apartments", img: apartmentImg, desc: "Modern living spaces in prime city locations." },
-  { id: "plots", title: "Residential Plots", path: "/properties?type=Land", img: plotImg, desc: "Build your dream home on premium verified plots." },
-  { id: "villas", title: "Luxury Villas", path: "/properties?type=Villas", img: villaImg, desc: "Exclusive, spacious homes with premium amenities." },
-  { id: "commercial", title: "Commercial Spaces", path: "/properties?type=Commercial", img: commercialImg, desc: "Strategic locations for business growth and ROI." },
-  { id: "agricultural", title: "Agricultural Land", path: "/properties?type=Land", img: landImg, desc: "Fertile land and plantations across Kerala." },
+  { id: "plot-land", title: "Plot/Land", path: "/properties?type=Plot%2FLand", img: newResidentialPlotImg, desc: "Prime land parcels for versatile development." },
+  { id: "house-villa", title: "House/Villa", path: "/properties?type=House%2FVilla", img: newHouseVillaImg, desc: "Exclusive, spacious homes with premium amenities." },
+  { id: "apartment-flat", title: "Apartment/Flat", path: "/properties?type=Apartment%2FFlat", img: apartmentImg, desc: "Modern living spaces in prime city locations." },
+  { id: "commercial-building", title: "Commercial Building", path: "/properties?type=Commercial%20Building", img: newCommercialBuildingImg, desc: "Strategic locations for business growth." },
+  { id: "residential-plot", title: "Residential Plot", path: "/properties?type=Residential%20Plot", img: newResidentialPlotImg, desc: "Build your dream home on premium verified plots." },
+  { id: "commercial-plot", title: "Commercial Plot", path: "/properties?type=Commercial%20Plot", img: commercialLandImg, desc: "Ideal plots for commercial ventures and ROI." },
+  { id: "agricultural-land", title: "Agricultural Land", path: "/properties?type=Agricultural%20Land", img: newAgriculturalLandImg, desc: "Fertile land and plantations across Kerala." },
+  { id: "industrial-plot", title: "Industrial Plot", path: "/properties?type=Industrial%20Plot", img: newIndustrialPlotImg, desc: "Spacious plots for industrial development." },
 ];
 
 const PropertyWorlds = () => {
@@ -67,9 +73,6 @@ const PropertyWorlds = () => {
               <div className="mnzil-accordion-content">
                 <h3>{cat.title}</h3>
                 <p className="mnzil-accordion-desc">{cat.desc}</p>
-                <div className="mnzil-accordion-explore">
-                  <span>Explore</span> <span className="mnzil-arr">→</span>
-                </div>
               </div>
               <div className="mnzil-accordion-collapsed-title">
                 <span>{cat.title}</span>

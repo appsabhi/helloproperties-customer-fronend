@@ -2,18 +2,18 @@
    HELLOPROPERTIES — LUXURY KERALA REAL ESTATE DESIGN SYSTEM
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 /* GC Avalance Display Typeface */
 @font-face {
-  font-family: 'Confine-Bold';
-  src: url('./assets/custom_fonts/Confine-Bold.ttf') format('truetype');
+  font-family: 'ibrand';
+  src: url('./assets/custom_fonts/ibrand.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'GCAvalance';
   src: url('./assets/custom_fonts/GCAvalance-Medium.woff2') format('woff2');
   font-weight: 500;
@@ -27,7 +27,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 :root {
   /* Burgundy, Black, & White Theme */
@@ -47,9 +47,9 @@
   --color-border-dark: #2A2A2A;  /* Dark Section Line */
   
   /* Typography */
-  --font-display: 'Confine-Bold', 'GCAvalance', 'Playfair Display', serif;
-  --font-sans: 'Manrope', 'Inter', system-ui, sans-serif;
-  --font-header: 'Manrope', 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'ibrand', 'Playfair Display', serif;
+  --font-sans: 'DM Sans', 'Inter', system-ui, sans-serif;
+  --font-header: 'DM Sans', 'Plus Jakarta Sans', sans-serif;
 
   /* Spacing & Transitions */
   --transition-fast: 0.25s cubic-bezier(0.25, 1, 0.5, 1);
@@ -114,7 +114,11 @@ a {
 }
 
 p {
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
 }
 
 button {

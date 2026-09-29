@@ -52,11 +52,6 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="arch-footer-bottom">
           <p>© 2026 HELLOPROPERTIES KERALA. ALL RIGHTS RESERVED.</p>
-          <div className="footer-legal">
-            <a href="#privacy">PRIVACY POLICY</a>
-            <span>•</span>
-            <a href="#terms">TERMS OF SERVICE</a>
-          </div>
         </div>
       </div>
     </footer>

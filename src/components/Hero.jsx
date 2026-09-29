@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import "./Hero.css";
 
-import heroBgImg from "../assets/png/hero-bg-dark.png";
+import heroBgImg from "../assets/png/hero-bg-maroon.jpg";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ const Hero = () => {
         {/* Charcoal Typography Headline */}
         <div className="mnzil-hero-content">
           <h1 className="mnzil-hero-title">
-            Find your place.<br/><span className="mnzil-title-italic">Feel at home.</span>
+        Find with confidence.<br/><span className="mnzil-title-italic">Invest with clarity.</span>
           </h1>
 
           {/* Location Search Bar */}
