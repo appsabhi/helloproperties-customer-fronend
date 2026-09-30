@@ -66,7 +66,7 @@ const Header = () => {
                 className="arch-btn-list-property"
                 onClick={openTouchModal}
               >
-                <span>GET IN TOUCH</span>
+                <span>ENQUIRE NOW</span>
               </button>
 
               {/* Minimal Mobile Menu Icon */}
@@ -75,7 +75,7 @@ const Header = () => {
                 className="arch-menu-toggle"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle navigation menu"
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, alignItems: 'center', justifyContent: 'center' }}
               >
                 <MorphIcon icon={mobileOpen ? X : Menu} size={28} strokeWidth={1.5} color="currentColor" />
               </button>
@@ -102,7 +102,7 @@ const Header = () => {
                   className="arch-btn-list-property-full" 
                   onClick={openTouchModal}
                 >
-                  GET IN TOUCH
+                  ENQUIRE NOW
                 </button>
                 <p className="arch-drawer-contact">hello@helloproperties.in • +91 98765 43210</p>
               </div>

@@ -5,8 +5,8 @@ import { propertyCategories } from "./propertyCategories";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import "./Hero.css";
 
-import heroBgImg from "../assets/png/hero_web.jpeg";
-import heroMobileBgImg from "../assets/png/hero_mobile_img.png";
+import heroBgImg from "../assets/png/hero_new.jpg";
+import heroMobileBgImg from "../assets/png/hero_new_mobile.jpg";
 
 const MotionLink = motion.create(Link);
 
@@ -59,6 +59,25 @@ const Hero = () => {
       duration: reduceMotion ? 0 : 0.5,
       ease: [0.22, 1, 0.36, 1],
     });
+  };
+
+  const touchStartX = useRef(null);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchStartX.current - touchEndX;
+
+    if (deltaX > 50) {
+      slideCategories(1); // Swipe left -> Next
+    } else if (deltaX < -50) {
+      slideCategories(-1); // Swipe right -> Prev
+    }
+    touchStartX.current = null;
   };
 
   useEffect(() => () => cardOffset.stop(), [cardOffset]);
@@ -167,8 +186,8 @@ const Hero = () => {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
               )}
-              <button type="button" className="mnzil-search-btn" onClick={() => handleSearchSubmit()}>
-                Search properties
+              <button type="button" className="mnzil-search-btn" onClick={() => handleSearchSubmit()} aria-label="Search properties">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
               </button>
             </div>
 
@@ -210,7 +229,14 @@ const Hero = () => {
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: reduceMotion ? 0 : 1.2, ease: [0.25, 0.1, 0.25, 1] }}
         >
-        <nav className="mnzil-hero-categories" id="hero-property-types" aria-label="Browse property types" ref={categoryScrollRef}>
+        <nav 
+          className="mnzil-hero-categories" 
+          id="hero-property-types" 
+          aria-label="Browse property types" 
+          ref={categoryScrollRef}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {propertyCategories.map((category, index) => (
             <CurvedCategoryCard key={category.id} category={category} index={index} scrollX={scrollX} cardStep={cardStep} visibleCards={visibleCards} />
           ))}

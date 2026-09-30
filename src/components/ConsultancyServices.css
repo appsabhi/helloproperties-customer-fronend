@@ -1,0 +1,136 @@
+.hp-consultancy-section {
+  position: relative;
+  width: 100%;
+  padding: 8rem 0;
+  background-color: #fcfbfb; /* Soft ivory/light gray background */
+  overflow: hidden;
+}
+
+.hp-consultancy-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.hp-consultancy-title {
+  font-family: var(--font-display, "TT Hazelnuts Trial", sans-serif);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #111;
+  margin: 1rem 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.title-star {
+  color: var(--color-burgundy, #8a0b36);
+  font-size: 0.8em;
+  animation: slowSpin 10s linear infinite;
+}
+
+@keyframes slowSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.hp-consultancy-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hp-consultancy-card {
+  position: relative;
+  flex: 1 1 calc(33.333% - 2rem);
+  min-width: 300px;
+  max-width: 450px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  overflow: hidden;
+  text-align: left;
+}
+
+.hp-consultancy-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+}
+
+.hp-consultancy-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: rgba(138, 11, 54, 0.05); /* very light burgundy */
+  color: var(--color-burgundy, #8a0b36);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.hp-consultancy-card:hover .hp-consultancy-icon-wrapper {
+  background: var(--color-burgundy, #8a0b36);
+  color: #ffffff;
+}
+
+.hp-consultancy-card-title {
+  font-family: var(--font-sans, "Montserrat", sans-serif);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #111;
+  margin: 0 0 1rem;
+}
+
+.hp-consultancy-card-desc {
+  font-family: var(--font-sans, "Montserrat", sans-serif);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+/* Subtle Animated Hover Line */
+.hp-consultancy-hover-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 0%;
+  background: var(--color-burgundy, #8a0b36);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hp-consultancy-card:hover .hp-consultancy-hover-line {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .hp-consultancy-card {
+    flex: 1 1 calc(50% - 2rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .hp-consultancy-section {
+    padding: 0.5rem 0;
+  }
+  .hp-consultancy-card {
+    flex: 1 1 100%;
+  }
+
+  .hp-consultancy-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+}

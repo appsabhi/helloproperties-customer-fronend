@@ -5,55 +5,57 @@ import logo from "../assets/png/HelloProperties_static.png";
 
 const Footer = () => {
   return (
-    <div className="hp-footer-wrapper">
-      <footer className="hp-footer-card">
-        <div className="hp-footer-inner hp-container">
-          <div className="hp-footer-grid">
-            {/* Brand Info */}
-            <div className="hp-footer-brand">
-              <Link to="/" className="hp-footer-logo">
-                <img src={logo} alt="HelloProperties Kerala" className="hp-footer-logo-img" />
-              </Link>
-              <p className="hp-footer-tagline">
-                Curating exceptional architectural residences, tea plantation estates, and prime land across Kerala’s finest landscapes.
-              </p>
-            </div>
-
-            {/* Quick Nav */}
-            <div className="hp-footer-col">
-              <h4 className="hp-footer-col-title">Navigation</h4>
-              <ul className="hp-footer-links">
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
-                <li><Link to="/properties">Properties</Link></li>
-                <li><a href="#contact">Contact</a></li>
-              </ul>
-            </div>
-
-            {/* Contact Details */}
-            <div className="hp-footer-col">
-              <h4 className="hp-footer-col-title">Contact</h4>
-              <p className="hp-footer-info-text">hello@helloproperties.in</p>
-              <p className="hp-footer-info-text">+91 98765 43210</p>
-            </div>
-
-            {/* Social */}
-            <div className="hp-footer-col">
-              <h4 className="hp-footer-col-title">Follow</h4>
-              <ul className="hp-footer-links">
-                <li><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a></li>
-                <li><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a></li>
-              </ul>
-            </div>
+    <footer className="hp-footer-card">
+      {/* Animated decorative background blobs */}
+      <div className="page-blob page-blob-1"></div>
+      <div className="page-blob page-blob-2"></div>
+      
+      <div className="hp-footer-inner hp-container" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="hp-footer-grid">
+          {/* Brand Info */}
+          <div className="hp-footer-brand">
+            <Link to="/" className="hp-footer-logo">
+              <img src={logo} alt="HelloProperties Kerala" className="hp-footer-logo-img" />
+            </Link>
+            <p className="hp-footer-tagline">
+              Curating exceptional architectural residences, tea plantation estates, and prime land across Kerala’s finest landscapes.
+            </p>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="hp-footer-bottom">
-            <p>© 2026 HelloProperties Kerala. All rights reserved.</p>
+          {/* Quick Nav */}
+          <div className="hp-footer-col">
+            <h4 className="hp-footer-col-title">Navigation</h4>
+            <ul className="hp-footer-links">
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/about">About</Link></li>
+              <li><Link to="/properties">Properties</Link></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+
+          {/* Contact Details */}
+          <div className="hp-footer-col">
+            <h4 className="hp-footer-col-title">Contact</h4>
+            <p className="hp-footer-info-text">hello@helloproperties.in</p>
+            <p className="hp-footer-info-text">+91 98765 43210</p>
+          </div>
+
+          {/* Social */}
+          <div className="hp-footer-col">
+            <h4 className="hp-footer-col-title">Follow</h4>
+            <ul className="hp-footer-links">
+              <li><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a></li>
+              <li><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a></li>
+            </ul>
           </div>
         </div>
-      </footer>
-    </div>
+
+        {/* Bottom Bar */}
+        <div className="hp-footer-bottom">
+          <p>© 2026 HelloProperties Kerala. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
   );
 };
 

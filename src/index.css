@@ -196,28 +196,44 @@ input, select, textarea {
   background: var(--color-burgundy);
 }
 
-/* Static decorative background */
+/* Animated decorative background blobs for Footer */
 .page-blob {
-  position: fixed;
+  position: absolute;
   border-radius: 50%;
   opacity: 0.6;
   pointer-events: none;
   z-index: 0;
 }
 
+@keyframes floatBlob1 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(150px, -80px) scale(1.15); }
+  66% { transform: translate(-80px, 120px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes floatBlob2 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(-150px, 100px) scale(1.2); }
+  66% { transform: translate(100px, -100px) scale(0.85); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
 .page-blob-1 {
-  top: -10vh;
-  left: -10vw;
+  top: -15%;
+  left: -5%;
   width: 550px;
   height: 550px;
   background: radial-gradient(circle, rgb(181 36 79 / 75%) 0%, rgb(108 14 36 / 30%) 40%, transparent 72%);
+  animation: floatBlob1 16s ease-in-out infinite;
 }
 
 .page-blob-2 {
-  top: 60vh;
-  right: -10vw;
+  bottom: -15%;
+  right: -5%;
   width: 500px;
   height: 500px;
   background: radial-gradient(circle, rgb(157 27 62 / 75%) 0%, rgb(74 8 24 / 30%) 40%, transparent 72%);
+  animation: floatBlob2 18s ease-in-out infinite;
 }
 

@@ -55,7 +55,7 @@
   align-items: center;
   flex: 0 1 auto;
   justify-content: flex-start;
-  z-index: 10;
+  z-index: 20;
   position: relative;
   max-width: 1400px;
   width: 100%;
@@ -169,12 +169,13 @@
   background-color: var(--color-burgundy);
   color: #FFFFFF;
   border: none;
-  border-radius: 40px;
-  padding: 0.9rem 2rem;
-  font-family: var(--font-header);
-  font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -245,7 +246,7 @@
   left: 50%;
   z-index: 10;
   transform: translate(-50%, 20%); /* Adjusted from 42% to 20% to lift cards and arrows together */
-  width: min(calc(100% - 6rem), 1300px); /* Increased from 1100px to scale up cards */
+  width: min(calc(100% - 6rem), 1200px); /* Reduced from 1300px slightly */
 }
 
 .mnzil-category-reveal {
@@ -271,8 +272,9 @@
 
 .mnzil-category-arrow {
   position: absolute;
-  top: 75%;
-  transform: translateY(-50%);
+  top: auto;
+  bottom: 1.5rem;
+  transform: none;
   z-index: 2;
   display: grid;
   place-items: center;
@@ -302,8 +304,8 @@
   transform: translateY(-2px);
 }
 
-.mnzil-category-arrow-prev { left: 0; }
-.mnzil-category-arrow-next { right: 0; }
+.mnzil-category-arrow-prev { left: calc(50% - 52px); }
+.mnzil-category-arrow-next { right: calc(50% - 52px); }
 @media (hover: hover) and (pointer: fine) {
   .mnzil-category-arrow:hover {
     background: #fff;
@@ -465,7 +467,7 @@
     width: 95%;
   }
   .mnzil-search-btn {
-    padding: 0.7rem 1.2rem;
+    /* padding: rem 1.2rem; */
     font-size: 0.8rem;
   }
 }

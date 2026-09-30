@@ -1,8 +1,13 @@
 /* Featured Properties Grid Styles */
 .arch-featured-section {
   padding: 5rem 0 7rem 0;
-  background-color:#ffffff66;
+  background-color: transparent;
   position: relative;
+}
+
+.arch-featured-section .hp-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .arch-featured-header {
@@ -12,6 +17,7 @@
   margin-bottom: 1rem;
   padding-bottom: 1.25rem;
   border-bottom: 1px solid var(--color-border, #E0DDD5);
+  order: 1;
 }
 
 .arch-featured-header .meta-label {
@@ -37,6 +43,7 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1.5rem;
+  order: 2;
 }
 
 .arch-view-all-link {
@@ -71,35 +78,53 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+  order: 3;
 }
 
-/* Premium Modern Property Card */
+/* Premium Modern Property Card (Full Image) */
 .arch-featured-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #FFFFFF;
-  border-radius: 16px;
+  border-radius: 26px; /* Matches Hero cards */
   overflow: hidden;
-  border: 1px solid #E0DDD5;
-  box-shadow: 0 10px 28px -6px rgba(13, 14, 14, 0.06);
+  box-shadow: 0 20px 32px rgb(38 10 20 / 18%);
   cursor: pointer;
-  transition: translate 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  aspect-ratio: 4 / 5;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
   font-family: var(--font-sans);
+  background: #3d1c22;
 }
 
 .arch-featured-card:hover {
-  translate: 0 -6px;
-  box-shadow: 0 20px 42px -8px rgba(0, 0, 0, 0.16);
-  border-color: #000000;
+  transform: translateY(-8px);
+  box-shadow: 0 30px 48px rgb(38 10 20 / 32%);
+}
+
+.arch-featured-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 15%);
+  pointer-events: none;
 }
 
 /* Image Wrapper */
 .arch-card-media-wrap {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 16 / 11;
-  overflow: hidden;
-  background-color: #0D0E0E;
+  height: 100%;
+  z-index: 1;
+}
+
+.arch-card-media-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 30%, rgba(20, 0, 5, 0.85) 100%);
+  pointer-events: none;
 }
 
 .arch-card-media-img {
@@ -133,11 +158,11 @@
   font-weight: 700;
   letter-spacing: 0.8px;
   color: #FFFFFF;
-  background: rgba(13, 14, 14, 0.85);
+  background: rgba(13, 14, 14, 0.6);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: 0.3rem 0.65rem;
-  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   text-transform: uppercase;
@@ -150,23 +175,22 @@
   letter-spacing: 0.5px;
   color: #000000;
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 0.3rem 0.65rem;
-  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 50px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   text-transform: uppercase;
 }
 
-/* Card Body Section */
+/* Card Body Section - Overlay on Image */
 .arch-card-body-block {
-  padding: 1.25rem 1.35rem 1.35rem 1.35rem;
+  position: absolute;
+  inset: auto 0 0;
+  padding: 2.5rem 1.5rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  justify-content: space-between;
-  background-color: #FFFFFF;
+  z-index: 2;
   font-family: var(--font-sans);
+  pointer-events: none;
 }
 
 /* Location Pin Header */
@@ -177,12 +201,12 @@
   font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 600;
-  color: #5A5C59;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 0.45rem;
 }
 
 .arch-card-location svg {
-  color: #171817;
+  color: #ff5a86;
   flex-shrink: 0;
 }
 
@@ -190,10 +214,10 @@
 .arch-card-item-title {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 1.08rem;
+  font-size: 1.15rem;
   line-height: 1.35;
-  color: #0D0E0E;
-  margin-bottom: 0.5rem;
+  color: #FFFFFF;
+  margin-bottom: 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -202,24 +226,12 @@
 }
 
 .arch-featured-card:hover .arch-card-item-title {
-  color: #000000;
+  color: #ffffff;
 }
 
-/* Specs Row */
+/* Specs Row - hidden in new design or styled */
 .arch-card-specs-row {
-  margin-bottom: 1rem;
-}
-
-.spec-item {
-  font-family: var(--font-sans);
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: #4A4C49;
-  background: #F4F2EC;
-  padding: 0.35rem 0.65rem;
-  border-radius: 6px;
-  display: inline-block;
-  border: 1px solid #E5E2D9;
+  display: none;
 }
 
 /* Bottom Bar: CTA Button Only */
@@ -227,8 +239,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding-top: 0.85rem;
-  border-top: 1px solid #ECEAE3;
+  pointer-events: auto;
 }
 
 .arch-card-cta-btn {
@@ -237,11 +248,13 @@
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  background: #171817;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #FFFFFF;
-  border: none;
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.8rem 1rem;
+  border-radius: 50px;
   font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 700;
@@ -249,7 +262,6 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .cta-arrow {
@@ -258,8 +270,9 @@
 }
 
 .arch-featured-card:hover .arch-card-cta-btn {
-  background: #000000;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  background: #FFFFFF;
+  color: var(--color-burgundy);
+  border-color: #FFFFFF;
 }
 
 .arch-featured-card:hover .cta-arrow {
@@ -275,12 +288,23 @@
 }
 
 @media (max-width: 640px) {
+  .arch-featured-section {
+    padding: 3rem 0 3rem 0;
+  }
+
   .arch-property-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .arch-card-body-block {
     padding: 1.1rem;
+  }
+
+  .arch-featured-actions {
+    order: 4;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 0;
   }
 }

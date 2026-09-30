@@ -46,7 +46,7 @@ const GetInTouchModal = ({ isOpen, onClose }) => {
         {!submitted ? (
           <form onSubmit={handleSubmit} className="arch-modal-form">
             <span className="meta-label">EXCLUSIVE ADVISORY & DISCOVERY</span>
-            <h3 className="arch-modal-title">GET IN TOUCH WITH US</h3>
+            <h3 className="arch-modal-title">ENQUIRE NOW</h3>
             <p className="arch-modal-sub">Tell us about your property requirement or estate listing. Our senior advisor will contact you privately.</p>
 
             <div className="arch-form-grid">

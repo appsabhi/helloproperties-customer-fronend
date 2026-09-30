@@ -7,13 +7,16 @@
 }
 
 .hp-footer-card {
+  position: relative;
+  overflow: hidden;
   background-color: #ffffff;
   border-radius: 24px;
   box-shadow: 0 14px 44px rgba(46, 46, 46, 0.685); /* Beautiful soft drop shadow */
   padding: 6rem 5rem 3rem; /* Increased padding */
   color: #111; 
-  width: 100%;
+  width: calc(100% - 2rem);
   max-width: 1350px; /* Wider card */
+  margin: 1rem auto;
 }.hp-footer-inner {
   position: relative;
   width: 100%;
@@ -114,12 +117,11 @@
 }
 
 @media (max-width: 640px) {
-  .hp-footer-wrapper {
-    padding: 1rem;
-  }
   .hp-footer-card {
     border-radius: 12px;
     padding: 2.5rem 2rem 1.5rem;
+    margin: 0.5rem auto;
+    width: calc(100% - 1rem);
   }
   .hp-footer-grid {
     grid-template-columns: 1fr;

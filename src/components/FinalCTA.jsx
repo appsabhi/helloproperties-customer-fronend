@@ -24,11 +24,11 @@ const FinalCTA = () => {
           >
 
             <h2 className="arch-finalcta-headline" id="finalcta-title">
-              Ready to Find Your<br />Perfect Property?
+              Looking for the right property?
             </h2>
 
             <p className="arch-finalcta-sub">
-              Whether you are searching for a serene hill retreat, prime investment land, or a luxury waterfront home, our dedicated advisors are here to guide you every step of the way.
+              Tell us what you need. We'll help you explore the possibilities.
             </p>
 
             <div className="arch-finalcta-btn-group">
@@ -37,7 +37,7 @@ const FinalCTA = () => {
                 className="arch-btn-primary-red-pill"
                 onClick={() => setModalOpen(true)}
               >
-                <span>GET IN TOUCH</span>
+                <span>TALK TO A CONSULTANT</span>
                 <span className="arr">→</span>
               </button>
 

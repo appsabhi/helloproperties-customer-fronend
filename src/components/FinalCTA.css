@@ -2,8 +2,9 @@
 .arch-finalcta-section {
   position: relative;
   width: 100%;
-  padding: 3rem 0;
-  background-color: #fbfbfb9c;
+  padding: 0rem 0;
+  margin: 3rem auto;
+  background-color: #ded2d296;
 }
 
 .arch-finalcta-box {
@@ -93,7 +94,7 @@
 }
 
 @media (max-width: 600px) {
-  .arch-finalcta-section { padding: 2rem 0; }
+  .arch-finalcta-section { padding: 2rem 0; margin: 1rem auto 3rem; }
   .arch-finalcta-box { padding: 3rem 1.5rem; border-radius: 16px; gap: 1.25rem; }
   .arch-finalcta-sub { font-size: 0.85rem; }
 }

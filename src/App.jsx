@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import SectionIntro from "./components/SectionIntro";
+import ConsultancyServices from "./components/ConsultancyServices";
 import FeaturedProperties from "./components/FeaturedProperties";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
@@ -20,6 +21,7 @@ function HomePage() {
       <main>
         <Hero />
         <SectionIntro />
+        <ConsultancyServices />
         <FeaturedProperties />
         <FinalCTA />
       </main>
@@ -31,9 +33,6 @@ function HomePage() {
 function App() {
   return (
     <CustomerPropertyProvider>
-      {/* Static decorative background */}
-      <div className="page-blob page-blob-1"></div>
-      <div className="page-blob page-blob-2"></div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
