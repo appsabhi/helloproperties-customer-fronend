@@ -1,0 +1,81 @@
+﻿.hp-not-found {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: clamp(9rem, 20vh, 12rem) 1.5rem 4rem;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 58% 0%, rgb(122 11 46 / 15%), transparent 54%),
+    radial-gradient(ellipse at 10% 82%, rgb(155 18 63 / 11%), transparent 42%),
+    radial-gradient(ellipse at 100% 95%, rgb(122 11 46 / 7%), transparent 36%),
+    #fcfafb;
+}
+
+.hp-not-found-copy { width: 100%; max-width: 460px; }
+
+.hp-not-found-code {
+  margin: 0 0 1rem;
+  font-family: var(--font-sans);
+  font-size: clamp(6rem, 10vw, 7.5rem);
+  font-weight: 500;
+  letter-spacing: -0.075em;
+  line-height: 1;
+  color: var(--color-burgundy);
+  background: linear-gradient(115deg, #7a0b2e 25%, #bc6983 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hp-not-found-copy h1 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.4rem, 3vw, 1.65rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+  color: #241a1e;
+}
+
+.hp-not-found-description {
+  margin: 0.75rem auto 1.65rem;
+  max-width: 44ch;
+  color: #72686c;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.hp-not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.hp-not-found-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.55rem 1.2rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.hp-not-found-home { background: var(--color-burgundy); color: #fff; }
+.hp-not-found-home:hover { background: var(--color-burgundy-dark); }
+.hp-not-found-actions .hp-not-found-browse {
+  gap: 0.6rem;
+  background: #fff;
+  border-color: #e7dce0;
+  color: var(--color-burgundy);
+}
+.hp-not-found-actions .hp-not-found-browse:hover { border-color: var(--color-burgundy); }
+.hp-not-found-actions a:focus-visible { outline: 2px solid var(--color-burgundy); outline-offset: 4px; }
+
+@media (forced-colors: active) {
+  .hp-not-found-code { background: none; -webkit-text-fill-color: currentColor; }
+}

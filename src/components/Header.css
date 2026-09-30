@@ -14,7 +14,7 @@
 .arch-header {
   width: 100%;
   padding: 1rem 4rem;
-  color: var(--color-black); /* Dark text for white background */
+  color: var(--color-black);
   font-family: var(--font-header);
   position: relative;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -28,16 +28,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color:#fdfdfd;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.08)), rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
   border-radius: 0 0 32px 32px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   border-left: 1px solid rgba(255, 255, 255, 0.2);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   transform: perspective(150px) rotateX(-8deg); /* Increased bend here */
   transform-origin: top center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(255, 255, 255, 0.25), 0 10px 30px rgba(40, 12, 22, 0.12);
+  pointer-events: none;
   z-index: -1;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -54,10 +55,8 @@
 }
 
 .arch-header-scrolled-wrapper .arch-header::before {
-  background-color: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 12px 36px rgba(40, 12, 22, 0.14);
   border-radius: 32px; /* Full rounded corners when floating */
   border: 1px solid rgba(255, 255, 255, 0.5);
   transform: perspective(200px) rotateX(0deg); /* Flatten out the perspective when it's a pill */
@@ -314,10 +313,7 @@
     display: flex;
   }
   .arch-btn-list-property {
-    /* Made visible on mobile per reference mockup */
-    display: inline-flex;
-    padding: 0.5rem 1rem;
-    font-size: 0.65rem;
+    display: none;
   }
 }
 
@@ -333,9 +329,6 @@
   .arch-header::before {
     border-radius: 12px; /* Reduced from 32px */
     transform: perspective(150px) rotateX(0deg); /* Flattened for the pill shape */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background-color: rgba(255, 255, 255, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.4);
   }
   .arch-header-scrolled-wrapper {
@@ -348,12 +341,25 @@
   .arch-header-scrolled-wrapper .arch-header::before {
     border-radius: 12px; /* Reduced from 32px */
     transform: perspective(150px) rotateX(0deg); /* Flattened for the pill shape */
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.5);
   }
   .arch-logo-img {
     height: 42px; /* Slightly bigger to match the increased padding */
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .arch-header::before,
+  .arch-header-scrolled-wrapper .arch-header::before {
+    background: #fdfdfd;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .arch-header::before,
+  .arch-header-scrolled-wrapper .arch-header::before {
+    background: #fdfdfd;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }

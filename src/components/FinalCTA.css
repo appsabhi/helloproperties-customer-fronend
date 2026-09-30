@@ -1,161 +1,103 @@
-/* Final CTA Section Styles */
+/* Property photo banner with the site's existing typography. */
 .arch-finalcta-section {
   position: relative;
   width: 100%;
-  padding: 3rem 1rem;
-  background-color:#fbfbfb;
-  text-align: center;
-  display: flex;
-  justify-content: center;
+  padding: 3rem 0;
+  background-color: #fbfbfb9c;
 }
 
 .arch-finalcta-box {
+  position: relative;
+  isolation: isolate;
   width: 100%;
   max-width: 1280px;
+  min-height: auto; /* Removed fixed height */
   margin: 0 auto;
-  padding: 4rem 2rem;
-  background: radial-gradient(ellipse at top center, #1F2122 0%, #0D0E0E 70%);
-  border-radius: 32px;
-  box-shadow: 
-    0 40px 80px rgba(0, 0, 0, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  position: relative;
-  z-index: 2;
+  padding: 4rem 2rem; /* Adjusted padding */
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: 1.5rem; /* Reduced gap */
   overflow: hidden;
+  border-radius: 24px;
+  background: transparent; /* Removed solid brand color */
+  text-align: center;
 }
 
-/* Subtle grid overlay to match reference vibe */
-.arch-finalcta-box::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
-  background-position: center top;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-.arch-cta-icon {
-  color: #FFFFFF;
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
-}
-
-.arch-finalcta-label {
-  display: block;
-  font-family: var(--font-header);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 1.25rem;
-}
+/* Removed background image and gradient overlay */
 
 .arch-finalcta-headline {
   font-family: var(--font-display, "TT Hazelnuts Trial", sans-serif);
   font-weight: 700;
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: #FFFFFF;
-  margin-bottom: 1.5rem;
-  max-width: 900px;
+  font-size: clamp(1.8rem, 4vw, 3rem); /* Reduced size */
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #111; /* Changed to dark for readability */
+  margin: 0;
 }
 
 .arch-finalcta-sub {
   font-family: var(--font-sans, "Montserrat", sans-serif);
-  font-size: 1.1rem;
+  font-size: 0.95rem; /* Reduced size */
   line-height: 1.6;
-  color: #A0A0A0;
-  max-width: 680px;
-  margin: 0 auto 2.5rem;
+  color: #444; /* Changed to dark for readability */
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .arch-finalcta-btn-group {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-}
-
-.arch-btn-primary-red-pill {
-  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2.5rem;
-  background-color: #B81D24;
-  color: #FFFFFF;
-  font-family: var(--font-header, "Montserrat", sans-serif);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 25px rgba(184, 29, 36, 0.4);
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-.arch-btn-primary-red-pill:hover {
-  background-color: #96151B;
-  transform: translateY(-2px);
-  box-shadow: 0 0 40px rgba(184, 29, 36, 0.6);
-}
-
-.arch-btn-primary-red-pill .arr {
-  transition: transform 0.3s ease;
-}
-
-.arch-btn-primary-red-pill:hover .arr {
-  transform: translateX(4px);
-}
-
+.arch-btn-primary-red-pill,
 .arch-btn-secondary-white-outline {
   display: inline-flex;
   align-items: center;
-  padding: 0.95rem 2.2rem;
-  background-color: transparent;
-  color: #FFFFFF;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 40px; /* Reduced button height */
+  padding: 0.5rem 1.25rem; /* Reduced button padding */
   font-family: var(--font-header, "Montserrat", sans-serif);
-  font-size: 0.85rem;
+  font-size: 0.75rem; /* Reduced button text size */
   font-weight: 700;
   letter-spacing: 0.1em;
-  border-radius: 50px;
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
   cursor: pointer;
-  transition: all 0.35s ease;
+  transition: background-color 180ms ease, border-color 180ms ease;
 }
 
-.arch-btn-secondary-white-outline:hover {
-  background-color: #FFFFFF;
-  color: #0D0E0E;
-  border-color: #FFFFFF;
-  transform: translateY(-2px);
+.arch-btn-primary-red-pill {
+  border: 1px solid var(--color-burgundy, #8a0b36);
+  background: var(--color-burgundy, #8a0b36);
+  color: #fff;
+}
+.arch-btn-primary-red-pill:hover { background: #600826; border-color: #600826; }
+
+.arch-btn-secondary-white-outline {
+  border: 1px solid rgb(255 255 255 / 55%);
+  background: rgb(20 9 14 / 35%);
+  color: #fff;
+}
+.arch-btn-secondary-white-outline:hover { background: rgb(255 255 255 / 15%); border-color: #fff; }
+.arch-finalcta-btn-group button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+
+@media (max-width: 900px) {
+  .arch-finalcta-btn-group { flex-direction: column; width: 100%; max-width: 300px; margin: 1rem auto 0; }
+  .arch-finalcta-btn-group button { width: 100%; }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-.arch-finalcta-section{
-padding: 3rem 0 ;
+@media (max-width: 600px) {
+  .arch-finalcta-section { padding: 2rem 0; }
+  .arch-finalcta-box { padding: 3rem 1.5rem; border-radius: 16px; gap: 1.25rem; }
+  .arch-finalcta-sub { font-size: 0.85rem; }
 }
 
-  .arch-finalcta-box {
-    padding: 3rem 1.5rem;
-    border-radius: 12px;
-  }
-  
-  .arch-btn-primary-red-pill,
-  .arch-btn-secondary-white-outline {
-    width: 100%;
-    justify-content: center;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .arch-finalcta-btn-group button { transition: none; }
 }

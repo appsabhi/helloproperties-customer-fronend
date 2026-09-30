@@ -115,11 +115,14 @@ const FeaturedProperties = () => {
             <span className="meta-label">CURATED SELECTION</span>
             <h2 className="arch-featured-title">FEATURED PROPERTIES</h2>
           </div>
+        </motion.div>
+
+        <div className="arch-featured-actions">
           <Link to="/properties" className="arch-view-all-link">
             <span>VIEW ALL PROPERTIES</span>
             <span className="arr">→</span>
           </Link>
-        </motion.div>
+        </div>
 
         {/* 4-Card Architectural Grid */}
         <div className="arch-property-grid">

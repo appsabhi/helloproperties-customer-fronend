@@ -1,60 +1,59 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";
-import logo from "../assets/png/HelloProperties.png";
+import logo from "../assets/png/HelloProperties_static.png";
 
 const Footer = () => {
   return (
-    <footer className="arch-footer">
-      {/* Giant Faint Watermark Text */}
-      <span className="arch-footer-watermark">KERALA</span>
+    <div className="hp-footer-wrapper">
+      <footer className="hp-footer-card">
+        <div className="hp-footer-inner hp-container">
+          <div className="hp-footer-grid">
+            {/* Brand Info */}
+            <div className="hp-footer-brand">
+              <Link to="/" className="hp-footer-logo">
+                <img src={logo} alt="HelloProperties Kerala" className="hp-footer-logo-img" />
+              </Link>
+              <p className="hp-footer-tagline">
+                Curating exceptional architectural residences, tea plantation estates, and prime land across Kerala’s finest landscapes.
+              </p>
+            </div>
 
-      <div className="hp-container arch-footer-inner">
-        <div className="arch-footer-grid">
-          {/* Brand Info */}
-          <div className="arch-footer-brand">
-            <Link to="/" className="arch-footer-logo">
-              <img src={logo} alt="HelloProperties Kerala" className="arch-footer-logo-img" />
-            </Link>
-            <p className="arch-footer-tagline">
-              Curating exceptional architectural residences, tea plantation estates, and prime land across Kerala’s finest landscapes.
-            </p>
+            {/* Quick Nav */}
+            <div className="hp-footer-col">
+              <h4 className="hp-footer-col-title">Navigation</h4>
+              <ul className="hp-footer-links">
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/about">About</Link></li>
+                <li><Link to="/properties">Properties</Link></li>
+                <li><a href="#contact">Contact</a></li>
+              </ul>
+            </div>
+
+            {/* Contact Details */}
+            <div className="hp-footer-col">
+              <h4 className="hp-footer-col-title">Contact</h4>
+              <p className="hp-footer-info-text">hello@helloproperties.in</p>
+              <p className="hp-footer-info-text">+91 98765 43210</p>
+            </div>
+
+            {/* Social */}
+            <div className="hp-footer-col">
+              <h4 className="hp-footer-col-title">Follow</h4>
+              <ul className="hp-footer-links">
+                <li><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a></li>
+                <li><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a></li>
+              </ul>
+            </div>
           </div>
 
-          {/* Quick Nav */}
-          <div className="arch-footer-col">
-            <h4 className="footer-col-title">NAVIGATION</h4>
-            <ul className="footer-links">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/about">About</Link></li>
-              <li><Link to="/properties">Properties</Link></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div>
-
-          {/* Contact Details */}
-          <div className="arch-footer-col">
-            <h4 className="footer-col-title">CONTACT</h4>
-            <p className="footer-info-text">hello@helloproperties.in</p>
-            <p className="footer-info-text">+91 98765 43210</p>
-          </div>
-
-          {/* Social */}
-          <div className="arch-footer-col">
-            <h4 className="footer-col-title">FOLLOW</h4>
-            <ul className="footer-links">
-              <li><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram ↗</a></li>
-              <li><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn ↗</a></li>
-            </ul>
+          {/* Bottom Bar */}
+          <div className="hp-footer-bottom">
+            <p>© 2026 HelloProperties Kerala. All rights reserved.</p>
           </div>
         </div>
-
-        {/* Bottom Bar */}
-        <div className="arch-footer-bottom">
-          <p>© 2026 HELLOPROPERTIES KERALA. ALL RIGHTS RESERVED.</p>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
   );
 };
 

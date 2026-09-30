@@ -1,16 +1,18 @@
 /**
  * Property Service for Customer Frontend
- * Base API URL: https://helloproperties-backend.vercel.app/api (Fallback: http://localhost:5000/api)
+ * Uses the configured backend consistently across desktop and mobile.
  */
 
 const envApiUrl = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_API_BASE_URL : undefined;
 
-export const API_BASE_URL =
-  envApiUrl || "https://helloproperties-backend.vercel.app/api";
+const configuredApiUrl =
+  (envApiUrl?.trim() || "https://helloproperties-backend.vercel.app/api").replace(/\/+$/, "");
 
+// Vite proxies development requests so LAN devices do not need backend CORS entries.
+export const API_BASE_URL = import.meta.env?.DEV ? "/api" : configuredApiUrl;
 
 // Derive backend origin for serving static uploaded media (e.g., /uploads/...)
-export const BACKEND_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, "");
+export const BACKEND_ORIGIN = configuredApiUrl.replace(/\/api\/?$/, "");
 
 /**
  * Resolves full image URL for relative backend paths (/uploads/...) or returns absolute URLs.
@@ -101,12 +103,7 @@ export async function fetchProperties() {
     ? API_BASE_URL
     : `${API_BASE_URL.replace(/\/$/, "")}/properties`;
     
-  const fallbackEndpoint = "http://localhost:5000/api/properties";
-  
   const endpointsToTry = [primaryEndpoint];
-  if (primaryEndpoint !== fallbackEndpoint) {
-    endpointsToTry.push(fallbackEndpoint);
-  }
 
   let lastError = null;
 
@@ -114,7 +111,7 @@ export async function fetchProperties() {
     try {
       const response = await fetch(endpoint, {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: { Accept: "application/json" },
       });
 
       if (!response.ok) {

@@ -3,14 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import SectionIntro from "./components/SectionIntro";
-import PropertyWorlds from "./components/PropertyWorlds";
 import FeaturedProperties from "./components/FeaturedProperties";
-import WhyUs from "./components/WhyUs";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
 import PropertiesPage from "./components/PropertiesPage";
 import AboutPage from "./components/AboutPage";
 import ContactPage from "./components/ContactPage";
+import NotFoundPage from "./components/NotFoundPage";
 
 import { CustomerPropertyProvider } from "./context/CustomerPropertyContext";
 
@@ -21,7 +20,6 @@ function HomePage() {
       <main>
         <Hero />
         <SectionIntro />
-        <PropertyWorlds />
         <FeaturedProperties />
         <FinalCTA />
       </main>
@@ -33,7 +31,7 @@ function HomePage() {
 function App() {
   return (
     <CustomerPropertyProvider>
-      {/* Page-wide Animated Gradient Blobs */}
+      {/* Static decorative background */}
       <div className="page-blob page-blob-1"></div>
       <div className="page-blob page-blob-2"></div>
       <BrowserRouter>
@@ -42,6 +40,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/properties" element={<PropertiesPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </CustomerPropertyProvider>

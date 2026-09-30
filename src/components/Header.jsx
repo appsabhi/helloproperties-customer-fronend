@@ -4,6 +4,8 @@ import GetInTouchModal from "./GetInTouchModal";
 import "./Header.css";
 import logoTop from "../assets/png/HelloProperties_static.png";
 import logoStatic from "../assets/png/HelloProperties_static.png";
+import { MorphIcon } from "morphicons/react";
+import { Menu, X } from "lucide";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -73,9 +75,9 @@ const Header = () => {
                 className="arch-menu-toggle"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle navigation menu"
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
-                <span className={`arch-toggle-line ${mobileOpen ? "open" : ""}`}></span>
-                <span className={`arch-toggle-line ${mobileOpen ? "open" : ""}`}></span>
+                <MorphIcon icon={mobileOpen ? X : Menu} size={28} strokeWidth={1.5} color="currentColor" />
               </button>
             </div>
           </div>
