@@ -4,7 +4,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import GetInTouchModal from "./GetInTouchModal";
 import "./FinalCTA.css";
 
-import ctaImage from "../assets/hero-panels/new_agricultural_land.jpg";
 
 const FinalCTA = () => {
   const navigate = useNavigate();

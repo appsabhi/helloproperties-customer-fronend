@@ -58,6 +58,7 @@ export function normalizeProperty(item, index = 0) {
   const listingType = item.listingType || item.listing_type || (item.monthly_rent > 0 || item.monthlyRent > 0 ? "Rent" : "Sale");
   const expectedPrice = item.expectedPrice !== undefined ? Number(item.expectedPrice) : Number(item.expected_price || 0);
   const monthlyRent = item.monthlyRent !== undefined ? Number(item.monthlyRent) : Number(item.monthly_rent || 0);
+  const securityDeposit = item.securityDeposit !== undefined ? Number(item.securityDeposit) : Number(item.security_deposit || 0);
   const priceRaw = listingType === "Rent" ? monthlyRent : expectedPrice;
   
   // Resolve Image URL
@@ -80,12 +81,16 @@ export function normalizeProperty(item, index = 0) {
     state: item.state || "",
     expectedPrice,
     monthlyRent,
+    securityDeposit,
     price: priceRaw,
     priceFormatted: formatPropertyPrice(priceRaw, listingType),
     landArea: item.area || item.landArea || item.land_area || "",
     builtUpArea: item.builtUpArea || item.built_up_area || null,
     bedrooms: item.bedrooms || null,
     bathrooms: item.bathrooms || null,
+    videoUrl: item.videoUrl || item.video_url || null,
+    lat: (item.latitude || item.lat) ? parseFloat(item.latitude || item.lat) : null,
+    lng: (item.longitude || item.lng) ? parseFloat(item.longitude || item.lng) : null,
     imageUrl,
     images: Array.isArray(item.images) && item.images.length > 0 ? item.images.map(resolveImageUrl) : [imageUrl],
     status: item.status || "Available",

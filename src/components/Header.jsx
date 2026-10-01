@@ -15,7 +15,6 @@ const Header = () => {
 
   const isMapPage = location.pathname === "/property-map";
   const isPropertiesPage = location.pathname === "/properties";
-  const isAboutPage = location.pathname === "/about";
   const isContactPage = location.pathname === "/contact";
   const isHomePage = location.pathname === "/";
 
@@ -53,7 +52,6 @@ const Header = () => {
             {/* Left: Navigation Links */}
             <nav className="arch-nav-desktop">
               <Link to="/" className={`arch-nav-item ${isHomePage ? "active-route" : ""}`}>HOME</Link>
-              <Link to="/about" className={`arch-nav-item ${isAboutPage ? "active-route" : ""}`}>ABOUT</Link>
               <Link to="/properties" className={`arch-nav-item ${isPropertiesPage ? "active-route" : ""}`}>PROPERTIES</Link>
               <Link to="/contact" className={`arch-nav-item ${isContactPage ? "active-route" : ""}`}>CONTACT</Link>
             </nav>
@@ -92,7 +90,6 @@ const Header = () => {
               </div>
               <nav className="arch-drawer-nav">
                 <Link to="/" onClick={() => setMobileOpen(false)}>HOME</Link>
-                <Link to="/about" onClick={() => setMobileOpen(false)}>ABOUT</Link>
                 <Link to="/properties" onClick={() => setMobileOpen(false)}>PROPERTIES</Link>
                 <Link to="/contact" onClick={() => setMobileOpen(false)}>CONTACT</Link>
               </nav>

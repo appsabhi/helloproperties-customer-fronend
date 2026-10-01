@@ -100,12 +100,18 @@ const Hero = () => {
   // Extract unique locations and districts from real database properties
   const availableLocations = useMemo(() => {
     if (!properties || properties.length === 0) return [];
-    const locs = new Set();
+    const locMap = new Map(); // Use Map to preserve original case but enforce case-insensitive uniqueness
     properties.forEach(p => {
-      if (p.location) locs.add(p.location.trim());
-      if (p.district) locs.add(p.district.trim());
+      if (p.location && p.location.trim()) {
+        const loc = p.location.trim();
+        if (!locMap.has(loc.toLowerCase())) locMap.set(loc.toLowerCase(), loc);
+      }
+      if (p.district && p.district.trim()) {
+        const dist = p.district.trim();
+        if (!locMap.has(dist.toLowerCase())) locMap.set(dist.toLowerCase(), dist);
+      }
     });
-    return Array.from(locs).filter(Boolean).sort();
+    return Array.from(locMap.values()).sort();
   }, [properties]);
 
   const filteredLocations = useMemo(() => {
@@ -127,9 +133,9 @@ const Hero = () => {
   const handleSearchSubmit = (locToSearch = searchQuery) => {
     setShowDropdown(false);
     if (locToSearch.trim()) {
-      navigate(`/properties?q=${encodeURIComponent(locToSearch.trim())}`);
+      navigate(`/explore?q=${encodeURIComponent(locToSearch.trim())}`);
     } else {
-      navigate("/properties");
+      navigate("/explore");
     }
   };
 
@@ -177,7 +183,6 @@ const Hero = () => {
                   setShowDropdown(true);
                   setActiveSuggestionIndex(-1);
                 }}
-                onFocus={() => setShowDropdown(true)}
                 onKeyDown={handleKeyDown}
                 className="mnzil-search-input"
               />

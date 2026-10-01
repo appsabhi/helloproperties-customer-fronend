@@ -2,13 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LandTypes.css";
 
+import imgPlotLand from "../assets/plotland.jpg";
+import imgHouseVilla from "../assets/hero-panels/HouseVilla.jpg";
+import imgApartment from "../assets/hero-panels/ApartmentFlat.jpg";
+import imgResidentialPlot from "../assets/hero-panels/Residential Plot.jpg";
+import imgCommercialPlot from "../assets/hero-panels/commercial_plot.jpg";
+import imgAgriculturalLand from "../assets/hero-panels/Agricultural Land.jpg";
+import imgIndustrialPlot from "../assets/hero-panels/industrial_plot.jpg";
+
 const landTypes = [
   {
     id: "plot-land",
     number: "01",
     title: "Plot/Land",
     subtitle: "Prime Parcels & Acreage",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85",
+    image: imgPlotLand,
     gridClass: "mosaic-hero",
     delay: "80ms",
   },
@@ -17,7 +25,7 @@ const landTypes = [
     number: "02",
     title: "House/Villa",
     subtitle: "Luxury Private Residences",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85",
+    image: imgHouseVilla,
     gridClass: "mosaic-medium-a",
     delay: "140ms",
   },
@@ -26,7 +34,7 @@ const landTypes = [
     number: "03",
     title: "Apartment/Flat",
     subtitle: "Contemporary Urban Living",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
+    image: imgApartment,
     gridClass: "mosaic-compact-a",
     delay: "200ms",
   },
@@ -35,7 +43,7 @@ const landTypes = [
     number: "04",
     title: "Residential Plot",
     subtitle: "Plotted Communities & Sites",
-    image: "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1200&q=85",
+    image: imgResidentialPlot,
     gridClass: "mosaic-compact-b",
     delay: "260ms",
   },
@@ -44,7 +52,7 @@ const landTypes = [
     number: "05",
     title: "Commercial Plot",
     subtitle: "High-Yield Business & Resort Land",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
+    image: imgCommercialPlot,
     gridClass: "mosaic-medium-b",
     delay: "320ms",
   },
@@ -53,7 +61,7 @@ const landTypes = [
     number: "06",
     title: "Agricultural Land",
     subtitle: "Fertile Plantations & Farmland",
-    image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=85",
+    image: imgAgriculturalLand,
     gridClass: "mosaic-medium-c",
     delay: "380ms",
   },
@@ -62,7 +70,7 @@ const landTypes = [
     number: "07",
     title: "Industrial Plot",
     subtitle: "Logistics & Manufacturing Zones",
-    image: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=1200&q=85",
+    image: imgIndustrialPlot,
     gridClass: "mosaic-medium-d",
     delay: "440ms",
   },
