@@ -1,54 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import { formatPropertyPrice } from "../services/propertyService";
 import "./ExploreLocationsPage.css";
 import brandLogo from "../assets/png/helloproperties_fav.png";
 
-// Fix Leaflet's default icon path issues in React
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%'
+};
 
-let DefaultIcon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-L.Marker.prototype.options.icon = DefaultIcon;
-
-// Component to handle map view updates
-function MapUpdater({ center, zoom, bounds }) {
-  const map = useMap();
-  useEffect(() => {
-    if (bounds) {
-      map.fitBounds(bounds, { padding: [100, 100], maxZoom: 14 });
-    }
-  }, [bounds, map]);
-
-  useEffect(() => {
-    if (center && !bounds) {
-      map.flyTo(center, zoom, { duration: 2.5 });
-    }
-  }, [center, zoom, bounds, map]);
-  return null;
-}
+const defaultCenter = { lat: 10.8505, lng: 76.2711 }; // Kerala Default
 
 const ExploreLocationsPage = () => {
   const { properties, loading } = useCustomerProperties();
   const [hoveredProperty, setHoveredProperty] = useState(null);
-  const [mapCenter, setMapCenter] = useState([10.8505, 76.2711]); // Kerala Default
-  const [mapZoom, setMapZoom] = useState(7);
-  const [mapBounds, setMapBounds] = useState(null);
   
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
   const [selectedProperty, setSelectedProperty] = useState(null);
+
+  const mapRef = useRef(null);
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""
+  });
+
+  const onLoad = useCallback(function callback(map) {
+    mapRef.current = map;
+    // Fit bounds on initial load if we have properties
+    if (properties && properties.length > 0) {
+      applyBounds(map);
+    }
+  }, [properties]);
+
+  const onUnmount = useCallback(function callback(map) {
+    mapRef.current = null;
+  }, []);
 
   useEffect(() => {
     document.title = "Explore | HelloProperties";
@@ -71,6 +63,28 @@ const ExploreLocationsPage = () => {
     return true;
   });
 
+  const applyBounds = (mapInstance) => {
+    if (!mapInstance) return;
+    if (filteredProperties.length > 0) {
+      const bounds = new window.google.maps.LatLngBounds();
+      let hasValidCoords = false;
+      filteredProperties.forEach((p) => {
+        if (p.lat && p.lng) {
+          bounds.extend({ lat: p.lat, lng: p.lng });
+          hasValidCoords = true;
+        }
+      });
+      if (hasValidCoords) {
+        mapInstance.fitBounds(bounds);
+        // Ensure we don't zoom in too much on a single marker
+        const listener = window.google.maps.event.addListener(mapInstance, "idle", function() {
+          if (mapInstance.getZoom() > 14) mapInstance.setZoom(14);
+          window.google.maps.event.removeListener(listener);
+        });
+      }
+    }
+  };
+
   const handleCardHover = (prop) => {
     setHoveredProperty(prop);
   };
@@ -78,85 +92,98 @@ const ExploreLocationsPage = () => {
   const handleCardClick = (prop) => {
     setHoveredProperty(prop);
     setSelectedProperty(prop);
-    if (prop.lat && prop.lng) {
-      setMapBounds(null);
-      setMapCenter([prop.lat, prop.lng]);
-      setMapZoom(18); // Zoom 18 is the safest max for satellite maps in rural areas
+    if (prop.lat && prop.lng && mapRef.current) {
+      const map = mapRef.current;
+      // 1. Smoothly pan to the location
+      map.panTo({ lat: prop.lat, lng: prop.lng });
+      
+      // 2. Smoothly zoom in step-by-step (simulating Leaflet's flyTo)
+      setTimeout(() => {
+        let currentZoom = map.getZoom();
+        const targetZoom = 18; // Max zoom for satellite maps
+        
+        if (currentZoom < targetZoom) {
+          const zoomInterval = setInterval(() => {
+            currentZoom++;
+            map.setZoom(currentZoom);
+            if (currentZoom >= targetZoom) clearInterval(zoomInterval);
+          }, 150); // 150ms per zoom step
+        } else if (currentZoom > targetZoom) {
+          map.setZoom(targetZoom); // if already too close, just snap out
+        }
+      }, 600); // wait for pan animation to mostly finish
     }
   };
 
   const resetMap = () => {
     setHoveredProperty(null);
     setSelectedProperty(null);
-    if (filteredProperties.length > 0) {
-      const lats = filteredProperties.map(p => p.lat).filter(Boolean);
-      const lngs = filteredProperties.map(p => p.lng).filter(Boolean);
-      if (lats.length > 0 && lngs.length > 0) {
-        setMapBounds([
-          [Math.min(...lats), Math.min(...lngs)],
-          [Math.max(...lats), Math.max(...lngs)]
-        ]);
-      }
-    }
+    applyBounds(mapRef.current);
   };
 
   useEffect(() => {
-    resetMap();
-  }, [searchQuery, properties]);
+    if (isLoaded) {
+      resetMap();
+    }
+  }, [searchQuery, properties, isLoaded]);
+
+  const getMarkerIcon = (isSelected, isHovered) => {
+    const scale = isSelected || isHovered ? 1.2 : 1;
+    const svg = `
+      <svg viewBox="0 0 24 24" width="${36 * scale}" height="${36 * scale}" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#C71E51" stroke="#ffffff" stroke-width="1.5"></path>
+        <circle cx="12" cy="10" r="4" fill="#ffffff" stroke="none"></circle>
+      </svg>
+    `;
+    return {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+      scaledSize: new window.google.maps.Size(36 * scale, 36 * scale),
+      anchor: new window.google.maps.Point(18 * scale, 36 * scale)
+    };
+  };
 
   return (
     <div className="explore-page-root">
       
       {/* Background Full Screen Map */}
       <div className="explore-map-container">
-        <MapContainer center={mapCenter} zoom={mapZoom} className="explore-leaflet-map" zoomControl={false}>
-          <TileLayer
-            attribution='Map Data &copy;2026 GeoBasis-DE/BKG (&copy;2009), Google Imagery &copy;2026 NASA | Terms'
-            url="http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}"
-            maxZoom={18}
-          />
-          <MapUpdater center={mapCenter} zoom={mapZoom} bounds={mapBounds} />
-          
-          {filteredProperties.map((prop) => {
-            if (prop.lat && prop.lng) {
-              const isSelected = selectedProperty?.id === prop.id;
-              const isHovered = hoveredProperty?.id === prop.id;
-              
-              // Only render the marker if the property is selected or hovered
-              if (!isSelected && !isHovered) return null;
-              
-              // Custom marker HTML (Pin only, no background)
-              const priceMarkerHtml = `
-                <div style="display: flex; justify-content: center; align-items: center; width: 40px; height: 40px;">
-                  <svg viewBox="0 0 24 24" width="36" height="36" style="filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4)); transition: transform 0.2s; transform: scale(${isSelected || isHovered ? 1.2 : 1});">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#C71E51" stroke="#ffffff" stroke-width="1.5"></path>
-                    <circle cx="12" cy="10" r="4" fill="#ffffff" stroke="none"></circle>
-                  </svg>
-                </div>
-              `;
-              
-              const customIcon = L.divIcon({
-                html: priceMarkerHtml,
-                className: 'custom-transparent-icon', // Avoid inheriting any global marker backgrounds
-                iconSize: [40, 40],
-                iconAnchor: [20, 40]
-              });
+        {isLoaded ? (
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+            options={{
+              disableDefaultUI: true,
+              zoomControl: false,
+              mapTypeId: 'hybrid'
+            }}
+          >
+            {filteredProperties.map((prop) => {
+              if (prop.lat && prop.lng) {
+                const isSelected = selectedProperty?.id === prop.id;
+                const isHovered = hoveredProperty?.id === prop.id;
+                
+                // Only render the marker if the property is selected or hovered
+                if (!isSelected && !isHovered) return null;
 
-              return (
-                  <Marker 
-                    key={prop.id} 
-                    position={[prop.lat, prop.lng]} 
-                    icon={customIcon}
-                    eventHandlers={{
-                      click: () => handleCardClick(prop),
-                      mouseover: () => handleCardHover(prop)
-                    }}
+                return (
+                  <Marker
+                    key={prop.id}
+                    position={{ lat: prop.lat, lng: prop.lng }}
+                    icon={getMarkerIcon(isSelected, isHovered)}
+                    onClick={() => handleCardClick(prop)}
+                    onMouseOver={() => handleCardHover(prop)}
                   />
-              );
-            }
-            return null;
-          })}
-        </MapContainer>
+                );
+              }
+              return null;
+            })}
+          </GoogleMap>
+        ) : (
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9' }}>
+            Loading Map...
+          </div>
+        )}
         
         {/* Floating Button over Map */}
         <button className="map-request-btn">Request Unit</button>
@@ -183,7 +210,7 @@ const ExploreLocationsPage = () => {
               
               {/* Breadcrumb Header */}
               <div className="details-breadcrumb">
-                <span className="back-link" onClick={() => setSelectedProperty(null)}>Properties</span>
+                <span className="back-link" onClick={resetMap}>Properties</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 <span className="current">{selectedProperty.title}</span>
               </div>

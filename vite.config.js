@@ -22,5 +22,30 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    build: {
+      chunkSizeWarningLimit: 1000, // Increase warning limit to 1MB
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              // Core React ecosystem
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+                return 'vendor-react';
+              }
+              // Map libraries
+              if (id.includes('leaflet') || id.includes('react-leaflet')) {
+                return 'vendor-map';
+              }
+              // Animation libraries
+              if (id.includes('framer-motion')) {
+                return 'vendor-motion';
+              }
+              // All other node_modules
+              return 'vendor';
+            }
+          }
+        }
+      }
+    }
   }
 })
