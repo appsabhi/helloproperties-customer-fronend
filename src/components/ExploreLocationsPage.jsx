@@ -25,6 +25,10 @@ const ExploreLocationsPage = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
 
   const mapRef = useRef(null);
+  const zoomOutIntervalRef = useRef(null);
+  const zoomInIntervalRef = useRef(null);
+  const zoomTimeoutRef = useRef(null);
+  const hoverTimeoutRef = useRef(null);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -93,8 +97,71 @@ const ExploreLocationsPage = () => {
     }
   };
 
+  const clearMapAnimations = () => {
+    if (zoomOutIntervalRef.current) clearInterval(zoomOutIntervalRef.current);
+    if (zoomInIntervalRef.current) clearInterval(zoomInIntervalRef.current);
+    if (zoomTimeoutRef.current) clearTimeout(zoomTimeoutRef.current);
+  };
+
+  const flyToProperty = (prop) => {
+    if (!prop.lat || !prop.lng || !mapRef.current) return;
+    
+    clearMapAnimations();
+    
+    const map = mapRef.current;
+    const targetLat = prop.lat;
+    const targetLng = prop.lng;
+    
+    let currentZoom = map.getZoom();
+    
+    if (currentZoom > 12) {
+      zoomOutIntervalRef.current = setInterval(() => {
+        currentZoom--;
+        map.setZoom(currentZoom);
+        
+        if (currentZoom <= 12) {
+          clearInterval(zoomOutIntervalRef.current);
+          map.panTo({ lat: targetLat, lng: targetLng });
+          
+          zoomTimeoutRef.current = setTimeout(() => {
+            zoomInIntervalRef.current = setInterval(() => {
+              currentZoom++;
+              map.setZoom(currentZoom);
+              if (currentZoom >= 17) clearInterval(zoomInIntervalRef.current);
+            }, 120);
+          }, 600);
+        }
+      }, 120);
+    } else {
+      map.panTo({ lat: targetLat, lng: targetLng });
+      zoomTimeoutRef.current = setTimeout(() => {
+        zoomInIntervalRef.current = setInterval(() => {
+          currentZoom++;
+          map.setZoom(currentZoom);
+          if (currentZoom >= 17) clearInterval(zoomInIntervalRef.current);
+        }, 120);
+      }, 600);
+    }
+  };
+
   const handleCardHover = (prop) => {
     setHoveredProperty(prop);
+    
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    
+    // Only fly if they hold the hover for 250ms to prevent erratic glitching when quickly scrolling through the list
+    hoverTimeoutRef.current = setTimeout(() => {
+      flyToProperty(prop);
+    }, 250);
+  };
+
+  const handleCardLeave = () => {
+    setHoveredProperty(null);
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
   };
 
   const handleCardClick = (prop) => {
@@ -107,48 +174,10 @@ const ExploreLocationsPage = () => {
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    if (prop.lat && prop.lng && mapRef.current) {
-      const map = mapRef.current;
-      const targetLat = prop.lat;
-      const targetLng = prop.lng;
-      
-      // We must zoom out smoothly first, otherwise Google Maps will teleport and show a dark screen
-      let currentZoom = map.getZoom();
-      
-      if (currentZoom > 12) {
-        // 1. Smoothly zoom out
-        const zoomOutInterval = setInterval(() => {
-          currentZoom--;
-          map.setZoom(currentZoom);
-          
-          if (currentZoom <= 12) {
-            clearInterval(zoomOutInterval);
-            
-            // 2. Pan smoothly once zoomed out
-            map.panTo({ lat: targetLat, lng: targetLng });
-            
-            // 3. Smoothly zoom back in
-            setTimeout(() => {
-              const zoomInInterval = setInterval(() => {
-                currentZoom++;
-                map.setZoom(currentZoom);
-                if (currentZoom >= 17) clearInterval(zoomInInterval);
-              }, 120);
-            }, 600);
-          }
-        }, 120);
-      } else {
-        // If already zoomed out, just pan and zoom in
-        map.panTo({ lat: targetLat, lng: targetLng });
-        setTimeout(() => {
-          const zoomInInterval = setInterval(() => {
-            currentZoom++;
-            map.setZoom(currentZoom);
-            if (currentZoom >= 17) clearInterval(zoomInInterval);
-          }, 120);
-        }, 600);
-      }
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
     }
+    flyToProperty(prop);
   };
 
   const resetMap = () => {
@@ -214,7 +243,7 @@ const ExploreLocationsPage = () => {
                     icon={getMarkerIcon(isSelected, isHovered)}
                     onClick={() => handleCardClick(prop)}
                     onMouseOver={() => handleCardHover(prop)}
-                    onMouseOut={() => setHoveredProperty(null)}
+                    onMouseOut={handleCardLeave}
                   />
                 );
               }
@@ -368,7 +397,7 @@ const ExploreLocationsPage = () => {
                         className={`premium-card ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`} 
                         key={prop.id}
                         onMouseEnter={() => handleCardHover(prop)}
-                        onMouseLeave={() => setHoveredProperty(null)}
+                        onMouseLeave={handleCardLeave}
                         onClick={() => handleCardClick(prop)}
                       >
                         <div className="pc-img-wrapper">
