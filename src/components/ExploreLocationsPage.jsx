@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import { formatPropertyPrice } from "../services/propertyService";
+import logoStatic from "../assets/png/HelloProperties_static.png";
 import "./ExploreLocationsPage.css";
 
 const mapContainerStyle = {
@@ -99,26 +100,54 @@ const ExploreLocationsPage = () => {
   const handleCardClick = (prop) => {
     setHoveredProperty(prop);
     setSelectedProperty(prop);
+    
+    // Scroll card into view if it was clicked via map marker
+    const card = document.getElementById(`property-card-${prop.id}`);
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
     if (prop.lat && prop.lng && mapRef.current) {
       const map = mapRef.current;
-      // 1. Smoothly pan to the location
-      map.panTo({ lat: prop.lat, lng: prop.lng });
+      const targetLat = prop.lat;
+      const targetLng = prop.lng;
       
-      // 2. Smoothly zoom in step-by-step (simulating Leaflet's flyTo)
-      setTimeout(() => {
-        let currentZoom = map.getZoom();
-        const targetZoom = 18; // Max zoom for satellite maps
-        
-        if (currentZoom < targetZoom) {
-          const zoomInterval = setInterval(() => {
+      // We must zoom out smoothly first, otherwise Google Maps will teleport and show a dark screen
+      let currentZoom = map.getZoom();
+      
+      if (currentZoom > 12) {
+        // 1. Smoothly zoom out
+        const zoomOutInterval = setInterval(() => {
+          currentZoom--;
+          map.setZoom(currentZoom);
+          
+          if (currentZoom <= 12) {
+            clearInterval(zoomOutInterval);
+            
+            // 2. Pan smoothly once zoomed out
+            map.panTo({ lat: targetLat, lng: targetLng });
+            
+            // 3. Smoothly zoom back in
+            setTimeout(() => {
+              const zoomInInterval = setInterval(() => {
+                currentZoom++;
+                map.setZoom(currentZoom);
+                if (currentZoom >= 17) clearInterval(zoomInInterval);
+              }, 120);
+            }, 600);
+          }
+        }, 120);
+      } else {
+        // If already zoomed out, just pan and zoom in
+        map.panTo({ lat: targetLat, lng: targetLng });
+        setTimeout(() => {
+          const zoomInInterval = setInterval(() => {
             currentZoom++;
             map.setZoom(currentZoom);
-            if (currentZoom >= targetZoom) clearInterval(zoomInterval);
-          }, 150); // 150ms per zoom step
-        } else if (currentZoom > targetZoom) {
-          map.setZoom(targetZoom); // if already too close, just snap out
-        }
-      }, 600); // wait for pan animation to mostly finish
+            if (currentZoom >= 17) clearInterval(zoomInInterval);
+          }, 120);
+        }, 600);
+      }
     }
   };
 
@@ -142,7 +171,7 @@ const ExploreLocationsPage = () => {
     const strokeWidth = isSelected ? "3" : "1.5";
     
     const svg = `
-      <svg viewBox="0 0 24 24" width="${30 * scale}" height="${30 * scale}" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 24 24" width="${30 * scale}" height="${30 * scale}" xmlns="http://www.w3.org/2000/svg" style="transition: all 0.3s ease;">
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"></path>
         <circle cx="12" cy="10" r="${isSelected ? 5 : 4}" fill="${stroke}" stroke="none"></circle>
       </svg>
@@ -167,13 +196,16 @@ const ExploreLocationsPage = () => {
             options={{
               disableDefaultUI: true,
               zoomControl: false,
-              mapTypeId: 'hybrid' // Keeping existing
+              mapTypeId: 'hybrid', // Keeping existing
+              backgroundColor: '#1C1C1C' // Dark background prevents light grey flashes while satellite tiles load
             }}
           >
             {filteredProperties.map((prop) => {
               if (prop.lat && prop.lng) {
                 const isSelected = selectedProperty?.id === prop.id;
                 const isHovered = hoveredProperty?.id === prop.id;
+                const isActive = isSelected || isHovered;
+                const formattedPrice = prop.priceFormatted || formatPropertyPrice(prop.price, prop.listingType);
                 
                 return (
                   <Marker
@@ -182,6 +214,7 @@ const ExploreLocationsPage = () => {
                     icon={getMarkerIcon(isSelected, isHovered)}
                     onClick={() => handleCardClick(prop)}
                     onMouseOver={() => handleCardHover(prop)}
+                    onMouseOut={() => setHoveredProperty(null)}
                   />
                 );
               }
@@ -205,7 +238,7 @@ const ExploreLocationsPage = () => {
               
               {/* Breadcrumb Header */}
               <div className="details-breadcrumb">
-                <span className="back-link" onClick={resetMap}>
+                <span className="back-link" onClick={() => setSelectedProperty(null)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                   Back to properties
                 </span>
@@ -291,7 +324,12 @@ const ExploreLocationsPage = () => {
             <>
               <div className="panel-header">
                 <div className="panel-eyebrow">EXPLORE KERALA</div>
-                <h1 className="panel-main-heading">Find a property<br/>that feels right.</h1>
+                <div 
+                  onClick={() => navigate('/')}
+                  style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', marginBottom: '24px', marginTop: '16px' }}
+                >
+                  <img src={logoStatic} alt="HelloProperties" style={{ height: '56px', width: 'auto' }} />
+                </div>
                 
                 <div className="search-pills">
                   <div 
@@ -323,11 +361,14 @@ const ExploreLocationsPage = () => {
                 ) : filteredProperties.length > 0 ? (
                   filteredProperties.map((prop) => {
                     const isSelected = selectedProperty?.id === prop.id;
+                    const isHovered = hoveredProperty?.id === prop.id;
                     return (
                       <div 
-                        className={`premium-card ${isSelected ? 'selected' : ''}`} 
+                        id={`property-card-${prop.id}`}
+                        className={`premium-card ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`} 
                         key={prop.id}
                         onMouseEnter={() => handleCardHover(prop)}
+                        onMouseLeave={() => setHoveredProperty(null)}
                         onClick={() => handleCardClick(prop)}
                       >
                         <div className="pc-img-wrapper">
