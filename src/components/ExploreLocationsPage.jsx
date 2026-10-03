@@ -4,7 +4,6 @@ import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import { formatPropertyPrice } from "../services/propertyService";
 import "./ExploreLocationsPage.css";
-import brandLogo from "../assets/png/helloproperties_fav.png";
 
 const mapContainerStyle = {
   width: '100%',
@@ -136,17 +135,22 @@ const ExploreLocationsPage = () => {
   }, [searchQuery, properties, isLoaded]);
 
   const getMarkerIcon = (isSelected, isHovered) => {
-    const scale = isSelected || isHovered ? 1.2 : 1;
+    const scale = isSelected || isHovered ? 1.3 : 1;
+    // Burgundy: #8E1D3B, Ivory: #FFF9F2
+    const fill = isSelected ? "#8E1D3B" : "#8E1D3B";
+    const stroke = isSelected ? "#FFF9F2" : "#ffffff";
+    const strokeWidth = isSelected ? "3" : "1.5";
+    
     const svg = `
-      <svg viewBox="0 0 24 24" width="${36 * scale}" height="${36 * scale}" xmlns="http://www.w3.org/2000/svg">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#C71E51" stroke="#ffffff" stroke-width="1.5"></path>
-        <circle cx="12" cy="10" r="4" fill="#ffffff" stroke="none"></circle>
+      <svg viewBox="0 0 24 24" width="${30 * scale}" height="${30 * scale}" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"></path>
+        <circle cx="12" cy="10" r="${isSelected ? 5 : 4}" fill="${stroke}" stroke="none"></circle>
       </svg>
     `;
     return {
       url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
-      scaledSize: new window.google.maps.Size(36 * scale, 36 * scale),
-      anchor: new window.google.maps.Point(18 * scale, 36 * scale)
+      scaledSize: new window.google.maps.Size(30 * scale, 30 * scale),
+      anchor: new window.google.maps.Point(15 * scale, 30 * scale)
     };
   };
 
@@ -163,7 +167,7 @@ const ExploreLocationsPage = () => {
             options={{
               disableDefaultUI: true,
               zoomControl: false,
-              mapTypeId: 'hybrid'
+              mapTypeId: 'hybrid' // Keeping existing
             }}
           >
             {filteredProperties.map((prop) => {
@@ -171,9 +175,6 @@ const ExploreLocationsPage = () => {
                 const isSelected = selectedProperty?.id === prop.id;
                 const isHovered = hoveredProperty?.id === prop.id;
                 
-                // Only render the marker if the property is selected or hovered
-                if (!isSelected && !isHovered) return null;
-
                 return (
                   <Marker
                     key={prop.id}
@@ -194,20 +195,9 @@ const ExploreLocationsPage = () => {
         )}
       </div>
 
-      {/* Floating UI Blur Backdrop */}
-      <div className="panel-blur-backdrop"></div>
-
       {/* Floating UI Panel */}
       <div className="floating-panel">
         
-        {/* Left Action Bar */}
-        <div className="action-bar">
-          <div className="brand-icon" onClick={() => navigate('/')} style={{cursor: 'pointer'}}>
-            <img src={brandLogo} alt="Logo" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
-          </div>
-          <div className="action-bar-spacer"></div>
-        </div>
-
         {/* Main Panel Content */}
         <div className="panel-content">
           {selectedProperty ? (
@@ -215,216 +205,156 @@ const ExploreLocationsPage = () => {
               
               {/* Breadcrumb Header */}
               <div className="details-breadcrumb">
-                <span className="back-link" onClick={resetMap}>Properties</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                <span className="current">{selectedProperty.title}</span>
+                <span className="back-link" onClick={resetMap}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  Back to properties
+                </span>
               </div>
               
-              {/* Title & Price */}
-              <div className="details-header-info">
-                <h2 className="details-title">{selectedProperty.title}</h2>
-                <div className="details-price-row">
-                  Price <strong>{selectedProperty.priceFormatted ? selectedProperty.priceFormatted : selectedProperty.price}</strong>
+              {/* Full Details View */}
+              <div className="premium-details-full">
+                {selectedProperty.imageUrl && (
+                  <div className="pdf-img-wrapper">
+                    <img src={selectedProperty.imageUrl.split(',')[0].trim()} alt={selectedProperty.title} className="pdf-img" />
+                    <div className="pdf-badge">{selectedProperty.listingType === "Rent" ? "For Rent" : "For Sale"}</div>
+                  </div>
+                )}
+                
+                <div className="pdf-header">
+                  <div className="pdf-location">{selectedProperty.location}{selectedProperty.district ? `, ${selectedProperty.district}` : ''}</div>
+                  <h2 className="pdf-title">{selectedProperty.title}</h2>
+                  <div className="pdf-price">
+                    {selectedProperty.priceFormatted ? selectedProperty.priceFormatted : formatPropertyPrice(selectedProperty.price, selectedProperty.listingType)}
+                    {selectedProperty.listingType === "Rent" && <span className="pdf-price-suffix">/mo</span>}
+                  </div>
                 </div>
-                <div className="details-location-row">
-                  {selectedProperty.location}{selectedProperty.district ? `, ${selectedProperty.district}` : ''}
-                </div>
-              </div>
 
-              {/* Main Property Image */}
-              {selectedProperty.imageUrl && (
-                <div style={{ flexShrink: 0, margin: '20px 24px', borderRadius: '16px', overflow: 'hidden', height: '240px', minHeight: '240px', position: 'relative', backgroundColor: '#f1f5f9', border: '1px solid #e2e8f0' }}>
-                  <img src={selectedProperty.imageUrl.split(',')[0].trim()} alt={selectedProperty.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                  {selectedProperty.videoUrl && (
-                    <a href={selectedProperty.videoUrl} target="_blank" rel="noopener noreferrer" style={{position: 'absolute', bottom: '16px', right: '16px', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', color: 'white', padding: '6px 12px', borderRadius: '20px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none', fontWeight: 500}}>
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg> Watch Video
-                    </a>
+                <div className="pdf-specs-grid">
+                  {selectedProperty.propertyType && (
+                    <div className="pdf-spec-item">
+                      <div className="pdf-spec-label">Type</div>
+                      <div className="pdf-spec-val">{selectedProperty.propertyType}</div>
+                    </div>
+                  )}
+                  {selectedProperty.bedrooms && (
+                    <div className="pdf-spec-item">
+                      <div className="pdf-spec-label">Bedrooms</div>
+                      <div className="pdf-spec-val">{selectedProperty.bedrooms} Beds</div>
+                    </div>
+                  )}
+                  {selectedProperty.bathrooms && (
+                    <div className="pdf-spec-item">
+                      <div className="pdf-spec-label">Bathrooms</div>
+                      <div className="pdf-spec-val">{selectedProperty.bathrooms} Baths</div>
+                    </div>
+                  )}
+                  {selectedProperty.landArea && (
+                    <div className="pdf-spec-item">
+                      <div className="pdf-spec-label">Land Area</div>
+                      <div className="pdf-spec-val">{selectedProperty.landArea}</div>
+                    </div>
+                  )}
+                  {selectedProperty.builtUpArea && (
+                    <div className="pdf-spec-item">
+                      <div className="pdf-spec-label">Built-up Area</div>
+                      <div className="pdf-spec-val">{selectedProperty.builtUpArea}</div>
+                    </div>
+                  )}
+                  {selectedProperty.status && (
+                    <div className="pdf-spec-item">
+                      <div className="pdf-spec-label">Status</div>
+                      <div className="pdf-spec-val">{selectedProperty.status}</div>
+                    </div>
                   )}
                 </div>
-              )}
 
-              {/* Amenities */}
-              <div className="details-amenities">
-                {selectedProperty.bedrooms && (
-                  <div className="amenity-pill">🚪 {selectedProperty.bedrooms} Rooms</div>
+                {selectedProperty.description && (
+                  <div className="pdf-section">
+                    <h3 className="pdf-section-title">About this property</h3>
+                    <p className="pdf-desc">{selectedProperty.description}</p>
+                  </div>
                 )}
-                {selectedProperty.bathrooms && (
-                  <div className="amenity-pill">🚿 {selectedProperty.bathrooms} Bathrooms</div>
-                )}
+
+                {/* <div className="pdf-actions">
+                  <a
+                    href={`https://wa.me/918009244355?text=Hello%2C%20I%20am%20interested%20in%20${encodeURIComponent(selectedProperty.title)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pdf-btn-solid"
+                  >
+                    Inquire on WhatsApp
+                  </a>
+                </div> */}
               </div>
-
-              <h3 className="details-section-title">Property Overview</h3>
-
-              <div className="details-card-group">
-                
-                {/* Description Card */}
-                <div className="details-card">
-                  <div className="dc-row" style={{borderBottom: 'none', paddingBottom: 0, marginBottom: 0}}>
-                    <div className="dc-icon" style={{background:'#f8fafc', color:'#0f172a'}}>📝</div>
-                    <div className="dc-content">
-                      <div className="dc-title">About this property</div>
-                      <div className="dc-desc" style={{marginTop: '12px', lineHeight: '1.6'}}>
-                        {selectedProperty.description ? selectedProperty.description : "An excellent real estate opportunity located in a prime area. Contact our agents for a detailed brochure and viewing arrangements."}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Specifications Card */}
-                <div className="details-card">
-                  <div className="dc-row" style={{paddingBottom: '16px'}}>
-                    <div className="dc-icon" style={{background:'#f8fafc', color:'#0f172a'}}>📋</div>
-                    <div className="dc-content">
-                      <div className="dc-title">Specifications</div>
-                      <div className="dc-desc">Complete details and property metrics.</div>
-                    </div>
-                  </div>
-                  
-                  <div className="details-specs-grid">
-
-                    {selectedProperty.propertyType && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Property Type</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>{selectedProperty.propertyType}</div>
-                      </div>
-                    )}
-                    {selectedProperty.listingType && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Listing Type</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>{selectedProperty.listingType === "Rent" ? "For Rent" : "For Sale"}</div>
-                      </div>
-                    )}
-                    {selectedProperty.landArea && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Land Area</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>{selectedProperty.landArea}</div>
-                      </div>
-                    )}
-                    {selectedProperty.builtUpArea && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Built-up Area</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>{selectedProperty.builtUpArea}</div>
-                      </div>
-                    )}
-                    {selectedProperty.bedrooms && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Bedrooms</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>{selectedProperty.bedrooms} Beds</div>
-                      </div>
-                    )}
-                    {selectedProperty.bathrooms && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Bathrooms</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>{selectedProperty.bathrooms} Baths</div>
-                      </div>
-                    )}
-                    {selectedProperty.status && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Status</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>{selectedProperty.status}</div>
-                      </div>
-                    )}
-                    {selectedProperty.createdAt && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Listed On</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>
-                          {new Date(selectedProperty.createdAt).toLocaleDateString()}
-                        </div>
-                      </div>
-                    )}
-                    {selectedProperty.securityDeposit > 0 && (
-                      <div>
-                        <div style={{fontSize: '12px', color: '#64748b', marginBottom: '4px'}}>Security Deposit</div>
-                        <div style={{fontSize: '14px', fontWeight: '600', color: '#0f172a'}}>
-                          ₹{selectedProperty.securityDeposit.toLocaleString('en-IN')}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Action Card */}
-              {/* <div className="summary-card">
-                <div className="summary-total">
-                  <div>Price</div>
-                  <div>{selectedProperty.priceFormatted ? selectedProperty.priceFormatted : selectedProperty.price}</div>
-                </div>
-
-                <button className="checkout-btn" onClick={() => navigate('/contact')}>Contact Agent</button>
-              </div> */}
-
             </div>
           ) : (
             <>
               <div className="panel-header">
-                <div className="search-pills" style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px' }}>
+                <div className="panel-eyebrow">EXPLORE KERALA</div>
+                <h1 className="panel-main-heading">Find a property<br/>that feels right.</h1>
+                
+                <div className="search-pills">
                   <div 
                     className={`pill ${listingTypeFilter === 'All' ? 'active' : ''}`}
                     onClick={() => setListingTypeFilter('All')}
-                    style={{ cursor: 'pointer' }}
                   >
                     All Properties
                   </div>
                   <div 
                     className={`pill ${listingTypeFilter === 'Rent' ? 'active' : ''}`}
                     onClick={() => setListingTypeFilter('Rent')}
-                    style={{ cursor: 'pointer' }}
                   >
                     For Rent
                   </div>
                   <div 
                     className={`pill ${listingTypeFilter === 'Sale' ? 'active' : ''}`}
                     onClick={() => setListingTypeFilter('Sale')}
-                    style={{ cursor: 'pointer' }}
                   >
                     For Sale
                   </div>
                 </div>
-                <div className="divider-line"></div>
+                
+                <div className="results-count">{filteredProperties.length} properties matching</div>
               </div>
               
-              <div className="results-count">{filteredProperties.length} properties matching</div>
-
               <div className="property-list">
                 {loading ? (
-                  <div style={{textAlign: 'center', padding: '40px', color: '#64748b'}}>Loading properties...</div>
+                  <div className="loading-state">Loading properties...</div>
                 ) : filteredProperties.length > 0 ? (
-                  filteredProperties.map((prop) => (
-                    <div 
-                      className="horizontal-card" 
-                      key={prop.id}
-                      onMouseEnter={() => handleCardHover(prop)}
-                      onClick={() => handleCardClick(prop)}
-                      style={{ opacity: hoveredProperty?.id === prop.id ? 1 : 0.7 }}
-                    >
-                      <div className="hc-img-wrapper">
-                        {prop.imageUrl ? (
-                          <img src={prop.imageUrl.split(',')[0].trim()} alt={prop.title} className="hc-img" loading="lazy" />
-                        ) : (
-                          <div className="hc-img" style={{backgroundColor: '#e2e8f0'}} />
-                        )}
-                      </div>
-                      
-                      <div className="hc-details">
-                        <div className="hc-title">{prop.title}</div>
-                        <div className="hc-location">{prop.location || "Kerala"}{prop.district ? `, ${prop.district}` : ""}</div>
+                  filteredProperties.map((prop) => {
+                    const isSelected = selectedProperty?.id === prop.id;
+                    return (
+                      <div 
+                        className={`premium-card ${isSelected ? 'selected' : ''}`} 
+                        key={prop.id}
+                        onMouseEnter={() => handleCardHover(prop)}
+                        onClick={() => handleCardClick(prop)}
+                      >
+                        <div className="pc-img-wrapper">
+                          {prop.imageUrl ? (
+                            <img src={prop.imageUrl.split(',')[0].trim()} alt={prop.title} className="pc-img" loading="lazy" />
+                          ) : (
+                            <div className="pc-img-placeholder" />
+                          )}
+                        </div>
                         
-                        <div className="hc-price">
-                          {prop.priceFormatted || formatPropertyPrice(prop.price, prop.listingType)}
+                        <div className="pc-details">
+                          <div className="pc-title">{prop.title}</div>
+                          <div className="pc-location">{prop.location || "Kerala"}{prop.district ? `, ${prop.district}` : ""}</div>
+                          <div className="pc-price">
+                            {prop.priceFormatted || formatPropertyPrice(prop.price, prop.listingType)}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 ) : (
-                  <div style={{textAlign: 'center', padding: '40px', color: '#64748b'}}>No properties found.</div>
+                  <div className="empty-state">No properties found.</div>
                 )}
               </div>
             </>
           )}
         </div>
-
       </div>
     </div>
   );
