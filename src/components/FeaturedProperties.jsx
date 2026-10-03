@@ -93,7 +93,7 @@ const FeaturedProperties = () => {
       price: p.priceFormatted || "Price on Request",
       listingType: p.listingType === "Rent" ? "For Rent" : "For Sale",
       status: p.status,
-      img: p.imageUrl,
+      img: p.imageUrl ? p.imageUrl.split(',')[0].trim() : null,
       video: p.videoUrl || p.video,
     }));
   } else {
@@ -175,7 +175,12 @@ const FeaturedProperties = () => {
                 <div className="arch-card-bottom-bar">
                   <button className="arch-card-cta-btn" type="button" aria-label="Explore property">
                     <span>EXPLORE PROPERTY</span>
-                    <span className="cta-arrow">→</span>
+                    <span className="cta-arrow">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </span>
                   </button>
                 </div>
               </div>

@@ -43,15 +43,15 @@ const Footer = () => {
           <div className="hp-footer-col">
             <h4 className="hp-footer-col-title">Follow</h4>
             <ul className="hp-footer-links">
-              <li><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a></li>
-              <li><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a></li>
+              <li><a href="https://www.instagram.com/helloproperties_/" target="_blank" rel="noreferrer">Instagram</a></li>
+              <li><a href="tel:+919876543210">+91 98765 43210</a></li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="hp-footer-bottom">
-          <p>© 2026 HelloProperties Kerala. All rights reserved.</p>
+          <p>© 2026 HelloProperties. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -406,7 +406,7 @@ const PropertiesPage = () => {
                       <div className="ref-card-img-frame">
                         {prop.imageUrl ? (
                           <img
-                            src={prop.imageUrl}
+                            src={prop.imageUrl.split(',')[0].trim()}
                             alt={prop.title}
                             className="ref-card-img"
                             loading="lazy"
@@ -525,7 +525,7 @@ const PropertiesPage = () => {
               <div className="modal-img-col">
                 {selectedProperty.imageUrl ? (
                   <img
-                    src={selectedProperty.imageUrl}
+                    src={selectedProperty.imageUrl.split(',')[0].trim()}
                     alt={selectedProperty.title}
                     className="modal-hero-img"
                   />

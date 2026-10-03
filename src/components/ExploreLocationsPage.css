@@ -322,30 +322,6 @@
   height: 14px;
 }
 
-/* Floating Request Button (Bottom center of map) */
-.map-request-btn {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(13, 14, 14, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(13, 14, 14, 0.5);
-  color: white;
-  padding: 10px 24px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 700;
-  z-index: 10;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.map-request-btn:hover {
-  background: rgba(13, 14, 14, 0.95);
-  color: white;
-}
-
 /* 
  * DETAILS VIEW STYLES 
  */
@@ -534,6 +510,12 @@
   color: #64748b;
 }
 
+.details-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
 .dc-action-row {
   display: flex;
   align-items: center;
@@ -642,9 +624,23 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 60vh;
+    height: 55vh; /* Keep 45vh map visible */
     border-radius: 24px 24px 0 0;
     flex-direction: column;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  }
+  /* Mobile drag handle indicator */
+  .floating-panel::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 4px;
+    z-index: 20;
   }
   .action-bar {
     width: 100%;
@@ -653,6 +649,8 @@
     padding: 0 20px;
     border-right: none;
     border-bottom: 1px solid #f1f5f9;
+    align-items: center;
+    margin-top: 10px; /* space for drag handle */
   }
   .brand-icon, .action-btn, .action-btn-outline, .action-btn-solid {
     margin-bottom: 0;
@@ -660,4 +658,49 @@
     width: 36px;
     height: 36px;
   }
+  
+  /* Details view adjustments */
+  .details-specs-grid {
+    grid-template-columns: 1fr; /* Stack specs on mobile */
+  }
+  .details-header-info,
+  .details-breadcrumb,
+  .details-amenities,
+  .details-section-title {
+    padding: 0 16px;
+  }
+  .details-breadcrumb {
+    padding-top: 16px;
+  }
+  .details-card-group {
+    padding: 0 16px 16px;
+  }
+  .summary-card {
+    margin: 0 16px 24px;
+  }
+  .details-carousel, .hc-img-wrapper {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  .details-carousel {
+    height: 180px;
+  }
+  
+  /* List adjustments */
+  .property-list {
+    padding: 0 16px 16px;
+  }
+  .panel-header {
+    padding: 16px 16px 0;
+  }
+  .results-count {
+    margin: 12px 16px;
+  }
+  .hc-img-wrapper {
+    width: 100px;
+    height: 90px;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
+

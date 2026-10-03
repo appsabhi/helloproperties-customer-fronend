@@ -30,6 +30,8 @@ function HomePage() {
   );
 }
 
+import ScrollToTopButton from "./components/ScrollToTopButton";
+
 function App() {
   return (
     <CustomerPropertyProvider>
@@ -41,6 +43,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        <ScrollToTopButton />
       </BrowserRouter>
     </CustomerPropertyProvider>
   );

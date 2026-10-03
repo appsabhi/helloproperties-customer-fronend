@@ -20,6 +20,7 @@ const ExploreLocationsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [listingTypeFilter, setListingTypeFilter] = useState("All");
 
   const [selectedProperty, setSelectedProperty] = useState(null);
 
@@ -51,16 +52,23 @@ const ExploreLocationsPage = () => {
     }
   }, [location.search]);
 
-  // Filter properties by search query
+  // Filter properties by search query and listing type
   const filteredProperties = properties.filter((p) => {
+    let matchesSearch = true;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       const titleMatch = (p.title || "").toLowerCase().includes(q);
       const locMatch = (p.location || "").toLowerCase().includes(q);
       const distMatch = (p.district || "").toLowerCase().includes(q);
-      return titleMatch || locMatch || distMatch;
+      matchesSearch = titleMatch || locMatch || distMatch;
     }
-    return true;
+    
+    let matchesListingType = true;
+    if (listingTypeFilter !== "All") {
+      matchesListingType = p.listingType === listingTypeFilter;
+    }
+
+    return matchesSearch && matchesListingType;
   });
 
   const applyBounds = (mapInstance) => {
@@ -184,9 +192,6 @@ const ExploreLocationsPage = () => {
             Loading Map...
           </div>
         )}
-        
-        {/* Floating Button over Map */}
-        <button className="map-request-btn">Request Unit</button>
       </div>
 
       {/* Floating UI Blur Backdrop */}
@@ -229,7 +234,7 @@ const ExploreLocationsPage = () => {
               {/* Main Property Image */}
               {selectedProperty.imageUrl && (
                 <div style={{ flexShrink: 0, margin: '20px 24px', borderRadius: '16px', overflow: 'hidden', height: '240px', minHeight: '240px', position: 'relative', backgroundColor: '#f1f5f9', border: '1px solid #e2e8f0' }}>
-                  <img src={selectedProperty.imageUrl} alt={selectedProperty.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  <img src={selectedProperty.imageUrl.split(',')[0].trim()} alt={selectedProperty.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   {selectedProperty.videoUrl && (
                     <a href={selectedProperty.videoUrl} target="_blank" rel="noopener noreferrer" style={{position: 'absolute', bottom: '16px', right: '16px', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', color: 'white', padding: '6px 12px', borderRadius: '20px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none', fontWeight: 500}}>
                       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg> Watch Video
@@ -275,7 +280,7 @@ const ExploreLocationsPage = () => {
                     </div>
                   </div>
                   
-                  <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
+                  <div className="details-specs-grid">
 
                     {selectedProperty.propertyType && (
                       <div>
@@ -341,31 +346,40 @@ const ExploreLocationsPage = () => {
               </div>
 
               {/* Action Card */}
-              <div className="summary-card">
+              {/* <div className="summary-card">
                 <div className="summary-total">
                   <div>Price</div>
                   <div>{selectedProperty.priceFormatted ? selectedProperty.priceFormatted : selectedProperty.price}</div>
                 </div>
 
                 <button className="checkout-btn" onClick={() => navigate('/contact')}>Contact Agent</button>
-              </div>
+              </div> */}
 
             </div>
           ) : (
             <>
               <div className="panel-header">
-                <div className="search-pills">
-                  <div className="pill">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    Properties in map area
+                <div className="search-pills" style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px' }}>
+                  <div 
+                    className={`pill ${listingTypeFilter === 'All' ? 'active' : ''}`}
+                    onClick={() => setListingTypeFilter('All')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    All Properties
                   </div>
-                  <div className="pill active">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    Available Now
+                  <div 
+                    className={`pill ${listingTypeFilter === 'Rent' ? 'active' : ''}`}
+                    onClick={() => setListingTypeFilter('Rent')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    For Rent
                   </div>
-                  <div className="pill active">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    Any size
+                  <div 
+                    className={`pill ${listingTypeFilter === 'Sale' ? 'active' : ''}`}
+                    onClick={() => setListingTypeFilter('Sale')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    For Sale
                   </div>
                 </div>
                 <div className="divider-line"></div>
@@ -387,7 +401,7 @@ const ExploreLocationsPage = () => {
                     >
                       <div className="hc-img-wrapper">
                         {prop.imageUrl ? (
-                          <img src={prop.imageUrl} alt={prop.title} className="hc-img" loading="lazy" />
+                          <img src={prop.imageUrl.split(',')[0].trim()} alt={prop.title} className="hc-img" loading="lazy" />
                         ) : (
                           <div className="hc-img" style={{backgroundColor: '#e2e8f0'}} />
                         )}

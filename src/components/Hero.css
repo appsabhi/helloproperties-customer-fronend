@@ -104,89 +104,39 @@
   animation: fadeInFromLeft 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
 }
 
-/* Location Search Bar */
-.mnzil-hero-search-wrapper {
+/* Hero CTA Button */
+.mnzil-hero-cta-wrapper {
   position: relative;
-  max-width: 650px;
-  width: 90%;
-  margin: 0 auto;
-}
-
-.mnzil-hero-search-bar {
   display: flex;
-  align-items: center;
-  background: #FFFFFF;
-  border-radius: 50px;
-  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.mnzil-hero-search-bar:focus-within {
-  box-shadow: 0 20px 40px rgba(74, 4, 20, 0.1);
-  border-color: rgba(74, 4, 20, 0.2);
-}
-
-.mnzil-search-icon {
-  color: #888;
-  display: flex;
-  align-items: center;
-}
-
-.mnzil-search-input {
-  flex: 1;
-  min-width: 0;
-  border: none;
-  background: transparent;
-  padding: 0.8rem 1rem;
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  color: #2A2A2A;
-  outline: none;
-}
-
-.mnzil-search-input::placeholder {
-  color: #A0A0A0;
-}
-
-.mnzil-search-clear {
-  background: none;
-  border: none;
-  color: #A0A0A0;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  transition: color 0.2s ease;
-}
-
-.mnzil-search-clear:hover {
-  color: #2A2A2A;
-}
-
-.mnzil-search-btn {
-  background-color: var(--color-burgundy);
-  color: #FFFFFF;
-  border: none;
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  width: 100%;
+}
+
+.mnzil-hero-cta-button {
+  background-color: #FFFCDF; /* Solid cream yellow */
+  color: #3D1C22; /* Dark burgundy for text */
+  border: none;
+  border-radius: 50px;
+  padding: 1.1rem 3.5rem;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
-.mnzil-search-btn:hover {
-  background-color: #3A020F;
-  transform: translateY(-1px);
+.mnzil-hero-cta-button:hover {
+  background-color: #FFFFFF;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
-.mnzil-search-btn:active {
-  transform: translateY(0);
+.mnzil-hero-cta-button:active {
+  transform: translateY(0) scale(0.98);
+  background-color: #F5F2D0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Autocomplete Dropdown */

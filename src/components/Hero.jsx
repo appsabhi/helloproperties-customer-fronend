@@ -4,6 +4,11 @@ import { motion, animate, useMotionValue, useTransform, useReducedMotion } from 
 import { propertyCategories } from "./propertyCategories";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import "./Hero.css";
+import { MorphIcon } from "morphicons/react";
+import { svgToIcon } from "morphicons/adapters";
+
+const mapPinSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+const MapPinIcon = svgToIcon(mapPinSvg);
 
 import heroBgImg from "../assets/png/hero_new.jpg";
 import heroMobileBgImg from "../assets/png/hero_new_mobile.jpg";
@@ -106,22 +111,11 @@ const Hero = () => {
         Find with confidence.<br/><span className="mnzil-title-italic"><span style={{ color: 'rgb(255, 90, 134)' }}>Invest</span> with clarity.</span>
           </h1>
 
-          <div className="mnzil-hero-search-wrapper" ref={searchRef} onClick={() => navigate('/explore')} style={{ cursor: 'pointer' }}>
-            <div className="mnzil-hero-search-bar">
-              <div className="mnzil-search-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              </div>
-              <input 
-                type="text" 
-                placeholder="Search by city, area, or locality" 
-                className="mnzil-search-input"
-                readOnly
-                style={{ cursor: 'pointer' }}
-              />
-              <button type="button" className="mnzil-search-btn" aria-label="Search properties">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              </button>
-            </div>
+          <div className="mnzil-hero-cta-wrapper" style={{ marginTop: '2rem' }}>
+            <button className="mnzil-hero-cta-button" onClick={() => navigate('/explore')} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <MorphIcon icon={MapPinIcon} size={20} />
+              Discover on Map
+            </button>
           </div>
         </div>
 
