@@ -42,9 +42,8 @@
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center right; /* Keeps the 3D models visible on the right */
+  background-position: center right;
   background-repeat: no-repeat;
-  filter: opacity(0.85);
   opacity: 0.8;
   z-index: 4; /* Below interactive content */
   pointer-events: none;
@@ -113,30 +112,61 @@
 }
 
 .mnzil-hero-cta-button {
-  background-color: #FFFCDF; /* Solid cream yellow */
-  color: #3D1C22; /* Dark burgundy for text */
-  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 32px;
+  background-color: #FFFFFF;
+  border: 8px solid rgba(255, 255, 255, 0.25);
+  background-clip: padding-box;
+  color: #7A0B2E;
+  gap: 12px;
   border-radius: 50px;
-  padding: 1.1rem 3.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mnzil-hero-cta-button .cta-text {
   font-family: var(--font-sans, sans-serif);
   font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.mnzil-hero-cta-button .cta-svg {
+  padding-top: 5px;
+  height: 100%;
+  width: fit-content;
+}
+
+.mnzil-hero-cta-button .cta-svg svg {
+  width: 50px;
+  height: 25px;
 }
 
 .mnzil-hero-cta-button:hover {
-  background-color: #FFFFFF;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  border: 8px solid rgba(255, 255, 255, 0.45);
+  background-color: #F8F7F4;
 }
 
 .mnzil-hero-cta-button:active {
-  transform: translateY(0) scale(0.98);
-  background-color: #F5F2D0;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 5px solid rgba(255, 255, 255, 0.20);
+}
+
+.mnzil-hero-cta-button:hover .cta-svg svg {
+  animation: jello-vertical 0.9s both;
+  transform-origin: left;
+}
+
+@keyframes jello-vertical {
+  0% { transform: scale3d(1, 1, 1); }
+  30% { transform: scale3d(0.75, 1.25, 1); }
+  40% { transform: scale3d(1.25, 0.75, 1); }
+  50% { transform: scale3d(0.85, 1.15, 1); }
+  65% { transform: scale3d(1.05, 0.95, 1); }
+  75% { transform: scale3d(0.95, 1.05, 1); }
+  100% { transform: scale3d(1, 1, 1); }
 }
 
 /* Autocomplete Dropdown */
@@ -287,8 +317,8 @@
   border-radius: 26px;
   overflow: hidden;
   color: #fff;
-  background: #3d1c22;
-  box-shadow: 0 20px 32px rgb(38 10 20 / 18%);
+  background: #1a1a1a;
+  box-shadow: 0 20px 32px rgba(0, 0, 0, 0.4);
   transform-origin: center center;
   /* Individual translate preserves the carousel's Motion rotation and position. */
   translate: 0 var(--card-lift);
@@ -304,6 +334,27 @@
   opacity: var(--edge-opacity);
   pointer-events: none;
   transition: opacity 350ms ease;
+  z-index: 3;
+}
+
+.mnzil-card-skeleton {
+  position: absolute;
+  inset: 0;
+  background: #1a1a1a;
+  background-image: linear-gradient(
+    90deg,
+    #1a1a1a 0px,
+    #2a2a2a 40px,
+    #1a1a1a 80px
+  );
+  background-size: 600px;
+  animation: heroShimmer 2s infinite linear;
+  z-index: 1;
+}
+
+@keyframes heroShimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
 }
 
 .mnzil-hero + .arch-intro-section {
@@ -330,13 +381,14 @@
   font-weight: 600;
   line-height: 1.3;
   text-align: center;
+  z-index: 2;
 }
 
 .mnzil-hero-category:focus-visible {
   --card-lift: -12px;
   --image-scale: 1.06;
   --edge-opacity: 1;
-  box-shadow: 0 30px 48px rgb(38 10 20 / 32%);
+  box-shadow: 0 30px 48px rgba(0, 0, 0, 0.6);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -348,7 +400,7 @@
     --card-lift: -12px;
     --image-scale: 1.06;
     --edge-opacity: 1;
-    box-shadow: 0 30px 48px rgb(38 10 20 / 32%);
+    box-shadow: 0 30px 48px rgba(0, 0, 0, 0.6);
   }
 }
 

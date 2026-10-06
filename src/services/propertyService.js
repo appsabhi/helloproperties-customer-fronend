@@ -61,9 +61,20 @@ export function normalizeProperty(item, index = 0) {
   const securityDeposit = item.securityDeposit !== undefined ? Number(item.securityDeposit) : Number(item.security_deposit || 0);
   const priceRaw = listingType === "Rent" ? monthlyRent : expectedPrice;
   
-  // Resolve Image URL
-  let rawImg = item.imageUrl || item.image_url || (Array.isArray(item.images) && item.images[0]) || item.image || "";
-  const imageUrl = resolveImageUrl(rawImg);
+  // Resolve Image URLs (handle comma-separated strings from backend)
+  let rawImagesList = [];
+  if (Array.isArray(item.images) && item.images.length > 0) {
+    rawImagesList = item.images;
+  } else if (typeof item.imageUrl === 'string' && item.imageUrl.includes(',')) {
+    rawImagesList = item.imageUrl.split(',').map(s => s.trim()).filter(Boolean);
+  } else if (typeof item.image_url === 'string' && item.image_url.includes(',')) {
+    rawImagesList = item.image_url.split(',').map(s => s.trim()).filter(Boolean);
+  } else if (item.imageUrl || item.image_url || item.image) {
+    rawImagesList = [item.imageUrl || item.image_url || item.image];
+  }
+
+  const images = rawImagesList.length > 0 ? rawImagesList.map(resolveImageUrl) : [resolveImageUrl("")];
+  const imageUrl = images[0];
 
   const propType = item.propertyType || item.property_type || item.category || "Plot/Land";
 
@@ -92,9 +103,10 @@ export function normalizeProperty(item, index = 0) {
     lat: (item.latitude || item.lat) ? parseFloat(item.latitude || item.lat) : null,
     lng: (item.longitude || item.lng) ? parseFloat(item.longitude || item.lng) : null,
     imageUrl,
-    images: Array.isArray(item.images) && item.images.length > 0 ? item.images.map(resolveImageUrl) : [imageUrl],
-    status: item.status || "Available",
+    images,
+    status: (!item.status || item.status.toLowerCase() === 'active') ? "Available" : item.status,
     isFeatured: Boolean(item.isFeatured || item.featured),
+    isActive: item.isActive !== undefined ? Boolean(item.isActive) : (item.is_active !== undefined ? Boolean(item.is_active) : true),
     createdAt: item.createdAt || item.created_at || new Date().toISOString(),
   };
 }
@@ -137,7 +149,9 @@ export async function fetchProperties() {
         rawList = data.listings;
       }
 
-      const properties = rawList.map((p, i) => normalizeProperty(p, i));
+      const properties = rawList
+        .map((p, i) => normalizeProperty(p, i))
+        .filter(p => p.isActive !== false && (p.status || "").toLowerCase() !== "inactive");
       return { success: true, properties };
     } catch (error) {
       console.warn(`fetchProperties failed for ${endpoint}:`, error.message);

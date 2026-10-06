@@ -1,51 +1,17 @@
-import React from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./FeaturedProperties.css";
 
-const DEMO_FALLBACK_CARDS = [
-  {
-    id: "wayanad-tropical-villa",
-    type: "HOUSE/VILLA",
-    title: "Modern Tropical Villa in Wayanad",
-    location: "Vythiri, Wayanad",
-    specs: "4 BHK  •  4,800 sq ft",
-    price: "₹ 4.5 Cr",
-    listingType: "For Sale",
-    img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: "kochi-waterfront-apartment",
-    type: "APARTMENT/FLAT",
-    title: "Waterfront Luxury Apartment in Kochi",
-    location: "Marine Drive, Kochi",
-    specs: "3 BHK  •  2,400 sq ft",
-    price: "₹ 2.2 Cr",
-    listingType: "For Sale",
-    img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: "munnar-tea-plantation",
-    type: "AGRICULTURAL LAND",
-    title: "Agricultural Farmland Estate in Munnar",
-    location: "Devikulam, Munnar",
-    specs: "12.5 Acres",
-    price: "₹ 3.8 Cr",
-    listingType: "For Sale",
-    img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1000&q=85",
-  },
-  {
-    id: "calicut-gated-plot",
-    type: "RESIDENTIAL PLOT",
-    title: "Gated Community Residential Plot in Calicut",
-    location: "Thondayad, Kozhikode",
-    specs: "18 Cents",
-    price: "₹ 95 Lakhs",
-    listingType: "For Sale",
-    img: "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1000&q=85",
-  },
-];
+// Register ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
+
+// Optimize for mobile (prevents lag when address bar shows/hides)
+ScrollTrigger.config({ ignoreMobileResize: true });
+
+// Demo properties removed.
 
 function formatSpecs(p) {
   const parts = [];
@@ -74,15 +40,17 @@ function formatLocation(p) {
 
 const FeaturedProperties = () => {
   const navigate = useNavigate();
-  const { properties, loading } = useCustomerProperties();
+  const { properties } = useCustomerProperties();
+
+  const containerRef = useRef(null);
+  const rowRef = useRef(null);
 
   let displayCards = [];
 
   if (properties && properties.length > 0) {
-    // Prioritize featured properties from DB, then select top 4 curated properties
     const featured = properties.filter((p) => p.isFeatured);
     const nonFeatured = properties.filter((p) => !p.isFeatured);
-    const combined = [...featured, ...nonFeatured].slice(0, 4);
+    const combined = [...featured, ...nonFeatured].slice(0, 8);
 
     displayCards = combined.map((p) => ({
       id: p.id,
@@ -96,52 +64,87 @@ const FeaturedProperties = () => {
       img: p.imageUrl ? p.imageUrl.split(',')[0].trim() : null,
       video: p.videoUrl || p.video,
     }));
-  } else {
-    displayCards = DEMO_FALLBACK_CARDS.slice(0, 4);
+  }
+
+  useLayoutEffect(() => {
+    // A gsap.context makes cleanup extremely easy and isolates our selectors
+    let ctx = gsap.context(() => {
+      // Apply pinning & scroll hijacking on all screen sizes now.
+      let mm = gsap.matchMedia();
+
+      mm.add("all", () => {
+        if (!rowRef.current || displayCards.length === 0) return;
+        // Function to calculate exact horizontal distance to travel
+        const getScrollAmount = () => {
+          let rowWidth = rowRef.current.scrollWidth;
+          let viewportWidth = window.innerWidth;
+          // Return the exact overflow amount so the last card perfectly stops at the right edge
+          return -(rowWidth - viewportWidth + 60); // 60px padding buffer
+        };
+
+        const tween = gsap.to(rowRef.current, {
+          x: getScrollAmount,
+          ease: "none",
+          force3D: true, // Hardware acceleration
+        });
+
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: "top 80px", // Pin it just beneath the navbar
+          end: () => `+=${Math.abs(getScrollAmount())}`, // scroll distance equals horizontal distance
+          pin: true,
+          animation: tween,
+          scrub: 0.5, // Reduced from 1 to 0.5 for tighter, less laggy response
+          invalidateOnRefresh: true, // Recalculate values dynamically on window resize!
+        });
+
+        return () => {
+          tween.kill(); // clean up animation if component unmounts or crosses breakpoint
+        };
+      });
+
+    }, containerRef); // Scoped to this component
+
+    return () => ctx.revert();
+  }, [displayCards.length]);
+
+  if (!properties || properties.length === 0) {
+    return null; // Don't render the section if no properties are loaded yet
   }
 
   return (
-    <section className="arch-featured-section">
+    <section ref={containerRef} className="arch-featured-section">
       <div className="hp-container">
-        {/* Header */}
-        <motion.div 
-          className="arch-featured-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
+        {/* Stationary Header */}
+        <div className="arch-featured-header-wrap">
           <div>
             <span className="meta-label">CURATED SELECTION</span>
             <h2 className="arch-featured-title">FEATURED PROPERTIES</h2>
           </div>
-        </motion.div>
-
-        <div className="arch-featured-actions">
-          <Link to="/properties" className="arch-view-all-link">
-            <span>VIEW ALL PROPERTIES</span>
-            <span className="arr">→</span>
-          </Link>
+          <div className="arch-featured-actions desktop-actions">
+            <Link to="/properties" className="arch-view-all-link">
+              <span>VIEW ALL PROPERTIES</span>
+              <span className="arr">→</span>
+            </Link>
+          </div>
         </div>
+      </div>
 
-        {/* 4-Card Architectural Grid */}
-        <div className="arch-property-grid">
+      <div className="slider-viewport-container">
+        {/* Sliding Row */}
+        <div ref={rowRef} className="arch-property-grid" style={{ paddingLeft: "max(2rem, calc((100vw - 1400px) / 2 + 2rem))" }}>
           {displayCards.map((prop, index) => (
-            <motion.article
+            <article
               key={prop.id}
               className="arch-featured-card"
-              onClick={() => navigate(`/properties?id=${prop.id}`)}
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 1, delay: index * 0.15, ease: [0.25, 1, 0.5, 1] }}
+              onClick={() => navigate(`/property/${prop.id}`)}
             >
               {/* Image Frame with Translucent Glass Floating Badges */}
               <div className="arch-card-media-wrap">
                 {prop.img ? (
                   <img src={prop.img} alt={prop.title} className="arch-card-media-img" loading="lazy" />
                 ) : prop.video ? (
-                  <video src={prop.video} className="arch-card-media-img" preload="metadata" muted playsInline style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                  <video src={`${prop.video}#t=0.1`} className="arch-card-media-img" preload="metadata" muted playsInline style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                 ) : (
                   <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85" alt={prop.title} className="arch-card-media-img" loading="lazy" />
                 )}
@@ -168,9 +171,7 @@ const FeaturedProperties = () => {
 
                 <h3 className="arch-card-item-title">{prop.title}</h3>
                 
-                <div className="arch-card-specs-row">
-                  {/* <span className="spec-item">{prop.specs}</span> */}
-                </div>
+                <div className="arch-card-specs-row"></div>
 
                 <div className="arch-card-bottom-bar">
                   <button className="arch-card-cta-btn" type="button" aria-label="Explore property">
@@ -184,13 +185,19 @@ const FeaturedProperties = () => {
                   </button>
                 </div>
               </div>
-            </motion.article>
+            </article>
           ))}
         </div>
+      </div>
+
+      <div className="arch-featured-actions mobile-actions">
+        <Link to="/properties" className="arch-view-all-link">
+          <span>VIEW ALL PROPERTIES</span>
+          <span className="arr">→</span>
+        </Link>
       </div>
     </section>
   );
 };
 
 export default FeaturedProperties;
-

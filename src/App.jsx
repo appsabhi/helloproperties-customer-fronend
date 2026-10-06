@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -7,10 +7,14 @@ import ConsultancyServices from "./components/ConsultancyServices";
 import FeaturedProperties from "./components/FeaturedProperties";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
-import PropertiesPage from "./components/PropertiesPage";
-import ExploreLocationsPage from "./components/ExploreLocationsPage";
-import ContactPage from "./components/ContactPage";
-import NotFoundPage from "./components/NotFoundPage";
+
+// Lazy Loaded Pages
+const PropertiesPage = lazy(() => import("./components/PropertiesPage"));
+const ExploreLocationsPage = lazy(() => import("./components/ExploreLocationsPage"));
+const ContactPage = lazy(() => import("./components/ContactPage"));
+const NotFoundPage = lazy(() => import("./components/NotFoundPage"));
+const PropertyDetailsPage = lazy(() => import("./components/PropertyDetailsPage"));
+import GlobalLoader from "./components/GlobalLoader";
 
 import { CustomerPropertyProvider } from "./context/CustomerPropertyContext";
 
@@ -36,13 +40,16 @@ function App() {
   return (
     <CustomerPropertyProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/explore" element={<ExploreLocationsPage />} />
-          <Route path="/properties" element={<PropertiesPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <Suspense fallback={<GlobalLoader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/explore" element={<ExploreLocationsPage />} />
+            <Route path="/properties" element={<PropertiesPage />} />
+            <Route path="/property/:id" element={<PropertyDetailsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
         <ScrollToTopButton />
       </BrowserRouter>
     </CustomerPropertyProvider>

@@ -80,33 +80,51 @@ const Header = () => {
               </button>
             </div>
           </div>
-
-          {/* Mobile Drawer Menu */}
-          <div className={`arch-mobile-drawer ${mobileOpen ? "active" : ""}`}>
-            <div className="arch-drawer-backdrop" onClick={() => setMobileOpen(false)}></div>
-            <div className="arch-drawer-content">
-              <div className="arch-drawer-header">
-                <img src={logoStatic} alt="HelloProperties Kerala" className="arch-drawer-logo-img" />
-                <button className="arch-drawer-close" onClick={() => setMobileOpen(false)}>✕</button>
-              </div>
-              <nav className="arch-drawer-nav">
-                <Link to="/" onClick={() => setMobileOpen(false)}>HOME</Link>
-                <Link to="/properties" onClick={() => setMobileOpen(false)}>PROPERTIES</Link>
-                <Link to="/contact" onClick={() => setMobileOpen(false)}>CONTACT</Link>
-              </nav>
-              <div className="arch-drawer-footer">
-                <button 
-                  type="button" 
-                  className="arch-btn-list-property-full" 
-                  onClick={openTouchModal}
-                >
-                  ENQUIRE NOW
-                </button>
-                <p className="arch-drawer-contact">hello@helloproperties.in • +91 98765 43210</p>
-              </div>
-            </div>
-          </div>
         </header>
+      </div>
+
+      {/* Mobile Fullscreen Menu */}
+      <div className={`arch-mobile-fullscreen ${mobileOpen ? "active" : ""}`}>
+        
+        {/* Top Bar inside Menu */}
+        <div className="arch-menu-top">
+          <button className="arch-menu-close-btn" onClick={() => setMobileOpen(false)}>
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B9A" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+          
+          <div className="arch-menu-brand">
+            <img src={logoStatic} alt="HelloProperties Kerala" style={{ height: '20px', width: 'auto' }} />
+          </div>
+          
+          <div className="arch-menu-spacer">
+            {/* Empty space to balance the close button */}
+          </div>
+        </div>
+
+        {/* Main Navigation Stack */}
+        <nav className="arch-menu-main-nav">
+          <Link to="/" onClick={() => setMobileOpen(false)}>HOME</Link>
+          <Link to="/properties" onClick={() => setMobileOpen(false)}>PROPERTIES</Link>
+          <Link to="/contact" onClick={() => setMobileOpen(false)}>CONTACT</Link>
+        </nav>
+
+        {/* Secondary Navigation Stack */}
+        <div className="arch-menu-secondary-nav">
+          <button 
+            type="button" 
+            className="arch-btn-list-property"
+            onClick={openTouchModal}
+            style={{ padding: '0.9rem 2rem', fontSize: '0.85rem' }}
+          >
+            <span>ENQUIRE NOW</span>
+          </button>
+        </div>
+
+        {/* Footer / Social Icons */}
+        <div className="arch-menu-social-footer">
+          <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+          <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+        </div>
       </div>
 
       {/* Get In Touch Modal */}

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import { formatPropertyPrice } from "../services/propertyService";
+import { SkeletonListItem } from "./SkeletonPropertyCard";
 import logoStatic from "../assets/png/HelloProperties_static.png";
 import "./ExploreLocationsPage.css";
 
@@ -23,6 +24,7 @@ const ExploreLocationsPage = () => {
   const [listingTypeFilter, setListingTypeFilter] = useState("All");
 
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [isMobileCollapsed, setIsMobileCollapsed] = useState(false);
 
   const mapRef = useRef(null);
   const zoomOutIntervalRef = useRef(null);
@@ -258,8 +260,14 @@ const ExploreLocationsPage = () => {
       </div>
 
       {/* Floating UI Panel */}
-      <div className="floating-panel">
+      <div className={`floating-panel ${isMobileCollapsed ? 'collapsed' : ''}`}>
         
+        {/* Mobile drag handle for collapsing */}
+        <div 
+          className="mobile-drag-handle" 
+          onClick={() => setIsMobileCollapsed(!isMobileCollapsed)}
+        ></div>
+
         {/* Main Panel Content */}
         <div className="panel-content">
           {selectedProperty ? (
@@ -352,8 +360,20 @@ const ExploreLocationsPage = () => {
           ) : (
             <>
               <div className="panel-header">
-                <div className="panel-eyebrow">EXPLORE KERALA</div>
                 <div 
+                  className="explore-mobile-back"
+                  onClick={() => navigate('/')}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                  Back to Home
+                </div>
+                
+                <div className="panel-eyebrow">EXPLORE KERALA</div>
+                
+                <div 
+                  className="explore-desktop-logo"
                   onClick={() => navigate('/')}
                   style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', marginBottom: '24px', marginTop: '16px' }}
                 >
@@ -386,7 +406,11 @@ const ExploreLocationsPage = () => {
               
               <div className="property-list">
                 {loading ? (
-                  <div className="loading-state">Loading properties...</div>
+                  <div className="loading-state" style={{ padding: 0 }}>
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <SkeletonListItem key={n} />
+                    ))}
+                  </div>
                 ) : filteredProperties.length > 0 ? (
                   filteredProperties.map((prop) => {
                     const isSelected = selectedProperty?.id === prop.id;

@@ -1,8 +1,20 @@
 /* Featured Properties Grid Styles */
 .arch-featured-section {
-  padding: 5rem 0 7rem 0;
+  padding: 5rem 0 6rem 0;
   background-color: transparent;
   position: relative;
+  overflow: hidden; /* Prevent horizontal scrollbar on body */
+}
+
+.arch-featured-header-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+}
+
+.slider-viewport-container {
+  width: 100%;
 }
 
 .arch-featured-section .hp-container {
@@ -43,7 +55,10 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1.5rem;
-  order: 2;
+}
+
+.mobile-actions {
+  display: none;
 }
 
 .arch-view-all-link {
@@ -73,12 +88,13 @@
   transform: translateX(4px);
 }
 
-/* 4 Column Grid Container */
 .arch-property-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 1.5rem;
-  order: 3;
+  width: max-content;
+  padding-bottom: 2rem;
+  padding-right: 5vw; /* give some space at the end */
+  will-change: transform;
 }
 
 /* Premium Modern Property Card (Full Image) */
@@ -94,6 +110,9 @@
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
   font-family: var(--font-sans);
   background: #3d1c22;
+  width: 25vw;
+  min-width: 280px;
+  max-width: 350px;
 }
 
 .arch-featured-card:hover {
@@ -281,30 +300,45 @@
 
 /* Responsive Grid */
 @media (max-width: 1100px) {
-  .arch-property-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+  .arch-featured-card {
+    width: 45vw;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .arch-featured-section {
-    padding: 3rem 0 3rem 0;
+    padding: 3rem 0;
   }
 
+  /* GSAP takes over scrolling now, disable native overflow */
+  .slider-viewport-container {
+    overflow: hidden;
+    padding-bottom: 1.5rem;
+  }
+  
   .arch-property-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-bottom: 0;
+    width: max-content;
+  }
+
+  .arch-featured-card {
+    width: 85vw;
   }
 
   .arch-card-body-block {
     padding: 1.1rem;
   }
 
-  .arch-featured-actions {
-    order: 4;
+  .desktop-actions {
+    display: none;
+  }
+
+  .mobile-actions {
+    display: flex;
     justify-content: center;
-    margin-top: 2rem;
-    margin-bottom: 0;
+    margin-top: 1.5rem;
+    padding: 0 1.25rem;
   }
 }

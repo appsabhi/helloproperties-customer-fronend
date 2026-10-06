@@ -38,7 +38,7 @@ const ConsultancyServices = () => {
           className="hp-consultancy-header"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <span className="meta-label">PROPERTY CONSULTANCY, MADE SIMPLE</span>
@@ -52,7 +52,7 @@ const ConsultancyServices = () => {
               className="hp-consultancy-card"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={{ once: false, amount: 0.1 }}
               transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
             >
               <div className="hp-consultancy-icon-wrapper">

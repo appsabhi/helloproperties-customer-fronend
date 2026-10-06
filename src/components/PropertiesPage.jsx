@@ -1,13 +1,39 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import GetInTouchModal from "./GetInTouchModal";
+import { SkeletonPropertyCard } from "./SkeletonPropertyCard";
 import { useCustomerProperties } from "../context/CustomerPropertyContext";
 import { formatPropertyPrice } from "../services/propertyService";
 import "./PropertiesPage.css";
-import heroImg from "../assets/png/Properties_hero_bgimg.jpg";
 
-const HERO_IMG = heroImg;
+const getPaginationRange = (currentPage, totalPages) => {
+  const delta = 1;
+  const range = [];
+  const rangeWithDots = [];
+  let l;
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || i >= currentPage - delta && i <= currentPage + delta) {
+      range.push(i);
+    }
+  }
+
+  for (let i of range) {
+    if (l) {
+      if (i - l === 2) {
+        rangeWithDots.push(l + 1);
+      } else if (i - l !== 1) {
+        rangeWithDots.push('...');
+      }
+    }
+    rangeWithDots.push(i);
+    l = i;
+  }
+
+  return rangeWithDots;
+};
 
 const KERALA_DISTRICTS = [
   "All Districts",
@@ -46,97 +72,59 @@ const CATEGORIES = [
   "Industrial Plot",
 ];
 
+const ITEMS_PER_PAGE = 9;
+
 const PropertiesPage = () => {
+  const navigate = useNavigate();
   const { properties, loading, error, refetchProperties } = useCustomerProperties();
 
-  // Filter & Search states
+  // Filter states
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedDistrict, setSelectedDistrict] = useState("All Districts");
   const [selectedPriceIdx, setSelectedPriceIdx] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // Selection & Modal states
-  const [selectedProperty, setSelectedProperty] = useState(null);
   const [touchModalOpen, setTouchModalOpen] = useState(false);
 
   useEffect(() => {
-    document.title = "Properties Portfolio | HelloProperties Kerala";
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
 
-    const searchParams = new URLSearchParams(window.location.search);
-    const typeParam = searchParams.get("type");
-    if (typeParam) {
-      const match = CATEGORIES.find(
-        (c) => c.toLowerCase() === typeParam.toLowerCase() || c.toLowerCase().includes(typeParam.toLowerCase())
-      );
-      if (match) setActiveCategory(match);
-    }
-
-    const qParam = searchParams.get("q");
-    if (qParam) {
-      setSearchQuery(qParam);
-    }
-
-    const propId = searchParams.get("id");
-    if (propId && properties.length > 0) {
-      const matchProp = properties.find((p) => String(p.id) === String(propId));
-      if (matchProp) setSelectedProperty(matchProp);
-    }
-  }, [properties]);
-
-  // Filtering Logic
   const filteredProperties = properties
-    .filter((p) => {
-      // Category filter
+    .filter((prop) => {
+      // 1. Category filter
       if (activeCategory !== "All") {
-        const cat = activeCategory.toLowerCase();
-        const pType = (p.propertyType || "").toLowerCase();
-        const pCat = (p.category || "").toLowerCase();
-
-        let matchesCat = false;
-        if (cat === "plot/land") {
-          matchesCat = pType.includes("plot") || pType.includes("land") || pCat.includes("plot") || pCat.includes("land");
-        } else if (cat === "house/villa") {
-          matchesCat = pType.includes("house") || pType.includes("villa") || pCat.includes("house") || pCat.includes("villa");
-        } else if (cat === "apartment/flat") {
-          matchesCat = pType.includes("apart") || pType.includes("flat") || pCat.includes("apart") || pCat.includes("flat");
-        } else if (cat === "residential plot") {
-          matchesCat = pType.includes("residen") || pCat.includes("residen");
-        } else if (cat === "commercial plot") {
-          matchesCat = pType.includes("commerc") || pCat.includes("commerc");
-        } else if (cat === "agricultural land") {
-          matchesCat = pType.includes("agri") || pType.includes("plant") || pCat.includes("agri") || pCat.includes("plant");
-        } else if (cat === "industrial plot") {
-          matchesCat = pType.includes("indust") || pCat.includes("indust");
-        } else {
-          matchesCat = pType.includes(cat) || pCat.includes(cat);
+        const pType = (prop.propertyType || "").toLowerCase();
+        const pCat = (prop.category || "").toLowerCase();
+        const target = activeCategory.toLowerCase();
+        if (!pType.includes(target) && !pCat.includes(target)) {
+          return false;
         }
-        if (!matchesCat) return false;
       }
 
-      // District Filter
+      // 2. District filter
       if (selectedDistrict !== "All Districts") {
-        const d = selectedDistrict.toLowerCase();
-        const pDistrict = (p.district || "").toLowerCase();
-        const pLocation = (p.location || "").toLowerCase();
-        if (!pDistrict.includes(d) && !pLocation.includes(d)) return false;
+        if (prop.district !== selectedDistrict) return false;
       }
 
-      // Price Range Filter
-      const priceRange = PRICE_RANGES[selectedPriceIdx] || PRICE_RANGES[0];
-      const pPrice = Number(p.price || p.expectedPrice || p.monthlyRent || 0);
-      if (pPrice > 0) {
-        if (pPrice < priceRange.min || pPrice > priceRange.max) return false;
+      // 3. Price filter
+      if (selectedPriceIdx !== 0) {
+        const range = PRICE_RANGES[selectedPriceIdx];
+        const val = prop.listingType === "Rent" ? prop.monthlyRent : prop.expectedPrice;
+        const pValue = Number(val) || 0;
+        if (pValue < range.min || pValue > range.max) return false;
       }
 
-      // Text Search Query Filter
-      if (searchQuery.trim()) {
+      // 4. Keyword search
+      if (searchQuery.trim().length > 0) {
         const q = searchQuery.toLowerCase();
-        const titleMatch = (p.title || "").toLowerCase().includes(q);
-        const locMatch = (p.location || "").toLowerCase().includes(q);
-        const distMatch = (p.district || "").toLowerCase().includes(q);
-        const typeMatch = (p.propertyType || "").toLowerCase().includes(q);
+        const titleMatch = (prop.title || "").toLowerCase().includes(q);
+        const locMatch = (prop.location || "").toLowerCase().includes(q);
+        const distMatch = (prop.district || "").toLowerCase().includes(q);
+        const typeMatch = (prop.propertyType || "").toLowerCase().includes(q);
         if (!titleMatch && !locMatch && !distMatch && !typeMatch) return false;
       }
 
@@ -152,241 +140,139 @@ const PropertiesPage = () => {
       return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
     });
 
+  const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
+  const paginatedProperties = filteredProperties.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory, selectedDistrict, selectedPriceIdx, searchQuery, sortBy]);
+
   const clearAllFilters = () => {
     setActiveCategory("All");
     setSelectedDistrict("All Districts");
     setSelectedPriceIdx(0);
     setSearchQuery("");
     setSortBy("newest");
+    setCurrentPage(1);
   };
 
   return (
-    <div className="props-ref-page-root">
+    <div className="props-clean-page">
       <Header />
 
-      <main className="props-ref-main">
-        {/* 1. Hero Section (Reference Image Design) */}
-        <section className="props-ref-hero-section">
-          {/* Full-bleed background */}
-          <div className="hero-bg-wrapper">
-            <img src={HERO_IMG} alt="Kerala Real Estate Hero" className="props-ref-hero-img" />
-            <div className="props-ref-hero-overlay"></div>
-          </div>
-
-          <div className="hp-container hero-content-container">
-            <div className="props-ref-hero-content">
-              <span className="hero-meta">
-                <span className="meta-line"></span> PREMIUM PROPERTIES | TRUSTED PARTNER
-              </span>
-              <h1 className="props-ref-hero-title">
-                Your Reliable Ally in<br />
-                <span className="hero-highlight">Kerala Real Estate</span>
-              </h1>
-              <p className="hero-desc">
-                Find your dream home, premium plots, and the best investment opportunities in Kerala — all in one place.
-              </p>
-
-              <div className="hero-features">
-                <div className="feature-item">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                  <span className="feature-text">Verified<br/>Properties</span>
-                </div>
-                <div className="feature-item">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-                  <span className="feature-text">Trusted<br/>Developers</span>
-                </div>
-                <div className="feature-item">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  <span className="feature-text">Prime<br/>Locations</span>
-                </div>
-                <div className="feature-item">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 6L9 17l-5-5"></path></svg>
-                  <span className="feature-text">Hassle-Free<br/>Process</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="hero-decorative-text">
-              Better Spaces<br/>Brighter Future
-            </div>
-          </div>
-
-          {/* Floating Multi-Filter Pill */}
-          <div className="hp-container search-pill-container">
-            <div className="props-ref-search-bar">
-              <div className="search-field-group">
-                <div className="field-top-wrap">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                  <span className="field-caption">TYPE</span>
-                </div>
-                <select
-                  value={activeCategory}
-                  onChange={(e) => setActiveCategory(e.target.value)}
-                  className="search-field-select"
-                >
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat === "All" ? "All Types" : cat}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="search-field-divider"></div>
-
-              <div className="search-field-group">
-                <div className="field-top-wrap">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                  <span className="field-caption">PRICE</span>
-                </div>
-                <select
-                  value={selectedPriceIdx}
-                  onChange={(e) => setSelectedPriceIdx(Number(e.target.value))}
-                  className="search-field-select"
-                >
-                  {PRICE_RANGES.map((range, idx) => (
-                    <option key={range.label} value={idx}>
-                      {range.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="search-field-divider"></div>
-
-              <div className="search-field-group">
-                <div className="field-top-wrap">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  <span className="field-caption">AREA / DISTRICT</span>
-                </div>
-                <select
-                  value={selectedDistrict}
-                  onChange={(e) => setSelectedDistrict(e.target.value)}
-                  className="search-field-select"
-                >
-                  {KERALA_DISTRICTS.map((d) => (
-                    <option key={d} value={d}>
-                      {d}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <button
-                type="button"
-                className="props-ref-search-btn"
-                onClick={() => {
-                  document.getElementById("properties-grid-anchor")?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="M21 21l-4.35-4.35" />
-                </svg>
-                <span>Search</span>
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* 2. Toolbar & Category Filter Bar */}
-        <section id="properties-grid-anchor" className="props-ref-toolbar-section">
+      <main className="props-clean-main">
+        {/* Header & Filter Area */}
+        <section className="props-clean-header-section">
           <div className="hp-container">
-            <div className="props-ref-toolbar">
-              {/* Category Pills */}
-              {/* <div className="props-ref-pills-bar">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    className={`props-ref-pill-btn ${activeCategory === cat ? "active" : ""}`}
-                    onClick={() => setActiveCategory(cat)}
-                  >
-                    {cat === "All" ? "All Properties" : cat}
-                  </button>
-                ))}
-              </div> */}
+            <h1 className="props-clean-title">Properties <span className="highlight-burgundy">for sale</span></h1>
+            <p className="props-clean-subtitle">
+              Every listing is handpicked for quality, ensuring you get the best out of your investment in Kerala.
+            </p>
 
-              {/* Search Box & Sort Selector */}
-              <div className="props-ref-controls-wrap">
-                <div className="props-ref-search-input-box">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="11" cy="11" r="7" />
-                    <path d="M21 21l-4.35-4.35" />
+            <div className="props-advanced-search-container">
+              <div className="props-search-bar">
+                <input
+                  type="text"
+                  placeholder="Search city, address, or home..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button className={`props-filter-toggle ${isFilterOpen ? 'active' : ''}`} onClick={() => setIsFilterOpen(!isFilterOpen)}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                    <line x1="17" y1="16" x2="23" y2="16"></line>
                   </svg>
-                  <input
-                    type="text"
-                    placeholder="Search keywords..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="props-ref-text-input"
-                  />
-                  {searchQuery && (
-                    <button type="button" className="clear-text-btn" onClick={() => setSearchQuery("")}>
-                      ✕
-                    </button>
-                  )}
-                </div>
-
-                <div className="props-ref-sort-box">
-                  <span className="sort-caption">Sort:</span>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="props-ref-sort-select"
-                  >
-                    <option value="newest">Newest First</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* Active Filters Summary Indicator */}
-            {(activeCategory !== "All" || selectedDistrict !== "All Districts" || selectedPriceIdx !== 0 || searchQuery) && (
-              <div className="props-ref-active-filters-bar">
-                <span className="active-filters-title">Active Filters:</span>
-                {activeCategory !== "All" && <span className="filter-tag">Type: {activeCategory}</span>}
-                {selectedDistrict !== "All Districts" && <span className="filter-tag">District: {selectedDistrict}</span>}
-                {selectedPriceIdx !== 0 && <span className="filter-tag">Price: {PRICE_RANGES[selectedPriceIdx].label}</span>}
-                {searchQuery && <span className="filter-tag">Query: "{searchQuery}"</span>}
-
-                <button type="button" className="reset-all-link" onClick={clearAllFilters}>
-                  Clear All
                 </button>
+                <button className="props-search-btn" onClick={() => setIsFilterOpen(false)}>Search</button>
               </div>
-            )}
+
+              {isFilterOpen && (
+                <div className="props-filter-popover">
+                  <div className="filter-row">
+                    <label>City / Location</label>
+                    <select value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)}>
+                      {KERALA_DISTRICTS.map((d) => (
+                        <option key={d} value={d}>
+                          {d === "All Districts" ? "Any city" : d}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div className="filter-row">
+                    <label>Property Type</label>
+                    <div className="filter-pills">
+                      {CATEGORIES.map((cat) => (
+                        <button
+                          key={cat}
+                          className={`filter-pill ${activeCategory === cat ? 'active' : ''}`}
+                          onClick={() => setActiveCategory(cat)}
+                        >
+                          {cat === "All" ? "Any type" : cat === "Apartment/Flat" ? "Apartment" : cat === "House/Villa" ? "Villa" : cat === "Residential Plot" ? "Plot" : cat}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="filter-row">
+                    <label>Price</label>
+                    <div className="filter-pills">
+                      {PRICE_RANGES.map((range, idx) => (
+                        <button
+                          key={idx}
+                          className={`filter-pill ${selectedPriceIdx === idx ? 'active' : ''}`}
+                          onClick={() => setSelectedPriceIdx(idx)}
+                        >
+                          {range.label === "Any Price" ? "Any price" : range.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="filter-footer">
+                    <button className="filter-clear-btn" onClick={clearAllFilters}>Clear</button>
+                    <button className="filter-show-btn" onClick={() => setIsFilterOpen(false)}>Show properties →</button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
-        {/* 3. 3-Column Property Grid (Reference Webflow Design) */}
-        <section className="props-ref-list-section">
+        {/* Grid Area */}
+        <section className="props-clean-grid-section">
           <div className="hp-container">
             {loading ? (
-              <div className="props-ref-state-box">
-                <div className="props-ref-spinner"></div>
-                <p>Retrieving live properties...</p>
+              <div className="props-clean-grid">
+                {[1, 2, 3, 4, 5, 6].map((n) => (
+                  <SkeletonPropertyCard key={n} />
+                ))}
               </div>
             ) : error && properties.length === 0 ? (
-              <div className="props-ref-state-box error">
+              <div className="props-clean-empty">
                 <h3>Connection Error</h3>
                 <p>{error}</p>
-                <button type="button" className="props-ref-action-btn" onClick={refetchProperties}>
-                  Retry Loading
-                </button>
+                <button type="button" onClick={refetchProperties}>Retry Loading</button>
               </div>
             ) : filteredProperties.length === 0 ? (
-              <div className="props-ref-state-box empty">
+              <div className="props-clean-empty">
                 <h3>No Properties Found</h3>
                 <p>Try adjusting your search criteria or filters to view available listings.</p>
-                <button type="button" className="props-ref-action-btn" onClick={clearAllFilters}>
-                  Reset All Filters
-                </button>
+                <button type="button" onClick={clearAllFilters}>Reset All Filters</button>
               </div>
             ) : (
-              <div className="props-ref-grid">
-                {filteredProperties.map((prop) => {
+              <div className="props-clean-grid">
+                {paginatedProperties.map((prop) => {
                   const displayPrice =
                     prop.priceFormatted ||
                     formatPropertyPrice(
@@ -394,103 +280,59 @@ const PropertiesPage = () => {
                       prop.listingType
                     );
 
-                  const isHouseOrVilla =
-                    (prop.propertyType || "").toLowerCase().includes("house") ||
-                    (prop.propertyType || "").toLowerCase().includes("villa") ||
-                    (prop.propertyType || "").toLowerCase().includes("apart") ||
-                    (prop.category || "").toLowerCase().includes("villa");
-
                   return (
-                    <article key={prop.id} className="ref-prop-card">
-                      {/* Top Image Frame */}
-                      <div className="ref-card-img-frame">
+                    <article 
+                      key={prop.id} 
+                      className="clean-card" 
+                      onClick={() => navigate(`/property/${prop.id}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <div className="clean-card-img-wrap">
                         {prop.imageUrl ? (
                           <img
                             src={prop.imageUrl.split(',')[0].trim()}
                             alt={prop.title}
-                            className="ref-card-img"
+                            className="clean-img"
                             loading="lazy"
                           />
                         ) : prop.videoUrl || prop.video ? (
-                          <video
-                            src={prop.videoUrl || prop.video}
-                            className="ref-card-img"
+                          <video src={`${prop.videoUrl || prop.video}#t=0.1`} className="clean-img"
                             preload="metadata"
                             muted
                             playsInline
                             style={{ objectFit: "cover" }}
                           />
                         ) : (
-                          <div className="ref-card-img" style={{ backgroundColor: "#e2e8f0" }} />
+                          <div className="clean-img" style={{ backgroundColor: "#e2e8f0" }} />
                         )}
-                        <div className="ref-card-badge">
-                          <span>{prop.listingType === "Rent" ? "For Rent" : "For Sale"}</span>
-                          {prop.status && prop.status !== 'Available' && (
-                            <span style={{ marginLeft: '6px', backgroundColor: prop.status === 'Sold' ? '#334155' : prop.status === 'Under Negotiation' ? '#d97706' : '#dc2626', padding: '4px 8px', borderRadius: '4px', fontSize: '10px', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{prop.status}</span>
-                          )}
+                        
+                        {/* Badges Overlay */}
+                        <div className="clean-card-badges-left">
+                           {prop.status && prop.status !== 'Available' ? (
+                             <span className="clean-badge highlight">{prop.status}</span>
+                           ) : (
+                             <span className="clean-badge highlight">Ready</span>
+                           )}
+                           <span className="clean-badge base">{prop.listingType === "Rent" ? "For Rent" : "For Sale"}</span>
                         </div>
                       </div>
 
-                      {/* Card Content Body */}
-                      <div className="ref-card-body">
-                        <div className="ref-card-location">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx="12" cy="10" r="3" />
-                          </svg>
-                          <span>
-                            {prop.location || "Kerala"}
-                            {prop.district ? `, ${prop.district}` : ""}
-                          </span>
+                      <div className="clean-card-body">
+                        <div className="clean-card-meta">
+                          {prop.propertyType || "Property"} • {prop.landArea || "Custom Size"} • {prop.bedrooms ? `${prop.bedrooms} BHK` : "Premium"}
                         </div>
-
-                        <h3 className="ref-card-title">{prop.title}</h3>
-
-                        {/* Specs Row */}
-                        <div className="ref-card-specs-row">
-                          {isHouseOrVilla ? (
-                            <>
-                              <div className="spec-item">
-                                <span className="spec-icon">🛏</span>
-                                <span className="spec-txt">{prop.bedrooms || 3} Bed Room</span>
-                              </div>
-                              <div className="spec-item">
-                                <span className="spec-icon">🛁</span>
-                                <span className="spec-txt">{prop.bathrooms || 2} Bath</span>
-                              </div>
-                              <div className="spec-item">
-                                <span className="spec-icon">📐</span>
-                                <span className="spec-txt">{prop.landArea || "2,100 SQ FT"}</span>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <div className="spec-item">
-                                <span className="spec-icon">📐</span>
-                                <span className="spec-txt">{prop.landArea || "50 Cents"}</span>
-                              </div>
-                              <div className="spec-item">
-                                <span className="spec-icon">🏷</span>
-                                <span className="spec-txt">{prop.propertyType || "Plot/Land"}</span>
-                              </div>
-                            </>
-                          )}
+                        
+                        <div className="clean-card-title-row">
+                          <h3 className="clean-card-title">{prop.title}</h3>
+                          <span className="clean-card-price">{displayPrice}</span>
                         </div>
+                        
+                        <p className="clean-card-loc">
+                          {prop.location || "Kerala"}{prop.district ? `, ${prop.district}` : ""}
+                        </p>
 
-                        {/* Card Footer: Price + View Details Button */}
-                        <div className="ref-card-footer">
-                          <div className="ref-card-price-wrap">
-                            <span className="ref-card-price-val">{displayPrice}</span>
-                          </div>
-
-                          {/* <button
-                            type="button"
-                            className="ref-card-btn"
-                            onClick={() => setSelectedProperty(prop)}
-                          >
-                            <span>View Details</span>
-                            <span className="btn-arrow">→</span>
-                          </button> */}
+                        <div className="clean-card-tags">
+                          <span className="clean-tag">Verified Listing</span>
                         </div>
                       </div>
                     </article>
@@ -498,135 +340,45 @@ const PropertiesPage = () => {
                 })}
               </div>
             )}
+
+            {/* Pagination Controls */}
+            {!loading && totalPages > 1 && (
+              <div className="clean-pagination">
+                <button
+                  className="clean-pagination-nav"
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                >
+                  &lt; PREV
+                </button>
+                {getPaginationRange(currentPage, totalPages).map((item, idx) => (
+                  <button
+                    key={idx}
+                    className={`clean-pagination-num ${item === currentPage ? 'active' : ''} ${item === '...' ? 'dots' : ''}`}
+                    onClick={() => {
+                      if (item !== '...') setCurrentPage(item);
+                    }}
+                    disabled={item === '...'}
+                  >
+                    {item}
+                  </button>
+                ))}
+                <button
+                  className="clean-pagination-nav"
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                >
+                  NEXT &gt;
+                </button>
+              </div>
+            )}
           </div>
         </section>
+
+
       </main>
 
       <Footer />
-
-      {/* Property Detail Modal */}
-      {selectedProperty && (
-        <div className="prop-modal-backdrop" onClick={() => setSelectedProperty(null)}>
-          <div
-            className="prop-modal-box"
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-          >
-            <button
-              className="prop-modal-close"
-              onClick={() => setSelectedProperty(null)}
-              aria-label="Close details"
-            >
-              ✕
-            </button>
-
-            <div className="prop-modal-grid">
-              <div className="modal-img-col">
-                {selectedProperty.imageUrl ? (
-                  <img
-                    src={selectedProperty.imageUrl.split(',')[0].trim()}
-                    alt={selectedProperty.title}
-                    className="modal-hero-img"
-                  />
-                ) : selectedProperty.videoUrl || selectedProperty.video ? (
-                  <video
-                    src={selectedProperty.videoUrl || selectedProperty.video}
-                    className="modal-hero-img"
-                    preload="metadata"
-                    muted
-                    playsInline
-                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
-                  />
-                ) : (
-                  <div className="modal-hero-img" style={{ backgroundColor: "#e2e8f0" }} />
-                )}
-                <div className="modal-img-badges">
-                  <span className="prop-status-tag">{selectedProperty.status || "Available"}</span>
-                  <span className="prop-type-badge">{selectedProperty.listingType || "Sale"}</span>
-                </div>
-              </div>
-
-              <div className="modal-content-col">
-                <div className="modal-loc-header">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  <span>{selectedProperty.location}{selectedProperty.district ? `, ${selectedProperty.district}` : ""}</span>
-                </div>
-
-                <h2 className="modal-title">{selectedProperty.title}</h2>
-
-                <div className="modal-price-box">
-                  <span className="modal-price-label">
-                    {selectedProperty.listingType === "Rent" ? "Monthly Rental" : "Expected Price"}
-                  </span>
-                  <span className="modal-price-value">
-                    {selectedProperty.priceFormatted ||
-                      formatPropertyPrice(
-                        selectedProperty.listingType === "Rent" ? selectedProperty.monthlyRent : selectedProperty.expectedPrice,
-                        selectedProperty.listingType
-                      )}
-                  </span>
-                </div>
-
-                <p className="modal-desc">{selectedProperty.description || "No description provided."}</p>
-
-                <div className="modal-specs-table">
-                  <div className="modal-spec-row">
-                    <span className="k">Land Area / Size</span>
-                    <span className="v">{selectedProperty.landArea || "N/A"}</span>
-                  </div>
-                  <div className="modal-spec-row">
-                    <span className="k">Listing Type</span>
-                    <span className="v">{selectedProperty.listingType || "Sale"}</span>
-                  </div>
-                  <div className="modal-spec-row">
-                    <span className="k">Property Type</span>
-                    <span className="v">{selectedProperty.propertyType || "N/A"}</span>
-                  </div>
-                  <div className="modal-spec-row">
-                    <span className="k">District</span>
-                    <span className="v">{selectedProperty.district || "N/A"}</span>
-                  </div>
-                  {selectedProperty.bedrooms && (
-                    <div className="modal-spec-row">
-                      <span className="k">Bedrooms / Baths</span>
-                      <span className="v">
-                        {selectedProperty.bedrooms} Beds / {selectedProperty.bathrooms || 1} Baths
-                      </span>
-                    </div>
-                  )}
-                  <div className="modal-spec-row">
-                    <span className="k">Status</span>
-                    <span className="v">{selectedProperty.status || "Available"}</span>
-                  </div>
-                </div>
-
-                <div className="modal-ctas">
-                  <a
-                    href={`https://wa.me/918009244355?text=Hello%2C%20I%20am%20interested%20in%20${encodeURIComponent(selectedProperty.title)}%20(${selectedProperty.priceFormatted || ''})`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="modal-whatsapp-btn"
-                  >
-                    <span>Inquire via WhatsApp</span>
-                    <span>→</span>
-                  </a>
-                  <button
-                    type="button"
-                    className="modal-call-btn"
-                    onClick={() => setTouchModalOpen(true)}
-                  >
-                    Get In Touch
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Get In Touch Modal */}
       <GetInTouchModal isOpen={touchModalOpen} onClose={() => setTouchModalOpen(false)} />
