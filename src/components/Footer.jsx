@@ -36,15 +36,16 @@ const Footer = () => {
           <div className="hp-footer-col">
             <h4 className="hp-footer-col-title">Contact</h4>
             <p className="hp-footer-info-text">hello@helloproperties.in</p>
-            <p className="hp-footer-info-text">+91 98765 43210</p>
+            <p className="hp-footer-info-text">+91 79078 98072</p>
           </div>
 
           {/* Social */}
           <div className="hp-footer-col">
             <h4 className="hp-footer-col-title">Follow</h4>
             <ul className="hp-footer-links">
+              <li><a href="https://www.facebook.com/profile.php?id=61593274556512" target="_blank" rel="noreferrer">Facebook</a></li>
               <li><a href="https://www.instagram.com/helloproperties_/" target="_blank" rel="noreferrer">Instagram</a></li>
-              <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+              <li><a href="tel:+917907898072">+91 79078 98072</a></li>
             </ul>
           </div>
         </div>

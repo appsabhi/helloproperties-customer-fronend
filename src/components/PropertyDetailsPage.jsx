@@ -191,7 +191,7 @@ const PropertyDetailsPage = () => {
                   <div className="enquiry-contacts">
                     <div className="e-contact">
                       <span>Advisory Desk</span>
-                      <strong>+91 98765 43210</strong>
+                      <strong>+91 79078 98072</strong>
                     </div>
                     <div className="e-contact">
                       <span>Email</span>

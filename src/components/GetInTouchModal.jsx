@@ -66,7 +66,7 @@ const GetInTouchModal = ({ isOpen, onClose }) => {
                 <input
                   type="tel"
                   required
-                  placeholder="+91 98765 43210"
+                  placeholder="+91 79078 98072"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 />

@@ -560,6 +560,8 @@
     grid-template-columns: 1fr;
   }
 }
-. f u l l - w i d t h - m a p  
-   m a r g i n - t o p :   4 r e m ;    
- 
+
+.full-width-map {
+  margin-top: 4rem;
+}
+
