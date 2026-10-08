@@ -17,7 +17,8 @@
   width: calc(100% - 2rem);
   max-width: 1450px; /* Wider card */
   margin: 1rem auto;
-}.hp-footer-inner {
+}
+.hp-footer-inner {
   position: relative;
   width: 100%;
 }
