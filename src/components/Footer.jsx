@@ -45,7 +45,6 @@ const Footer = () => {
             <ul className="hp-footer-links">
               <li><a href="https://www.facebook.com/profile.php?id=61593274556512" target="_blank" rel="noreferrer">Facebook</a></li>
               <li><a href="https://www.instagram.com/helloproperties_/" target="_blank" rel="noreferrer">Instagram</a></li>
-              <li><a href="tel:+917907898072">+91 79078 98072</a></li>
             </ul>
           </div>
         </div>

@@ -189,10 +189,23 @@ const ExploreLocationsPage = () => {
   };
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isLoaded && properties && properties.length > 0) {
+      const searchParams = new URLSearchParams(location.search);
+      const propertyIdParam = searchParams.get("propertyId");
+      
+      if (propertyIdParam) {
+        const found = properties.find(p => String(p.id) === String(propertyIdParam));
+        if (found) {
+          setSelectedProperty(found);
+          // Small delay to allow map to initialize properly before flying
+          setTimeout(() => flyToProperty(found), 500);
+          return;
+        }
+      }
+      
       resetMap();
     }
-  }, [searchQuery, properties, isLoaded]);
+  }, [searchQuery, properties, isLoaded, location.search]);
 
   const getMarkerIcon = (isSelected, isHovered) => {
     const scale = isSelected || isHovered ? 1.3 : 1;
@@ -283,12 +296,52 @@ const ExploreLocationsPage = () => {
               
               {/* Full Details View */}
               <div className="premium-details-full">
-                {selectedProperty.imageUrl && (
-                  <div className="pdf-img-wrapper">
-                    <img src={selectedProperty.imageUrl.split(',')[0].trim()} alt={selectedProperty.title} className="pdf-img" />
-                    <div className="pdf-badge">{selectedProperty.listingType === "Rent" ? "For Rent" : "For Sale"}</div>
-                  </div>
-                )}
+                <div className="pdf-img-wrapper" style={{ backgroundColor: selectedProperty.videoUrl && (!selectedProperty.imageUrl || selectedProperty.imageUrl.includes("unsplash.com")) && selectedProperty.videoUrl.includes("instagram.com") ? "transparent" : undefined }}>
+                  {selectedProperty.videoUrl && (!selectedProperty.imageUrl || selectedProperty.imageUrl.includes("unsplash.com")) ? (
+                    <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', backgroundColor: 'transparent' }}>
+                      {selectedProperty.videoUrl.includes("youtube") || selectedProperty.videoUrl.includes("youtu.be") ? (
+                        <iframe
+                          className="pdf-img"
+                          src={selectedProperty.videoUrl.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}
+                          title={selectedProperty.title}
+                          frameBorder="0"
+                          allowFullScreen
+                          style={{ objectFit: "cover", width: "100%", height: "100%", backgroundColor: "#000" }}
+                        ></iframe>
+                      ) : selectedProperty.videoUrl.includes("instagram.com") ? (
+                        <a 
+                          href={selectedProperty.videoUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          style={{ display: "block", width: "100%", height: "100%", position: "absolute", inset: 0, zIndex: 10 }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <iframe 
+                            src={selectedProperty.videoUrl.split('?')[0].replace(/\/$/, '') + '/embed'}
+                            frameBorder="0"
+                            scrolling="no"
+                            style={{ pointerEvents: "none", width: "400px", height: "450px", transform: "scale(1.45)", transformOrigin: "center center", maxWidth: "none" }}
+                          ></iframe>
+                        </a>
+                      ) : (
+                        <video 
+                          src={`${selectedProperty.videoUrl}#t=0.1`} 
+                          className="pdf-img" 
+                          preload="auto" 
+                          controls 
+                          playsInline 
+                          style={{ objectFit: "cover", width: "100%", height: "100%", backgroundColor: "#000" }} 
+                        />
+                      )}
+                      <div className="pdf-badge">{selectedProperty.listingType === "Rent" ? "For Rent" : "For Sale"}</div>
+                    </div>
+                  ) : selectedProperty.imageUrl ? (
+                    <>
+                      <img src={selectedProperty.imageUrl.split(',')[0].trim()} alt={selectedProperty.title} className="pdf-img" />
+                      <div className="pdf-badge">{selectedProperty.listingType === "Rent" ? "For Rent" : "For Sale"}</div>
+                    </>
+                  ) : null}
+                </div>
                 
                 <div className="pdf-header">
                   <div className="pdf-location">{selectedProperty.location}{selectedProperty.district ? `, ${selectedProperty.district}` : ''}</div>
@@ -424,8 +477,41 @@ const ExploreLocationsPage = () => {
                         onMouseLeave={handleCardLeave}
                         onClick={() => handleCardClick(prop)}
                       >
-                        <div className="pc-img-wrapper">
-                          {prop.imageUrl ? (
+                        <div className="pc-img-wrapper" style={{ backgroundColor: prop.videoUrl && (!prop.imageUrl || prop.imageUrl.includes("unsplash.com")) && prop.videoUrl.includes("instagram.com") ? "transparent" : undefined }}>
+                          {prop.videoUrl && (!prop.imageUrl || prop.imageUrl.includes("unsplash.com")) ? (
+                            <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', backgroundColor: 'transparent' }}>
+                              {prop.videoUrl.includes("youtube") || prop.videoUrl.includes("youtu.be") ? (
+                                <img 
+                                  src={`https://img.youtube.com/vi/${prop.videoUrl.split('v=')[1]?.split('&')[0] || prop.videoUrl.split('youtu.be/')[1]?.split('?')[0]}/hqdefault.jpg`}
+                                  alt={prop.title}
+                                  className="pc-img"
+                                  style={{ objectFit: "cover" }}
+                                />
+                              ) : prop.videoUrl.includes("instagram.com") ? (
+                                <a 
+                                  href={prop.videoUrl} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  style={{ display: "block", width: "100%", height: "100%", position: "absolute", inset: 0, zIndex: 10 }}
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <iframe 
+                                    src={prop.videoUrl.split('?')[0].replace(/\/$/, '') + '/embed'}
+                                    frameBorder="0"
+                                    scrolling="no"
+                                    style={{ pointerEvents: "none", width: "400px", height: "450px", transform: "scale(1.45)", transformOrigin: "center center", maxWidth: "none" }}
+                                  ></iframe>
+                                </a>
+                              ) : (
+                                <video src={`${prop.videoUrl}#t=0.1`} className="pc-img" preload="auto" muted playsInline style={{ objectFit: "cover" }} />
+                              )}
+                              {!prop.videoUrl.includes("instagram.com") && (
+                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '32px', height: '32px', backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="white" style={{ marginLeft: '2px' }}><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                </div>
+                              )}
+                            </div>
+                          ) : prop.imageUrl ? (
                             <img src={prop.imageUrl.split(',')[0].trim()} alt={prop.title} className="pc-img" loading="lazy" />
                           ) : (
                             <div className="pc-img-placeholder" />

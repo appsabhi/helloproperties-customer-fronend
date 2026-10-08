@@ -140,13 +140,44 @@ const FeaturedProperties = () => {
               onClick={() => navigate(`/property/${prop.id}`)}
             >
               {/* Image Frame with Translucent Glass Floating Badges */}
-              <div className="arch-card-media-wrap">
-                {prop.img ? (
+              <div className="arch-card-media-wrap" style={{ backgroundColor: prop.video && (!prop.img || prop.img.includes("unsplash.com")) && prop.video.includes("instagram.com") ? "transparent" : undefined }}>
+                {prop.video && (!prop.img || prop.img.includes("unsplash.com")) ? (
+                  <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', backgroundColor: 'transparent' }}>
+                    {prop.video.includes("youtube") || prop.video.includes("youtu.be") ? (
+                      <img 
+                        src={`https://img.youtube.com/vi/${prop.video.split('v=')[1]?.split('&')[0] || prop.video.split('youtu.be/')[1]?.split('?')[0]}/hqdefault.jpg`}
+                        alt={prop.title}
+                        className="arch-card-media-img"
+                        style={{ objectFit: "cover" }}
+                      />
+                    ) : prop.video.includes("instagram.com") ? (
+                      <a 
+                        href={prop.video} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        style={{ display: "block", width: "100%", height: "100%", position: "absolute", inset: 0, zIndex: 10 }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <iframe 
+                          src={prop.video.split('?')[0].replace(/\/$/, '') + '/embed'}
+                          frameBorder="0"
+                          scrolling="no"
+                          style={{ pointerEvents: "none", width: "400px", height: "450px", transform: "scale(1.45)", transformOrigin: "center center", maxWidth: "none" }}
+                        ></iframe>
+                      </a>
+                    ) : (
+                      <video src={`${prop.video}#t=0.1`} className="arch-card-media-img" preload="auto" muted playsInline style={{ objectFit: "cover" }} />
+                    )}
+                    {!prop.video.includes("instagram.com") && (
+                      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '48px', height: '48px', backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" style={{ marginLeft: '4px' }}><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                      </div>
+                    )}
+                  </div>
+                ) : prop.img ? (
                   <img src={prop.img} alt={prop.title} className="arch-card-media-img" loading="lazy" />
-                ) : prop.video ? (
-                  <video src={`${prop.video}#t=0.1`} className="arch-card-media-img" preload="metadata" muted playsInline style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                 ) : (
-                  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85" alt={prop.title} className="arch-card-media-img" loading="lazy" />
+                  <div className="arch-card-media-img" style={{ backgroundColor: "#e2e8f0" }} />
                 )}
                 <div className="arch-card-top-badges">
                   <span className="arch-pill-badge-type">{prop.type}</span>

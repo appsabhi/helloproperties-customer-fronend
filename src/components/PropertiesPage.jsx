@@ -287,20 +287,52 @@ const PropertiesPage = () => {
                       onClick={() => navigate(`/property/${prop.id}`)}
                       style={{ cursor: "pointer" }}
                     >
-                      <div className="clean-card-img-wrap">
-                        {prop.imageUrl ? (
+                      <div className="clean-card-img-wrap" style={{ backgroundColor: prop.videoUrl && prop.videoUrl.includes("instagram.com") ? "transparent" : "#e2e8f0" }}>
+                        {prop.videoUrl && (!prop.imageUrl || prop.imageUrl.includes("unsplash.com")) ? (
+                          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                            {prop.videoUrl.includes("youtube") || prop.videoUrl.includes("youtu.be") ? (
+                              <img 
+                                src={`https://img.youtube.com/vi/${prop.videoUrl.split('v=')[1]?.split('&')[0] || prop.videoUrl.split('youtu.be/')[1]?.split('?')[0]}/hqdefault.jpg`}
+                                alt={prop.title}
+                                className="clean-img"
+                                style={{ objectFit: "contain" }}
+                              />
+                            ) : prop.videoUrl.includes("instagram.com") ? (
+                              <a 
+                                href={prop.videoUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                style={{ display: "block", width: "100%", height: "100%", position: "absolute", inset: 0, zIndex: 10 }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <iframe 
+                                  src={prop.videoUrl.split('?')[0].replace(/\/$/, '') + '/embed'}
+                                  className="clean-img"
+                                  frameBorder="0"
+                                  scrolling="no"
+                                  style={{ pointerEvents: "none", width: "350px", height: "450px", transform: "scale(1.45)", transformOrigin: "center center", maxWidth: "none" }}
+                                ></iframe>
+                              </a>
+                            ) : (
+                              <video src={`${prop.videoUrl}#t=0.1`} className="clean-img"
+                                preload="auto"
+                                muted
+                                playsInline
+                                style={{ objectFit: "contain" }}
+                              />
+                            )}
+                            {!prop.videoUrl.includes("instagram.com") && (
+                              <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '48px', height: '48px', backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" style={{ marginLeft: '4px' }}><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                              </div>
+                            )}
+                          </div>
+                        ) : prop.imageUrl ? (
                           <img
                             src={prop.imageUrl.split(',')[0].trim()}
                             alt={prop.title}
                             className="clean-img"
                             loading="lazy"
-                          />
-                        ) : prop.videoUrl || prop.video ? (
-                          <video src={`${prop.videoUrl || prop.video}#t=0.1`} className="clean-img"
-                            preload="metadata"
-                            muted
-                            playsInline
-                            style={{ objectFit: "cover" }}
                           />
                         ) : (
                           <div className="clean-img" style={{ backgroundColor: "#e2e8f0" }} />

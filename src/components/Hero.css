@@ -235,7 +235,7 @@
 
 .mnzil-hero-categories {
   --visible-cards: 4;
-  --category-gap: clamp(1rem, 3.5vw, 3rem);
+  --category-gap: clamp(2rem, 5vw, 5rem); /* Increased gap between cards */
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: calc((100% - 3 * var(--category-gap)) / 4);

@@ -5,7 +5,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import GetInTouchModal from "./GetInTouchModal";
 import "./PropertyDetailsPage.css";
-
+import "./PropertiesPage.css";
 const PropertyDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -58,6 +58,19 @@ const PropertyDetailsPage = () => {
     { label: "Price", value: property.priceFormatted },
   ].filter(s => s.value && s.value !== "");
 
+  // Calculate similar properties based on criteria
+  const similarProperties = properties
+    .filter(p => String(p.id) !== String(id) && String(p.propertyId) !== String(id))
+    .map(p => {
+      let score = 0;
+      if (p.propertyType && p.propertyType === property.propertyType) score += 3;
+      if (p.listingType && p.listingType === property.listingType) score += 2;
+      if (p.district && p.district === property.district) score += 1;
+      return { ...p, _score: score };
+    })
+    .sort((a, b) => b._score - a._score)
+    .slice(0, 3);
+
   return (
     <div className="prop-detail-root">
       <Header />
@@ -91,8 +104,43 @@ const PropertyDetailsPage = () => {
         <section className="prop-gallery-section">
           <div className="hp-container">
             <div className={`prop-gallery-grid ${property.images && property.images.length > 1 ? 'multi-photo' : 'single-photo'}`}>
-              <div className="main-image-wrap">
-                {property.images && property.images.length > 0 ? (
+              <div className="main-image-wrap" style={{ backgroundColor: property.videoUrl ? "transparent" : undefined }}>
+                {property.videoUrl ? (
+                  property.videoUrl.includes("youtube") || property.videoUrl.includes("youtu.be") ? (
+                    <iframe
+                      className="main-image"
+                      src={property.videoUrl.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}
+                      title="Property Video Tour"
+                      frameBorder="0"
+                      allowFullScreen
+                      style={{ width: "100%", height: "100%", borderRadius: "12px", objectFit: "contain", backgroundColor: "#E0DDD5" }}
+                    ></iframe>
+                  ) : property.videoUrl.includes("instagram.com") ? (
+                    <div style={{ width: "100%", height: "100%", backgroundColor: "transparent", display: "flex", justifyContent: "flex-start", borderRadius: "12px", overflow: "hidden" }}>
+                      <div style={{ width: "400px", height: "100%", overflow: "hidden", borderRadius: "12px", position: "relative" }}>
+                        <iframe
+                          className="main-image"
+                          src={property.videoUrl.split('?')[0].replace(/\/$/, '') + '/embed'}
+                          title="Property Instagram Tour"
+                          frameBorder="0"
+                          allowFullScreen
+                          scrolling="no"
+                          style={{ width: "400px", height: "calc(100% + 56px)", marginTop: "-56px", borderRadius: "12px" }}
+                        ></iframe>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ width: "100%", height: "100%", backgroundColor: "transparent", display: "flex", justifyContent: "flex-start", alignItems: "flex-start", borderRadius: "12px" }}>
+                      <video 
+                        src={`${property.videoUrl}#t=0.1`} 
+                        controls 
+                        preload="auto"
+                        style={{ maxWidth: "100%", maxHeight: "100%", borderRadius: "12px" }}
+                        poster={property.images && property.images.length > 0 && !property.images[0].includes("unsplash.com") ? property.images[0] : undefined}
+                      ></video>
+                    </div>
+                  )
+                ) : property.images && property.images.length > 0 ? (
                   <>
                     <img src={property.images[0]} alt={property.title} className="main-image" />
                     {property.images.length > 1 && (
@@ -193,10 +241,12 @@ const PropertyDetailsPage = () => {
                       <span>Advisory Desk</span>
                       <strong>+91 79078 98072</strong>
                     </div>
+                    {/* 
                     <div className="e-contact">
                       <span>Email</span>
                       <strong>advisory@helloproperties.in</strong>
                     </div>
+                    */}
                   </div>
 
                   <button className="consultancy-btn" onClick={() => setTouchModalOpen(true)}>
@@ -210,7 +260,21 @@ const PropertyDetailsPage = () => {
             {/* Location Map (Coordinates) - Full Width */}
             {property.lat && property.lng && (
               <div className="detail-block full-width-map">
-                <h2>Location & Connectivity</h2>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
+                  <h2 style={{ margin: 0 }}>Location & Connectivity</h2>
+                  <button 
+                    className="consultancy-btn" 
+                    style={{ width: "auto", padding: "10px 24px", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}
+                    onClick={() => navigate(`/explore?propertyId=${property.id}`)}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                      <line x1="8" y1="2" x2="8" y2="18"></line>
+                      <line x1="16" y1="6" x2="16" y2="22"></line>
+                    </svg>
+                    Explore Map
+                  </button>
+                </div>
                 <div className="map-container">
                   <iframe
                     title="Property Location"
@@ -226,6 +290,62 @@ const PropertyDetailsPage = () => {
             )}
           </div>
         </section>
+
+        {/* Similar Properties */}
+        {similarProperties.length > 0 && (
+          <section className="similar-properties-section" style={{ padding: "4rem 0", backgroundColor: "#F8F7F4" }}>
+            <div className="hp-container">
+              <h2 style={{ fontFamily: "var(--font-display)", fontSize: "2.2rem", marginBottom: "2rem", color: "#242022" }}>More Properties</h2>
+              <div className="props-clean-grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}>
+                {similarProperties.map((prop) => (
+                  <article 
+                    key={prop.id} 
+                    className="clean-card" 
+                    onClick={() => {
+                      navigate(`/property/${prop.id || prop.propertyId}`);
+                      window.scrollTo(0, 0);
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div className="clean-card-img-wrap" style={{ backgroundColor: prop.videoUrl && prop.videoUrl.includes("instagram.com") ? "transparent" : "#e2e8f0" }}>
+                      {prop.imageUrl ? (
+                        <img
+                          src={prop.imageUrl.split(',')[0].trim()}
+                          alt={prop.title}
+                          className="clean-img"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="clean-img" style={{ backgroundColor: "#e2e8f0" }} />
+                      )}
+                      <div className="clean-card-badges-left">
+                         {prop.status && prop.status !== 'Available' ? (
+                           <span className="clean-badge highlight">{prop.status}</span>
+                         ) : (
+                           <span className="clean-badge highlight">Ready</span>
+                         )}
+                         <span className="clean-badge base">{prop.listingType === "Rent" ? "For Rent" : "For Sale"}</span>
+                      </div>
+                    </div>
+                    <div className="clean-card-body">
+                      <div className="clean-card-meta">
+                        {prop.propertyType || "Property"} • {prop.landArea || "Custom Size"} • {prop.bedrooms ? `${prop.bedrooms} BHK` : "Premium"}
+                      </div>
+                      <div className="clean-card-title-row">
+                        <h3 className="clean-card-title">{prop.title}</h3>
+                        <span className="clean-card-price">{prop.priceFormatted || "Price on Request"}</span>
+                      </div>
+                      <div className="clean-card-location">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        {prop.location ? `${prop.location}, ${prop.district}` : prop.district || "Kerala"}
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
 
       {/* Fullscreen Photo Gallery Modal */}
