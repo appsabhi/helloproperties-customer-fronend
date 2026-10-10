@@ -11,30 +11,152 @@
   unicode-range: U+20B9;
 }
 
-/* GC Avalance Display Typeface */
+
+/* Plus Jakarta Sans Font Family */
 @font-face {
-  font-family: 'ibrand';
-  src: url('./assets/custom_fonts/ibrand.otf') format('opentype');
+  font-family: 'Plus Jakarta Sans';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
-/* @font-face {
-  font-family: 'GCAvalance';
-  src: url('./assets/custom_fonts/GCAvalance-Medium.woff2') format('woff2');
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./assets/custom_fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'GCAvalance';
-  src: url('./assets/custom_fonts/GCAvalance-Regular.ttf') format('truetype');
+  font-family: 'Plus Jakarta Sans';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-} */
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('./assets/custom_fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans-Bold';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans-SemiBold';
+  src: url('./assets/custom_fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans-Medium';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans-Regular';
+  src: url('./assets/custom_fonts/PlusJakartaSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ClashDisplay Font Family */
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('./assets/custom_fonts/ClashDisplay-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('./assets/custom_fonts/ClashDisplay-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('./assets/custom_fonts/ClashDisplay-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashDisplay-Bold';
+  src: url('./assets/custom_fonts/ClashDisplay-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashDisplay-Semibold';
+  src: url('./assets/custom_fonts/ClashDisplay-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: 'ClashDisplay-Regular';
+  src: url('./assets/custom_fonts/ClashDisplay-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+} 
 
 :root {
   /* Burgundy, Black, & White Theme */
@@ -53,10 +175,12 @@
   --color-border: #E5E5E5;       /* Subtle Line */
   --color-border-dark: #2A2A2A;  /* Dark Section Line */
   
-  /* Typography */
-  --font-display: 'RupeeFallback', 'ibrand', 'Playfair Display', serif;
-  --font-sans: 'RupeeFallback', 'DM Sans', 'Inter', system-ui, sans-serif;
-  --font-header: 'RupeeFallback', 'DM Sans', 'Plus Jakarta Sans', sans-serif;
+  /* Typography: Plus Jakarta Sans Bold for main titles, Plus Jakarta Sans Medium for subtitles, DM Sans for menu */
+  --font-title: 'RupeeFallback', 'PlusJakartaSans-Bold', 'Plus Jakarta Sans', sans-serif;
+  --font-subtitle: 'RupeeFallback', 'PlusJakartaSans-Medium', 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'RupeeFallback', 'PlusJakartaSans-Bold', 'Plus Jakarta Sans', sans-serif;
+  --font-sans: 'RupeeFallback', 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-header: 'RupeeFallback', 'DM Sans', sans-serif;
 
   /* Spacing & Transitions */
   --transition-fast: 0.25s cubic-bezier(0.25, 1, 0.5, 1);
@@ -124,8 +248,67 @@ p {
   font-family: var(--font-sans);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
+/* Main Titles -> Plus Jakarta Sans Bold */
+h1, h2, h3 {
+  font-family: var(--font-title, 'PlusJakartaSans-Bold', 'Plus Jakarta Sans', sans-serif);
+  font-weight: 700;
+}
+
+/* Subtitles -> Plus Jakarta Sans Medium */
+h4, h5, h6 {
+  font-family: var(--font-subtitle, 'PlusJakartaSans-Medium', 'Plus Jakarta Sans', sans-serif);
+  font-weight: 500;
+}
+
+/* Comprehensive Title and Subtitle Utilities */
+.main-title,
+.section-title,
+.page-title,
+.hero-title,
+.panel-main-heading,
+.explore-hero-title,
+.hp-consultancy-title,
+.how-help-title,
+.how-help-title-bold,
+.arch-intro-headline,
+.arch-whyus-title,
+.why-hp-title,
+.arch-category-title,
+.arch-journey-title,
+.arch-journey-card-title,
+.prop-title,
+.props-clean-title,
+.property-modal-title,
+.map-modal-title,
+.contact-hero-title,
+.property-success-title,
+.clean-card-title {
+  font-family: var(--font-title, 'PlusJakartaSans-Bold', 'Plus Jakarta Sans', sans-serif) !important;
+  font-weight: 700 !important;
+}
+
+.subtitle,
+.sub-title,
+.section-subtitle,
+.hero-subtitle,
+.modal-subtitle,
+.mnzil-hero-subtitle-styled,
+.how-help-title-light,
+.hp-consultancy-card-title,
+.how-help-card-title,
+.why-hp-subtitle,
+.why-hp-card-title,
+.arch-journey-card-subtitle,
+.property-modal-sub,
+.map-modal-subtitle,
+.props-clean-subtitle,
+.contact-hero-subtitle,
+.info-subtitle,
+.land-card-subtitle,
+[class*="subtitle"],
+[class*="-subtitle"] {
+  font-family: var(--font-subtitle, 'PlusJakartaSans-Medium', 'Plus Jakarta Sans', sans-serif) !important;
+  font-weight: 500 !important;
 }
 
 button {
@@ -244,3 +427,8 @@ input, select, textarea {
   animation: floatBlob2 18s ease-in-out infinite;
 }
 
+
+/* Touch scrolling should not composite a full-screen SVG noise filter. */
+@media (max-width: 768px), (pointer: coarse) {
+  body::before { content: none; }
+}

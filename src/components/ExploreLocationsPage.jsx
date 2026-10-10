@@ -6,6 +6,7 @@ import { formatPropertyPrice } from "../services/propertyService";
 import { SkeletonListItem } from "./SkeletonPropertyCard";
 import logoStatic from "../assets/png/HelloProperties_static.png";
 import "./ExploreLocationsPage.css";
+import { googleMapsLoaderOptions } from '../services/googleMapsConfig';
 
 const mapContainerStyle = {
   width: '100%',
@@ -32,10 +33,7 @@ const ExploreLocationsPage = () => {
   const zoomTimeoutRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
 
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""
-  });
+  const { isLoaded } = useJsApiLoader(googleMapsLoaderOptions);
 
   const onLoad = useCallback(function callback(map) {
     mapRef.current = map;
@@ -400,7 +398,7 @@ const ExploreLocationsPage = () => {
 
                 {/* <div className="pdf-actions">
                   <a
-                    href={`https://wa.me/918009244355?text=Hello%2C%20I%20am%20interested%20in%20${encodeURIComponent(selectedProperty.title)}`}
+                    href={`https://wa.me/917907898072?text=Hello%2C%20I%20am%20interested%20in%20${encodeURIComponent(selectedProperty.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="pdf-btn-solid"
@@ -477,8 +475,8 @@ const ExploreLocationsPage = () => {
                         onMouseLeave={handleCardLeave}
                         onClick={() => handleCardClick(prop)}
                       >
-                        <div className="pc-img-wrapper" style={{ backgroundColor: prop.videoUrl && (!prop.imageUrl || prop.imageUrl.includes("unsplash.com")) && prop.videoUrl.includes("instagram.com") ? "transparent" : undefined }}>
-                          {prop.videoUrl && (!prop.imageUrl || prop.imageUrl.includes("unsplash.com")) ? (
+                        <div className="pc-img-wrapper" style={{ backgroundColor: prop.videoUrl && prop.videoUrl.includes("instagram.com") ? "transparent" : undefined }}>
+                          {prop.videoUrl ? (
                             <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', backgroundColor: 'transparent' }}>
                               {prop.videoUrl.includes("youtube") || prop.videoUrl.includes("youtu.be") ? (
                                 <img 
@@ -541,4 +539,5 @@ const ExploreLocationsPage = () => {
 };
 
 export default ExploreLocationsPage;
+
 

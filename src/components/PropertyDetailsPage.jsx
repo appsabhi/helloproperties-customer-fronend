@@ -308,7 +308,40 @@ const PropertyDetailsPage = () => {
                     style={{ cursor: "pointer" }}
                   >
                     <div className="clean-card-img-wrap" style={{ backgroundColor: prop.videoUrl && prop.videoUrl.includes("instagram.com") ? "transparent" : "#e2e8f0" }}>
-                      {prop.imageUrl ? (
+                      {prop.videoUrl ? (
+  <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+    {prop.videoUrl.includes("youtube") || prop.videoUrl.includes("youtu.be") ? (
+      <img 
+        src={`https://img.youtube.com/vi/${prop.videoUrl.split('v=')[1]?.split('&')[0] || prop.videoUrl.split('youtu.be/')[1]?.split('?')[0]}/hqdefault.jpg`}
+        alt={prop.title}
+        className="clean-img"
+        style={{ objectFit: "contain" }}
+      />
+    ) : prop.videoUrl.includes("instagram.com") ? (
+      <a 
+        href={prop.videoUrl} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        style={{ display: "block", width: "100%", height: "100%", position: "absolute", inset: 0, zIndex: 10 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <iframe 
+          src={prop.videoUrl.split('?')[0].replace(/\/$/, '') + '/embed'}
+          className="clean-img"
+          frameBorder="0"
+          scrolling="no"
+          style={{ pointerEvents: "none", width: "350px", height: "450px", transform: "scale(1.45)", transformOrigin: "center center", maxWidth: "none" }}
+        ></iframe>
+      </a>
+    ) : (
+      <video src={`${prop.videoUrl}#t=0.1`} className="clean-img"
+        preload="auto"
+        muted
+        playsInline
+      />
+    )}
+  </div>
+) : prop.imageUrl ? (
                         <img
                           src={prop.imageUrl.split(',')[0].trim()}
                           alt={prop.title}
@@ -399,3 +432,4 @@ const PropertyDetailsPage = () => {
 };
 
 export default PropertyDetailsPage;
+

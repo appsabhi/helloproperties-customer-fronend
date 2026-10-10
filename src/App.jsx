@@ -2,11 +2,13 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import ImpactOnGround from "./components/ImpactOnGround";
 import SectionIntro from "./components/SectionIntro";
 import ConsultancyServices from "./components/ConsultancyServices";
 import FeaturedProperties from "./components/FeaturedProperties";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
+import './components/FormResponsive.css';
 
 // Lazy Loaded Pages
 const PropertiesPage = lazy(() => import("./components/PropertiesPage"));
@@ -24,8 +26,8 @@ function HomePage() {
       <Header />
       <main>
         <Hero />
-        <SectionIntro />
         <ConsultancyServices />
+        <ImpactOnGround />
         <FeaturedProperties />
         <FinalCTA />
       </main>

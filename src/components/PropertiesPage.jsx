@@ -288,7 +288,7 @@ const PropertiesPage = () => {
                       style={{ cursor: "pointer" }}
                     >
                       <div className="clean-card-img-wrap" style={{ backgroundColor: prop.videoUrl && prop.videoUrl.includes("instagram.com") ? "transparent" : "#e2e8f0" }}>
-                        {prop.videoUrl && (!prop.imageUrl || prop.imageUrl.includes("unsplash.com")) ? (
+                        {prop.videoUrl ? (
                           <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                             {prop.videoUrl.includes("youtube") || prop.videoUrl.includes("youtu.be") ? (
                               <img 
@@ -419,3 +419,4 @@ const PropertiesPage = () => {
 };
 
 export default PropertiesPage;
+

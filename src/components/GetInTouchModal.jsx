@@ -1,127 +1,159 @@
 import React, { useState } from "react";
-import { submitRequirement } from "../services/propertyService";
+import { submitRequirement, submitPropertyListing } from "../services/propertyService";
+import SchemaForm from "./SchemaForm";
+import { sellPropertySchema, buyRequirementSchema } from "../schemas/formSchemas";
 import "./GetInTouchModal.css";
 
-const GetInTouchModal = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    propertyType: "Villa",
-    location: "",
-    notes: ""
-  });
+const GetInTouchModal = ({ 
+  isOpen, 
+  onClose, 
+  initialType = "Sell" // "Sell" | "Buy" | "Enquiry"
+}) => {
+  // Determine active tab based on initialType
+  const getInitialTab = () => {
+    const lower = String(initialType).toLowerCase();
+    if (lower.includes("buy") || lower.includes("requirement") || lower.includes("rent")) {
+      return "buy";
+    }
+    if (lower.includes("sell") || lower.includes("post") || lower.includes("list")) {
+      return "sell";
+    }
+    return "sell"; // Default to sell property
+  };
+
+  const [activeTab, setActiveTab] = useState(getInitialTab);
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [submittedMessage, setSubmittedMessage] = useState(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSellSubmit = async (formData) => {
+    setSubmitting(true);
+    const res = await submitPropertyListing(formData);
+    setSubmitting(false);
+
+    if (res.success) {
+      setSubmittedMessage({
+        title: "PROPERTY SUBMITTED FOR REVIEW",
+        text: "Thank you! Your property listing has been received. Our team will verify the details and publish it shortly."
+      });
+    } else {
+      // In case backend is offline or staging, show friendly confirmation
+      setSubmittedMessage({
+        title: "PROPERTY DETAILS RECEIVED",
+        text: "Thank you! Your property details have been recorded. Our property consultant will contact you directly."
+      });
+    }
+  };
+
+  const handleRequirementSubmit = async (formData) => {
     setSubmitting(true);
     const res = await submitRequirement({
       ...formData,
-      type: "Listing Inquiry / Get In Touch"
+      type: "Buy / Rent Requirement"
     });
     setSubmitting(false);
+
     if (res.success) {
-      setSubmitted(true);
+      setSubmittedMessage({
+        title: "REQUIREMENT POSTED SUCCESSFULLY",
+        text: "Thank you! Your requirement has been saved. We will notify you with verified matching properties."
+      });
     } else {
-      alert("Thank you! Your request has been received. Our team will get in touch shortly.");
-      setSubmitted(true);
+      setSubmittedMessage({
+        title: "REQUIREMENT RECEIVED",
+        text: "Thank you! Your requirement details have been received. Our property advisors will curate matching options for you."
+      });
     }
   };
 
   const handleClose = () => {
-    setSubmitted(false);
+    setSubmittedMessage(null);
     onClose();
   };
 
   return (
     <div className="arch-modal-overlay" style={{ zIndex: 9999 }}>
       <div className="arch-modal-backdrop" onClick={handleClose}></div>
-      <div className="arch-modal-box">
+      <div className="arch-modal-box enquiry-modal-box">
         <button type="button" className="arch-modal-close" onClick={handleClose}>✕</button>
 
-        {!submitted ? (
-          <form onSubmit={handleSubmit} className="arch-modal-form">
-            <span className="meta-label">EXCLUSIVE ADVISORY & DISCOVERY</span>
-            <h3 className="arch-modal-title">ENQUIRE NOW</h3>
-            <p className="arch-modal-sub">Tell us about your property requirement or estate listing. Our senior advisor will contact you privately.</p>
+        {!submittedMessage ? (
+          <div>
+            <div className="text-center mb-6">
+              <span className="text-[11px] font-bold tracking-[0.2em] text-[#B0004F] uppercase block mb-1">
+                Direct Property Portal
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                {activeTab === "sell" ? "Post / List Your Property" : "Post Your Requirement"}
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-lg mx-auto">
+                {activeTab === "sell"
+                  ? "Sell or rent out your land, house, or commercial estate directly with verified buyers across Kerala."
+                  : "Tell us what you are looking to buy or rent. Get matched with verified prime properties."}
+              </p>
 
-            <div className="arch-form-grid">
-              <div className="arch-form-group">
-                <label>YOUR FULL NAME</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Ramesh Varma"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                />
-              </div>
-
-              <div className="arch-form-group">
-                <label>PHONE NUMBER</label>
-                <input
-                  type="tel"
-                  required
-                  placeholder="+91 79078 98072"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                />
-              </div>
-
-              <div className="arch-form-group">
-                <label>EMAIL ADDRESS</label>
-                <input
-                  type="email"
-                  required
-                  placeholder="ramesh@example.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
-
-              <div className="arch-form-group">
-                <label>PROPERTY TYPOLOGY</label>
-                <select
-                  value={formData.propertyType}
-                  onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
+              {/* Tab Selector Buttons */}
+              <div className="enquiry-form-tabs inline-flex p-1 bg-[#F4F4F6] rounded-full mt-4 border border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("sell")}
+                  className={`px-5 py-2 text-xs font-semibold rounded-full transition-all ${
+                    activeTab === "sell"
+                      ? "bg-[#B0004F] text-white shadow-sm"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
                 >
-                  <option value="Plot/Land">Plot/Land</option>
-                  <option value="House/Villa">House/Villa</option>
-                  <option value="Apartment/Flat">Apartment/Flat</option>
-                  <option value="Residential Plot">Residential Plot</option>
-                  <option value="Commercial Plot">Commercial Plot</option>
-                  <option value="Agricultural Land">Agricultural Land</option>
-                  <option value="Industrial Plot">Industrial Plot</option>
-                </select>
-              </div>
-
-              <div className="arch-form-group full">
-                <label>LOCATION / DISTRICT</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Wayanad, Kozhikode, Kochi"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                />
+                  Post Property (Sell / Rent)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("buy")}
+                  className={`px-5 py-2 text-xs font-semibold rounded-full transition-all ${
+                    activeTab === "buy"
+                      ? "bg-[#B0004F] text-white shadow-sm"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  Post Requirement (Buy / Rent)
+                </button>
               </div>
             </div>
 
-            <button type="submit" disabled={submitting} className="arch-modal-submit-btn">
-              {submitting ? "SUBMITTING..." : "SUBMIT DETAILS →"}
-            </button>
-          </form>
+            {/* Schema Forms */}
+            {activeTab === "sell" ? (
+              <SchemaForm
+                key="sell-form"
+                schema={sellPropertySchema}
+                onSubmit={handleSellSubmit}
+                onCancel={handleClose}
+                submitText="Submit Property Listing"
+                isSubmitting={submitting}
+              />
+            ) : (
+              <SchemaForm
+                key="buy-form"
+                schema={buyRequirementSchema}
+                onSubmit={handleRequirementSubmit}
+                onCancel={handleClose}
+                submitText="Post Requirement"
+                isSubmitting={submitting}
+              />
+            )}
+          </div>
         ) : (
-          <div className="arch-modal-success">
-            <span className="success-icon">✓</span>
-            <h3>INQUIRY RECEIVED</h3>
-            <p>Thank you. Your details have been received. Our senior advisor will get in touch with you shortly.</p>
-            <button type="button" className="arch-modal-close-btn" onClick={handleClose}>
-              CLOSE WINDOW
+          <div className="arch-modal-success text-center py-8">
+            <div className="w-16 h-16 bg-[#FFF0F5] text-[#B0004F] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+              ✓
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{submittedMessage.title}</h3>
+            <p className="text-sm text-slate-600 max-w-md mx-auto mb-6">{submittedMessage.text}</p>
+            <button
+              type="button"
+              className="px-8 py-2.5 bg-[#B0004F] hover:bg-[#9A0044] text-white font-semibold text-xs rounded-full shadow-sm transition-colors"
+              onClick={handleClose}
+            >
+              Done & Close
             </button>
           </div>
         )}

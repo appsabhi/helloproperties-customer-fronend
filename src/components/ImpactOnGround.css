@@ -1,0 +1,331 @@
+/* Real Estate, Simplified - Stacking Cards On Scroll (Light Burgundy Theme) */
+.impact-ground-section {
+  background-color: transparent;
+  padding: 5.5rem 1.5rem 8rem 1.5rem;
+  position: relative;
+  overflow: visible;
+  overflow-x: clip;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+}
+
+.impact-ground-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Header */
+.impact-ground-header {
+  text-align: center;
+  margin-bottom: 4.5rem;
+}
+
+.impact-pill-badge {
+  display: inline-block;
+  background-color: #850B32;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 0.45rem 1.15rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 14px rgba(133, 11, 50, 0.2);
+}
+
+.impact-ground-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.impact-title-light {
+  font-weight: 500;
+  color: #A83250;
+}
+
+.impact-title-bold {
+  font-weight: 800;
+  color: #4A0E24;
+}
+
+.impact-stack-deck {
+  --impact-deck-top: 110px;
+  --impact-deck-gap: 22px;
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+/* Each slot sticks and layers over the previous card as user scrolls */
+.impact-stack-slot {
+  position: sticky;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14rem; /* Scroll distance for each card layering */
+  box-sizing: border-box;
+}
+
+.impact-stack-slot:last-child {
+  margin-bottom: 2rem;
+}
+
+/* Note Card Wrapper with Organic Tilt */
+.impact-note-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 520px;
+  transform: rotate(var(--note-rotate, 0deg));
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  will-change: transform;
+  box-sizing: border-box;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .impact-note-wrapper:hover {
+    transform: translateY(-8px) rotate(0deg) scale(1.02);
+    z-index: 20;
+  }
+}
+
+/* Layered Paper Sheets Behind Card - Light Burgundy Tints */
+.impact-sheet-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 34px;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.impact-sheet-layer-2 {
+  background-color: #f3bdd2;
+  border: 1px solid rgba(133, 11, 50, 0.08);
+  z-index: 1;
+  box-shadow: 0 10px 24px rgba(100, 10, 36, 0.06);
+}
+
+.impact-sheet-layer-1 {
+  background-color: #f7d1e0;
+  border: 1px solid rgba(133, 11, 50, 0.1);
+  z-index: 2;
+  box-shadow: 0 12px 28px rgba(100, 10, 36, 0.08);
+}
+
+/* Main Light Burgundy Card */
+.impact-note-card {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  background-color: #fce7ef;
+  border: 1px solid rgba(133, 11, 50, 0.14);
+  border-radius: 32px;
+  padding: 2.2rem 2.2rem 2.8rem 3.4rem;
+  box-shadow: 0 20px 42px rgba(100, 10, 36, 0.12), 0 2px 8px rgba(0, 0, 0, 0.03);
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Burgundy Pin Dot at Top Center */
+
+
+
+
+/* Number Label */
+.impact-note-num {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #850B32;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+/* Headings in Deep Burgundy */
+.impact-item-heading {
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-weight: 800;
+  color: #4A0E24;
+  margin: 0 0 0.6rem 0;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.letter-fall-container {
+  display: inline;
+}
+
+.letter-fall-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.letter-fall-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Descriptions in Rich Burgundy Tone */
+.impact-item-description {
+  font-size: 0.96rem;
+  color: #6e1634;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 90%;
+}
+
+/* Overlapping 3D Asset on Bottom-Left */
+.impact-note-asset {
+  position: absolute;
+  bottom: -18px;
+  left: -18px;
+  width: 90px;
+  height: 90px;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 16px 36px rgba(100, 10, 36, 0.18), 0 2px 8px rgba(0, 0, 0, 0.04);
+  transform: rotate(-5deg);
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  z-index: 5;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .impact-note-wrapper:hover .impact-note-asset {
+    transform: scale(1.08) rotate(0deg);
+    box-shadow: 0 20px 44px rgba(100, 10, 36, 0.25);
+  }
+}
+
+.impact-note-asset-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .impact-ground-section {
+    padding: 3.5rem 1.25rem 5.5rem 1.25rem;
+  }
+
+  .impact-ground-header {
+    margin-bottom: 2.75rem;
+  }
+
+  .impact-ground-title {
+    font-size: clamp(2rem, 7vw, 2.7rem);
+  }
+
+  .impact-stack-deck {
+    max-width: 100%;
+    --impact-deck-top: 85px;
+    --impact-deck-gap: 16px;
+    padding-bottom: 3rem;
+  }
+
+  .impact-stack-slot {
+    margin-bottom: 9.5rem;
+  }
+
+  .impact-note-card {
+    padding: 1.8rem 1.35rem 2.4rem 2rem;
+    border-radius: 26px;
+  }
+
+  .impact-sheet-layer {
+    border-radius: 28px;
+  }
+
+  .impact-item-heading {
+    font-size: clamp(1.25rem, 4.2vw, 1.55rem);
+    white-space: normal;
+  }
+
+  .impact-item-description {
+    font-size: 0.9rem;
+    max-width: 88%;
+    line-height: 1.45;
+  }
+
+  .impact-note-asset {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    bottom: -12px;
+    left: -10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .impact-ground-section {
+    padding: 3rem 1rem 4.5rem 1rem;
+  }
+
+  .impact-ground-header {
+    margin-bottom: 2.25rem;
+  }
+
+  .impact-pill-badge {
+    font-size: 0.7rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .impact-ground-title {
+    font-size: clamp(1.7rem, 8vw, 2.15rem);
+  }
+
+  .impact-stack-deck {
+    --impact-deck-top: 74px;
+    --impact-deck-gap: 14px;
+    padding-bottom: 2rem;
+  }
+
+  .impact-stack-slot {
+    margin-bottom: 8rem;
+  }
+
+  .impact-note-card {
+    padding: 1.6rem 1.1rem 2.2rem 1.5rem;
+    border-radius: 22px;
+  }
+
+  .impact-sheet-layer {
+    border-radius: 24px;
+  }
+
+  .impact-pin-dot {
+    margin-bottom: 0.9rem;
+  }
+
+  .impact-note-num {
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .impact-item-heading {
+    font-size: 1.18rem;
+    margin-bottom: 0.45rem;
+    line-height: 1.25;
+  }
+
+  .impact-item-description {
+    font-size: 0.84rem;
+    max-width: 85%;
+    line-height: 1.4;
+  }
+
+  .impact-note-asset {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    bottom: -10px;
+    left: -8px;
+  }
+}
+

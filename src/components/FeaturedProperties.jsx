@@ -1,231 +1,72 @@
-import React, { useRef, useLayoutEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useCustomerProperties } from "../context/CustomerPropertyContext";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
+
+import explorePropertiesBg from "../assets/png/exploreProperties_bg.png";
 import "./FeaturedProperties.css";
-
-// Register ScrollTrigger
-gsap.registerPlugin(ScrollTrigger);
-
-// Optimize for mobile (prevents lag when address bar shows/hides)
-ScrollTrigger.config({ ignoreMobileResize: true });
-
-// Demo properties removed.
-
-function formatSpecs(p) {
-  const parts = [];
-  if (p.bedrooms) parts.push(`${p.bedrooms} BHK`);
-  if (p.builtUpArea) {
-    const areaStr = String(p.builtUpArea).toLowerCase().includes("sq")
-      ? p.builtUpArea
-      : `${p.builtUpArea} sq ft`;
-    parts.push(areaStr);
-  } else if (p.landArea) {
-    parts.push(p.landArea);
-  }
-  if (parts.length === 0) {
-    if (p.district || p.location) parts.push(p.district || p.location);
-    else parts.push("Prime Site");
-  }
-  return parts.join("  •  ");
-}
-
-function formatLocation(p) {
-  if (p.location && p.district) return `${p.location}, ${p.district}`;
-  if (p.location) return p.location;
-  if (p.district) return `${p.district}, Kerala`;
-  return "Kerala, India";
-}
 
 const FeaturedProperties = () => {
   const navigate = useNavigate();
-  const { properties } = useCustomerProperties();
-
-  const containerRef = useRef(null);
-  const rowRef = useRef(null);
-
-  let displayCards = [];
-
-  if (properties && properties.length > 0) {
-    const featured = properties.filter((p) => p.isFeatured);
-    const nonFeatured = properties.filter((p) => !p.isFeatured);
-    const combined = [...featured, ...nonFeatured].slice(0, 8);
-
-    displayCards = combined.map((p) => ({
-      id: p.id,
-      type: (p.propertyType || p.category || "PROPERTY").toUpperCase(),
-      title: p.title,
-      location: formatLocation(p),
-      specs: formatSpecs(p),
-      price: p.priceFormatted || "Price on Request",
-      listingType: p.listingType === "Rent" ? "For Rent" : "For Sale",
-      status: p.status,
-      img: p.imageUrl ? p.imageUrl.split(',')[0].trim() : null,
-      video: p.videoUrl || p.video,
-    }));
-  }
-
-  useLayoutEffect(() => {
-    // A gsap.context makes cleanup extremely easy and isolates our selectors
-    let ctx = gsap.context(() => {
-      // Apply pinning & scroll hijacking on all screen sizes now.
-      let mm = gsap.matchMedia();
-
-      mm.add("all", () => {
-        if (!rowRef.current || displayCards.length === 0) return;
-        // Function to calculate exact horizontal distance to travel
-        const getScrollAmount = () => {
-          let rowWidth = rowRef.current.scrollWidth;
-          let viewportWidth = window.innerWidth;
-          // Return the exact overflow amount so the last card perfectly stops at the right edge
-          return -(rowWidth - viewportWidth + 60); // 60px padding buffer
-        };
-
-        const tween = gsap.to(rowRef.current, {
-          x: getScrollAmount,
-          ease: "none",
-          force3D: true, // Hardware acceleration
-        });
-
-        ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: "top 80px", // Pin it just beneath the navbar
-          end: () => `+=${Math.abs(getScrollAmount())}`, // scroll distance equals horizontal distance
-          pin: true,
-          animation: tween,
-          scrub: 0.5, // Reduced from 1 to 0.5 for tighter, less laggy response
-          invalidateOnRefresh: true, // Recalculate values dynamically on window resize!
-        });
-
-        return () => {
-          tween.kill(); // clean up animation if component unmounts or crosses breakpoint
-        };
-      });
-
-    }, containerRef); // Scoped to this component
-
-    return () => ctx.revert();
-  }, [displayCards.length]);
-
-  if (!properties || properties.length === 0) {
-    return null; // Don't render the section if no properties are loaded yet
-  }
+  const reduceMotion = useReducedMotion();
 
   return (
-    <section ref={containerRef} className="arch-featured-section">
-      <div className="hp-container">
-        {/* Stationary Header */}
-        <div className="arch-featured-header-wrap">
-          <div>
-            <span className="meta-label">CURATED SELECTION</span>
-            <h2 className="arch-featured-title">FEATURED PROPERTIES</h2>
-          </div>
-          <div className="arch-featured-actions desktop-actions">
-            <Link to="/properties" className="arch-view-all-link">
-              <span>VIEW ALL PROPERTIES</span>
-              <span className="arr">→</span>
-            </Link>
-          </div>
-        </div>
-      </div>
+    <section className="explore-hero-section" aria-label="Explore Properties">
+      {/* Cityscape illustration background with prominent fade from low opacity */}
+      <motion.img 
+        src={explorePropertiesBg} 
+        alt="" 
+        className="explore-hero-bg-img"
+        aria-hidden="true"
+        initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 85 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ 
+          opacity: { duration: 1.35, ease: "easeOut" },
+          y: { duration: 1.15, ease: [0.16, 1, 0.3, 1] }
+        }}
+      />
 
-      <div className="slider-viewport-container">
-        {/* Sliding Row */}
-        <div ref={rowRef} className="arch-property-grid" style={{ paddingLeft: "max(2rem, calc((100vw - 1400px) / 2 + 2rem))" }}>
-          {displayCards.map((prop, index) => (
-            <article
-              key={prop.id}
-              className="arch-featured-card"
-              onClick={() => navigate(`/property/${prop.id}`)}
+      {/* Center content placed gracefully in the open sky space */}
+      <div className="explore-hero-container">
+        <motion.div 
+          className="explore-hero-content"
+          initial={reduceMotion ? false : { opacity: 0, y: 45 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <h2 className="explore-hero-title">
+            <span className="explore-title-line">Your Property</span>
+            <span className="explore-title-line">Journey Starts Here.</span>
+          </h2>
+
+          <motion.button 
+            type="button"
+            className="explore-hero-btn"
+            onClick={() => navigate('/properties')}
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span>Explore Properties</span>
+            <svg 
+              className="explore-hero-btn-arrow" 
+              width="18" 
+              height="18" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2.4" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+              aria-hidden="true"
             >
-              {/* Image Frame with Translucent Glass Floating Badges */}
-              <div className="arch-card-media-wrap" style={{ backgroundColor: prop.video && (!prop.img || prop.img.includes("unsplash.com")) && prop.video.includes("instagram.com") ? "transparent" : undefined }}>
-                {prop.video && (!prop.img || prop.img.includes("unsplash.com")) ? (
-                  <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', backgroundColor: 'transparent' }}>
-                    {prop.video.includes("youtube") || prop.video.includes("youtu.be") ? (
-                      <img 
-                        src={`https://img.youtube.com/vi/${prop.video.split('v=')[1]?.split('&')[0] || prop.video.split('youtu.be/')[1]?.split('?')[0]}/hqdefault.jpg`}
-                        alt={prop.title}
-                        className="arch-card-media-img"
-                        style={{ objectFit: "cover" }}
-                      />
-                    ) : prop.video.includes("instagram.com") ? (
-                      <a 
-                        href={prop.video} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        style={{ display: "block", width: "100%", height: "100%", position: "absolute", inset: 0, zIndex: 10 }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <iframe 
-                          src={prop.video.split('?')[0].replace(/\/$/, '') + '/embed'}
-                          frameBorder="0"
-                          scrolling="no"
-                          style={{ pointerEvents: "none", width: "400px", height: "450px", transform: "scale(1.45)", transformOrigin: "center center", maxWidth: "none" }}
-                        ></iframe>
-                      </a>
-                    ) : (
-                      <video src={`${prop.video}#t=0.1`} className="arch-card-media-img" preload="auto" muted playsInline style={{ objectFit: "cover" }} />
-                    )}
-                    {!prop.video.includes("instagram.com") && (
-                      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '48px', height: '48px', backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" style={{ marginLeft: '4px' }}><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                      </div>
-                    )}
-                  </div>
-                ) : prop.img ? (
-                  <img src={prop.img} alt={prop.title} className="arch-card-media-img" loading="lazy" />
-                ) : (
-                  <div className="arch-card-media-img" style={{ backgroundColor: "#e2e8f0" }} />
-                )}
-                <div className="arch-card-top-badges">
-                  <span className="arch-pill-badge-type">{prop.type}</span>
-                  <span className="arch-pill-badge-status">{prop.listingType}</span>
-                  {prop.status && prop.status !== 'Available' && (
-                    <span className="arch-pill-badge-status" style={{ backgroundColor: prop.status === 'Sold' ? '#334155' : prop.status === 'Under Negotiation' ? '#d97706' : '#dc2626' }}>
-                      {prop.status}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Structured White/Ivory Card Body */}
-              <div className="arch-card-body-block">
-                <div className="arch-card-location">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  <span>{prop.location}</span>
-                </div>
-
-                <h3 className="arch-card-item-title">{prop.title}</h3>
-                
-                <div className="arch-card-specs-row"></div>
-
-                <div className="arch-card-bottom-bar">
-                  <button className="arch-card-cta-btn" type="button" aria-label="Explore property">
-                    <span>EXPLORE PROPERTY</span>
-                    <span className="cta-arrow">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div className="arch-featured-actions mobile-actions">
-        <Link to="/properties" className="arch-view-all-link">
-          <span>VIEW ALL PROPERTIES</span>
-          <span className="arr">→</span>
-        </Link>
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </motion.button>
+        </motion.div>
       </div>
     </section>
   );

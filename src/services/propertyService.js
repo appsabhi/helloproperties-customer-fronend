@@ -167,16 +167,94 @@ export async function fetchProperties() {
 }
 
 /**
+ * Submits property listing (sell/rent) to POST /api/properties
+ */
+export async function submitPropertyListing(listingData) {
+  try {
+    let body;
+    let headers = {};
+
+    // Normalize location and coordinates if location is provided as an object
+    const enrichedData = { ...listingData };
+    if (listingData.location && typeof listingData.location === 'object' && !Array.isArray(listingData.location)) {
+      const loc = listingData.location;
+      if (loc.district) enrichedData.district = loc.district;
+      if (loc.state) enrichedData.state = loc.state;
+      if (loc.locality) enrichedData.locality = loc.locality;
+      if (loc.pincode) enrichedData.pincode = loc.pincode;
+      if (loc.address) enrichedData.address = loc.address;
+      if (loc.lat) enrichedData.latitude = loc.lat;
+      if (loc.lng) enrichedData.longitude = loc.lng;
+    }
+
+    // Check if listingData contains File objects (images / video)
+    const hasFiles = (Array.isArray(enrichedData.images) && enrichedData.images.some(img => img instanceof File)) ||
+      (enrichedData.video instanceof File);
+
+    if (hasFiles) {
+      const formData = new FormData();
+      Object.keys(enrichedData).forEach((key) => {
+        if (key === 'images' && Array.isArray(enrichedData.images)) {
+          enrichedData.images.forEach((file) => {
+            if (file instanceof File) {
+              formData.append('images', file);
+            }
+          });
+        } else if (key === 'video') {
+          if (enrichedData.video instanceof File) {
+            formData.append('video', enrichedData.video);
+          } else if (typeof enrichedData.video === 'string') {
+            formData.append('videoUrl', enrichedData.video);
+          }
+        } else if (typeof enrichedData[key] === 'object' && enrichedData[key] !== null) {
+          formData.append(key, JSON.stringify(enrichedData[key]));
+        } else if (enrichedData[key] !== undefined && enrichedData[key] !== null) {
+          formData.append(key, String(enrichedData[key]));
+        }
+      });
+      body = formData;
+    } else {
+      headers['Content-Type'] = 'application/json';
+      body = JSON.stringify(enrichedData);
+    }
+
+    const response = await fetch(`${API_BASE_URL}/properties`, {
+      method: "POST",
+      headers,
+      body,
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || data.message || "Failed to submit property listing");
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error("submitPropertyListing error:", error.message);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
  * Submits buyer requirement to POST /api/buy-requirements
  */
 export async function submitRequirement(requirementData) {
   try {
+    const enrichedData = { ...requirementData };
+    if (requirementData.location && typeof requirementData.location === 'object' && !Array.isArray(requirementData.location)) {
+      const loc = requirementData.location;
+      if (loc.district) enrichedData.district = loc.district;
+      if (loc.state) enrichedData.state = loc.state;
+      if (loc.locality) enrichedData.locality = loc.locality;
+    }
+
     const response = await fetch(`${API_BASE_URL}/buy-requirements`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(requirementData),
+      body: JSON.stringify(enrichedData),
     });
 
     const data = await response.json();

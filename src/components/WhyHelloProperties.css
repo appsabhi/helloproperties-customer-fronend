@@ -46,6 +46,7 @@
 }
 
 .why-hp-title {
+  font-family: var(--font-title, 'PlusJakartaSans-Bold', 'Plus Jakarta Sans', sans-serif);
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.25;
@@ -59,6 +60,8 @@
 }
 
 .why-hp-subtitle {
+  font-family: var(--font-subtitle, 'PlusJakartaSans-Medium', 'Plus Jakarta Sans', sans-serif);
+  font-weight: 500;
   font-size: 1.05rem;
   color: #a0a5b1;
   line-height: 1.6;
@@ -118,8 +121,9 @@
 }
 
 .why-hp-card-title {
+  font-family: var(--font-subtitle, 'PlusJakartaSans-Medium', 'Plus Jakarta Sans', sans-serif);
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 500;
   color: #ffffff;
   margin-bottom: 12px;
 }

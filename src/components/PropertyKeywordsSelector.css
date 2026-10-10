@@ -1,0 +1,147 @@
+/* PropertyKeywordsSelector.css - Styling for clickable keyword chips */
+
+.keywords-selector-container {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #E2E8F0;
+  width: 100%;
+}
+
+.keywords-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 9px;
+  flex-wrap: wrap;
+}
+
+.keywords-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.keywords-add-custom-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #B0004F;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.keywords-add-custom-btn:hover {
+  color: #9A0044;
+  background-color: #FFF0F5;
+}
+
+/* Custom keyword input form */
+.keywords-custom-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.keywords-custom-input {
+  flex: 1;
+  height: 34px;
+  padding: 0 12px;
+  font-size: 12px;
+  background-color: #F4F4F6;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 8px;
+  color: #1E293B;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.keywords-custom-input:focus {
+  background-color: #FFFFFF;
+  border-color: #B0004F;
+  box-shadow: 0 2px 8px rgba(176, 0, 79, 0.12);
+}
+
+.keywords-custom-submit-btn {
+  height: 34px;
+  padding: 0 14px;
+  background-color: #B0004F;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.keywords-custom-submit-btn:hover:not(:disabled) {
+  background-color: #9A0044;
+}
+
+.keywords-custom-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Chips List */
+.keywords-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  width: 100%;
+}
+
+.keyword-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-size: 11.5px;
+  border-radius: 9999px;
+  border: 1px solid #E2E8F0;
+  background-color: #FFFFFF;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  line-height: 1.25;
+}
+
+.keyword-chip-btn:hover {
+  border-color: #CBD5E1;
+  background-color: #F8FAFC;
+  color: #0F172A;
+  transform: translateY(-1px);
+}
+
+.keyword-chip-btn.active {
+  background-color: #B0004F;
+  color: #FFFFFF;
+  border-color: #B0004F;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(176, 0, 79, 0.25);
+}
+
+.keyword-chip-btn.active:hover {
+  background-color: #9A0044;
+  border-color: #9A0044;
+}
+
+.keyword-chip-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

@@ -63,7 +63,7 @@
   color: #24191D;
   line-height: 1.2;
   margin-bottom: 24px;
-  font-family: var(--font-display, 'ibrand', serif);
+  font-family: var(--font-title, 'PlusJakartaSans-Bold', 'Plus Jakarta Sans', sans-serif);
 }
 
 .search-pills {
